@@ -556,6 +556,13 @@
 (use-package ace-window
   :bind (("H-o" . ace-window)))
 
+;;; tiny
+;;  ---------------------------------------------------------------------------
+(use-package tiny
+  :init
+  (tiny-setup-default)
+  :bind (("M-;" . tiny-expand)))
+
 
 ;;; init.el ends here
 (custom-set-variables
