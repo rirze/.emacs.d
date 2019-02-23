@@ -26,7 +26,7 @@
 (setq load-prefer-newer t)
 
 ; Increase Garbage Collector size, improves startup speed
-(setq gc-cons-threshold 10000000)
+(setq gc-cons-threshold 50000000)
 
 ;; Restore after startup
 (add-hook 'after-init-hook
@@ -152,6 +152,7 @@
 
 
 ;; use zenburn as the default theme
+(use-package zenburn-theme)
 (load-theme 'zenburn t)
 
 (custom-set-faces
@@ -559,8 +560,7 @@
 ;;; tiny
 ;;  ---------------------------------------------------------------------------
 (use-package tiny
-  :init
-  (tiny-setup-default)
+  ;;  :init  (tiny-setup-default)
   :bind (("M-;" . tiny-expand)))
 
 
