@@ -2,7 +2,7 @@
 ;;  -----------------------------------------------------------------------------
 
 (package-initialize)
-					;(package-refresh-contents)
+;;(package-refresh-contents)
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/elpa")
 
@@ -473,7 +473,7 @@
 ;;; move-text
 ;;  ---------------------------------------------------------------------------
 (use-package move-text
-					;:config (move-text-default-bindings)) ;; uses M-up and M-down
+  ;;:config (move-text-default-bindings)) ;; uses M-up and M-down
   :bind (("M-p" . move-text-up)
 	 ("M-n" . move-text-down)))
 
@@ -481,6 +481,26 @@
 ;;  ---------------------------------------------------------------------------
 (use-package operate-on-number
   :bind (("H-=" . operate-on-number-at-point)))
+
+;;; discover-my-major
+;;  ---------------------------------------------------------------------------
+(use-package discover-my-major)
+;; invoke M-x discover-my-major
+
+
+;;; which-key
+;;  ---------------------------------------------------------------------------
+(use-package which-key
+  :diminish which-key-mode
+  :config
+  (which-key-mode 1))
+
+;;; crux
+;;  ---------------------------------------------------------------------------
+;; TODO: add key bindings for commands [https://github.com/bbatsov/crux]
+(use-package crux
+  :config (crux-reopen-as-root-mode))
+
 
 ;;; init.el ends here
 (custom-set-variables
