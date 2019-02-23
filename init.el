@@ -477,7 +477,10 @@
   :bind (("M-p" . move-text-up)
 	 ("M-n" . move-text-down)))
 
-
+;;; operate-on-number
+;;  ---------------------------------------------------------------------------
+(use-package operate-on-number
+  :bind (("H-=" . operate-on-number-at-point)))
 
 ;;; init.el ends here
 (custom-set-variables
