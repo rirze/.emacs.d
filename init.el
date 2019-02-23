@@ -462,9 +462,10 @@
 ;; -----------------------------------------------------------------------------
 (use-package highlight-indentation
   :init
-  (set-face-background 'highlight-indentation-face "#2e3838")
-  (set-face-background 'highlight-indentation-current-column-face "#3d4a4b")
+  (set-face-background 'highlight-indentation-face "#4F4F4F")
+  (set-face-background 'highlight-indentation-current-column-face "#5F5F5F")
   (highlight-indentation-mode 1))
+
 
 ;;; Telephone Line (powerline)
 ;;  ----------------------------------------------------------------------------
@@ -549,6 +550,11 @@
 (use-package crux
   :config (crux-reopen-as-root-mode)
   :bind (("H-c i" . crux-find-user-init-file)))
+
+;;; ace-window
+;;  ---------------------------------------------------------------------------
+(use-package ace-window
+  :bind (("H-o" . ace-window)))
 
 
 ;;; init.el ends here
