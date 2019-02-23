@@ -1,6 +1,8 @@
+;;; init.el --- my emacs configuration
 ;;; Initialize
 ;;  -----------------------------------------------------------------------------
-
+;;; Commentary:
+;;; Code:
 (package-initialize)
 ;;(package-refresh-contents)
 (add-to-list 'load-path "~/.emacs.d/lisp")
@@ -340,7 +342,8 @@
   :config
   (use-package helm-projectile)
   (use-package helm-ag)
-  (use-package helm-sage))
+  :bind (("M-x" . helm-M-x)
+	 ("C-x C-f" . helm-find-files)))
 
 ;; Dumb jump
 (use-package dumb-jump
