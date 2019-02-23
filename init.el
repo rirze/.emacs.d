@@ -2,7 +2,7 @@
 ;;  -----------------------------------------------------------------------------
 
 (package-initialize)
-;(package-refresh-contents)
+					;(package-refresh-contents)
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/elpa")
 
@@ -469,6 +469,15 @@
 (use-package guru-mode
   :diminish guru-mode
   :config (guru-global-mode 1))
+
+;;; move-text
+;;  ---------------------------------------------------------------------------
+(use-package move-text
+					;:config (move-text-default-bindings)) ;; uses M-up and M-down
+  :bind (("M-p" . move-text-up)
+	 ("M-n" . move-text-down)))
+
+
 
 ;;; init.el ends here
 (custom-set-variables
