@@ -460,9 +460,15 @@
 ;;; aggressive-indent-mode
 ;;  ---------------------------------------------------------------------------
 (use-package aggressive-indent
-  :init
+  :config
   (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
   (global-aggressive-indent-mode 1))
+
+;;; guru-mode
+;;  ---------------------------------------------------------------------------
+(use-package guru-mode
+  :diminish guru-mode
+  :config (guru-global-mode 1))
 
 ;;; init.el ends here
 (custom-set-variables
