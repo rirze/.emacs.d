@@ -107,12 +107,11 @@
 (use-package switch-window)
 (global-set-key (kbd "C-x o") 'switch-window)
 
-;; Scroll-bar? What's that?
-(when (display-graphic-p)
-  (set-scroll-bar-mode nil))
-
 ;; [DHA] I *never* use the stupid thing..
 (menu-bar-mode -1)
+(mouse-wheel-mode -1)
+(scroll-bar-mode -1)
+
 
 ;; split window vertically
 ;; (split-window-right)
@@ -280,11 +279,49 @@
 
 ;; Multiple-cursors
 (use-package multiple-cursors
-  :bind (("H-e" . mc/edit-lines)
-	 ("H-k" . mc/mark-next-like-this)
-	 ("H-l" . mc/mark-previous-like-this)
-	 ("C-S-k" . mc/mark-all-like-this)
-	 ("C-S-<mouse-1>" . mc/add-cursor-on-click)))
+  :bind (("<H-m> ^"     . mc/edit-beginnings-of-lines)
+	 ("<H-m> a"     . mc/edit-beginnings-of-lines)
+	 ("<H-m> $"     . mc/edit-ends-of-lines)
+	 ("<H-m> e"     . mc/edit-ends-of-lines)
+	 ("<H-m> R"     . mc/reverse-regions)
+	 ("<H-m> S"     . mc/sort-regions)
+	 ("<H-m> W"     . mc/mark-all-words-like-this)
+	 ("<H-m> Y"     . mc/mark-all-symbols-like-this)
+	 ("<H-m> A"     . mc/mark-all-like-this-dwim)
+	 ("<H-m> c"     . mc/mark-all-dwim)
+	 ("<H-m> l"     . mc/insert-letters)
+	 ("<H-m> n"     . mc/insert-numbers)
+	 ("<H-m> r"     . mc/mark-all-in-region)
+	 ("<H-m> s"     . set-rectangular-region-anchor)
+	 ("<H-m> %"     . mc/mark-all-in-region-regexp)
+	 ("<H-m> t"     . mc/mark-sgml-tag-pair)
+	 ("<H-m> w"     . mc/mark-next-like-this-word)
+	 ("<H-m> x"     . mc/mark-more-like-this-extended)
+	 ("<H-m> y"     . mc/mark-next-like-this-symbol)
+	 ("<H-m> C-x"   . reactivate-mark)
+	 ("<H-m> C-SPC" . mc/mark-pop)
+	 ("<H-m> ("     . mc/mark-all-symbols-like-this-in-defun)
+	 ("<H-m> C-("   . mc/mark-all-words-like-this-in-defun)
+	 ("<H-m> M-("   . mc/mark-all-like-this-in-defun)
+	 ("<H-m> ["     . mc/vertical-align-with-space)
+	 ("<H-m> {"     . mc/vertical-align))
+  :bind (:map selected-keymap
+	      ("c"   . mc/edit-lines)
+	      ("."   . mc/mark-next-like-this)
+	      ("<"   . mc/unmark-next-like-this)
+	      ("C->" . mc/skip-to-next-like-this)
+	      (","   . mc/mark-previous-like-this)
+	      (">"   . mc/unmark-previous-like-this)
+	      ("C-<" . mc/skip-to-previous-like-this)
+	      ("y"   . mc/mark-next-symbol-like-this)
+	      ("Y"   . mc/mark-previous-symbol-like-this)
+	      ("w"   . mc/mark-next-word-like-this)
+	      ("W"   . mc/mark-previous-word-like-this))
+
+  :preface
+  (defun reactivate-mark ()
+    (interactive)
+    (activate-mark)))
 
 ;; Yasnippet
 (use-package yasnippet
@@ -348,9 +385,11 @@
 ;; Dumb jump
 (use-package dumb-jump
   :config
+  (setq dumb-jump-selector 'helm)
   (dumb-jump-mode)
   :bind (("H-g g" . dumb-jump-go)
-	 ("H-g b" . dumb-jump-back)))
+	 ("H-g b" . dumb-jump-back)
+	 ("H-g o" . dumb-jump-go-other-window)))
 
 ;;; Python
 ;;  ----------------------------------------------------------------------------
@@ -407,6 +446,12 @@
 
 ;;(load "auctex.el" nil t )
 ;;(load "preview-latex.el" nil t t)
+(use-package auctex
+  :mode ("\\.tex\\'" . TeX-latex-mode)
+  :config
+  (add-hook 'TeX-after-compilation-finished-functions
+	    #'TeX-revert-document-buffer))
+
 
 ;;; Ace-Jump-Mode
 ;;  ----------------------------------------------------------------------------
@@ -502,7 +547,8 @@
 ;;  ---------------------------------------------------------------------------
 ;; TODO: add key bindings for commands [https://github.com/bbatsov/crux]
 (use-package crux
-  :config (crux-reopen-as-root-mode))
+  :config (crux-reopen-as-root-mode)
+  :bind (("H-c i" . crux-find-user-init-file)))
 
 
 ;;; init.el ends here
