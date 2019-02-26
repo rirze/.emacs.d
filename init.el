@@ -11,6 +11,7 @@
 (setq package-check-signature nil)  ; because GNU ELPA keeps choking on the sigs
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (setq package-enable-at-startup nil)
 
 
@@ -165,35 +166,43 @@
 
 (set-face-attribute 'default nil :font "Ubuntu Mono" :height 110)
 
+;;; Custom Key Bindings
+;;  ---------------------------------------------------------------------------
+(use-package bind-key)
+
+(bind-key "H-k" 'kill-this-buffer)
+(bind-key "H-r" 'replace-regexp)
+(bind-key "H-c c" 'comment-region)
+
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
 
 (setq package-list '(ag
 		     auto-yasnippet
-;		     autopair
+		     ;;autopair
 		     dumb-jump
 		     lsp-mode ;eglot
-;		     ein-mumamo
-;		     ein
+		     ;;ein-mumamo
+		     ;;ein
 		     auto-complete
 		     elpy
-;		     company
+		     ;;company
 		     exec-path-from-shell
-;		     fill-column-indicator
-;		     find-file-in-project
+		     ;;fill-column-indicator
+		     ;;find-file-in-project
 		     flycheck
 		     flymake
-;		     git-commit-mode
+		     ;;git-commit-mode
 		     helm-ag
 		     helm-projectile
-;		     helm-sage
+		     ;;helm-sage
 		     helm-system-packages
 		     helm
 		     helm-core
 		     highlight-indentation
-;		     htmlize
+		     ;;htmlize
 		     ido-hacks
-;		     ido-vertical-mode
+		     ;;ido-vertical-mode
 		     ivy
 		     json-mode
 		     json-reformat
@@ -202,12 +211,12 @@
 		     magit
 		     git-commit
 		     magit-popup
-;		     mmm-mode
+		     ;;mmm-mode
 		     multiple-cursors
 		     ob-ipython
 		     dash-functional
 		     org
-;		     org-ehtml
+		     ;;org-ehtml
 		     php-mode
 		     popup
 		     project-explorer
@@ -226,7 +235,7 @@
 		     deferred
 		     shell-switcher
 		     spinner
-;		     sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
+		     ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
 		     switch-window
 		     telephone-line
 		     use-package
@@ -244,6 +253,12 @@
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
+
+;; use-package-hydra
+(use-package hydra)
+(use-package use-package-hydra
+  :ensure t)
+
 
 ;; Smartparens - keep parentheses balanced (from Jamie's)
 (use-package smartparens
@@ -271,58 +286,94 @@
   (add-hook 'flycheck-mode-hook #'turn-on-flycheck-inline))
 
 ;; Auto-complete
-(use-package auto-complete
-  :init
-  (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-  :config
-  (ac-config-default))
+;; (use-package auto-complete
+;;   :init
+;;   (require 'auto-complete-config)
+;;   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+;;   :config
+;;   (ac-config-default))
 
 ;; Multiple-cursors
 (use-package multiple-cursors
-  :bind (("<H-m> ^"     . mc/edit-beginnings-of-lines)
-	 ("<H-m> a"     . mc/edit-beginnings-of-lines)
-	 ("<H-m> $"     . mc/edit-ends-of-lines)
-	 ("<H-m> e"     . mc/edit-ends-of-lines)
-	 ("<H-m> R"     . mc/reverse-regions)
-	 ("<H-m> S"     . mc/sort-regions)
-	 ("<H-m> W"     . mc/mark-all-words-like-this)
-	 ("<H-m> Y"     . mc/mark-all-symbols-like-this)
-	 ("<H-m> A"     . mc/mark-all-like-this-dwim)
-	 ("<H-m> c"     . mc/mark-all-dwim)
-	 ("<H-m> l"     . mc/insert-letters)
-	 ("<H-m> n"     . mc/insert-numbers)
-	 ("<H-m> r"     . mc/mark-all-in-region)
-	 ("<H-m> s"     . set-rectangular-region-anchor)
-	 ("<H-m> %"     . mc/mark-all-in-region-regexp)
-	 ("<H-m> t"     . mc/mark-sgml-tag-pair)
-	 ("<H-m> w"     . mc/mark-next-like-this-word)
-	 ("<H-m> x"     . mc/mark-more-like-this-extended)
-	 ("<H-m> y"     . mc/mark-next-like-this-symbol)
-	 ("<H-m> C-x"   . reactivate-mark)
-	 ("<H-m> C-SPC" . mc/mark-pop)
-	 ("<H-m> ("     . mc/mark-all-symbols-like-this-in-defun)
-	 ("<H-m> C-("   . mc/mark-all-words-like-this-in-defun)
-	 ("<H-m> M-("   . mc/mark-all-like-this-in-defun)
-	 ("<H-m> ["     . mc/vertical-align-with-space)
-	 ("<H-m> {"     . mc/vertical-align))
-  :bind (:map selected-keymap
-	      ("c"   . mc/edit-lines)
-	      ("."   . mc/mark-next-like-this)
-	      ("<"   . mc/unmark-next-like-this)
-	      ("C->" . mc/skip-to-next-like-this)
-	      (","   . mc/mark-previous-like-this)
-	      (">"   . mc/unmark-previous-like-this)
-	      ("C-<" . mc/skip-to-previous-like-this)
-	      ("y"   . mc/mark-next-symbol-like-this)
-	      ("Y"   . mc/mark-previous-symbol-like-this)
-	      ("w"   . mc/mark-next-word-like-this)
-	      ("W"   . mc/mark-previous-word-like-this))
+  :after hydra
+  ;; :bind (("H-m ^"     . mc/edit-beginnings-of-lines)
+  ;;	 ("H-m a"     . mc/edit-beginnings-of-lines)
+  ;;	 ("H-m $"     . mc/edit-ends-of-lines)
+  ;;	 ("H-m e"     . mc/edit-ends-of-lines)
+  ;;	 ("H-m R"     . mc/reverse-regions)
+  ;;	 ("H-m S"     . mc/sort-regions)
+  ;;	 ("H-m W"     . mc/mark-all-words-like-this)
+  ;;	 ("H-m Y"     . mc/mark-all-symbols-like-this)
+  ;;	 ("H-m A"     . mc/mark-all-like-this-dwim)
+  ;;	 ("H-m c"     . mc/mark-all-dwim)
+  ;;	 ("H-m l"     . mc/insert-letters)
+  ;;	 ("H-m n"     . mc/insert-numbers)
+  ;;	 ("H-m r"     . mc/mark-all-in-region)
+  ;;	 ("H-m s"     . set-rectangular-region-anchor)
+  ;;	 ("H-m %"     . mc/mark-all-in-region-regexp)
+  ;;	 ("H-m t"     . mc/mark-sgml-tag-pair)
+  ;;	 ("H-m w"     . mc/mark-next-like-this-word)
+  ;;	 ("H-m x"     . mc/mark-more-like-this-extended)
+  ;;	 ("H-m y"     . mc/mark-next-like-this-symbol)
+  ;;	 ("H-m C-x"   . reactivate-mark)
+  ;;	 ("H-m C-SPC" . mc/mark-pop)
+  ;;	 ("H-m ("     . mc/mark-all-symbols-like-this-in-defun)
+  ;;	 ("H-m C-("   . mc/mark-all-words-like-this-in-defun)
+  ;;	 ("H-m M-("   . mc/mark-all-like-this-in-defun)
+  ;;	 ("H-m ["     . mc/vertical-align-with-space)
+  ;;	 ("H-m {"     . mc/vertical-align))
+  ;; :bind (:map region-bindings-mode-map
+  ;;	      ("c"   . mc/edit-lines)
+  ;;	      ("."   . mc/mark-next-like-this)
+  ;;	      ("<"   . mc/unmark-next-like-this)
+  ;;	      ("C->" . mc/skip-to-next-like-this)
+  ;;	      (","   . mc/mark-previous-like-this)
+  ;;	      (">"   . mc/unmark-previous-like-this)
+  ;;	      ("C-<" . mc/skip-to-previous-like-this)
+  ;;	      ("y"   . mc/mark-next-symbol-like-this)
+  ;;	      ("Y"   . mc/mark-previous-symbol-like-this)
+  ;;	      ("w"   . mc/mark-next-word-like-this)
+  ;;	      ("W"   . mc/mark-previous-word-like-this))
 
   :preface
   (defun reactivate-mark ()
     (interactive)
     (activate-mark)))
+
+(defhydra hydra-mc (:hint nil)
+  "
+      ^Up^            ^Down^        ^All^                ^Lines^               ^Edit^                 ^Other^
+-----------------------------------------------------------------------------------------------------------------
+[_p_]   Next    [_n_]   Next    [_A_] All like this  [_E_] Edit lines      [_i_] Insert numbers   [_t_] Tag pair
+[_P_]   Skip    [_N_]   Skip    [_r_] All by regexp  [_a_] Edit line beg.  [_s_] Sort regions      ^ ^
+[_M-p_] Unmark  [_M-n_] Unmark  [_d_] All DWIM       [_e_] Edit line ends. [_R_] Reverse regions  [_q_] Quit
+"
+  ("p" mc/mark-previous-like-this)
+  ("P" mc/skip-to-previous-like-this)
+  ("M-p" mc/unmark-previous-like-this)
+
+  ("n" mc/mark-next-like-this)
+  ("N" mc/skip-to-next-like-this)
+  ("M-n" mc/unmark-next-like-this)
+
+  ("A" mc/mark-all-like-this :exit t)
+  ("r" mc/mark-all-in-region-regexp :exit t)
+  ("d" mc/mark-all-dwim :exit t)
+
+  ("E" mc/edit-lines :exit t)
+  ("a" mc/edit-beginnings-of-lines :exit t)
+  ("e" mc/edit-ends-of-lines :exit t)
+
+  ("i" mc/insert-numbers)
+  ("s" mc/sort-regions)
+  ("R" mc/reverse-regions)
+
+  ("t" mc/mark-sgml-tag-pair)
+  ("q" nil)
+
+  ("<mouse-1>" mc/add-cursor-on-click)
+  )
+(bind-key "H-m" 'hydra-mc/body)
 
 ;; Yasnippet
 (use-package yasnippet
@@ -386,7 +437,7 @@
 ;; Dumb jump
 (use-package dumb-jump
   :config
-  (setq dumb-jump-selector 'helm)
+;;  (setq dumb-jump-selector 'helm)
   (dumb-jump-mode)
   :bind (("H-g g" . dumb-jump-go)
 	 ("H-g b" . dumb-jump-back)
@@ -550,7 +601,8 @@
 ;; TODO: add key bindings for commands [https://github.com/bbatsov/crux]
 (use-package crux
   :config (crux-reopen-as-root-mode)
-  :bind (("H-c i" . crux-find-user-init-file)))
+  :bind (("H-c i" . crux-find-user-init-file)
+	 ("H-u"   . crux-kill-line-backwards)))
 
 ;;; ace-window
 ;;  ---------------------------------------------------------------------------
@@ -563,6 +615,48 @@
   ;;  :init  (tiny-setup-default)
   :bind (("M-;" . tiny-expand)))
 
+;;; company
+;;  ---------------------------------------------------------------------------
+(use-package company
+  :defer t
+  :ensure
+  :init (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (setq company-idle-delay 0)
+  ;; Number the candidates (use M-1, M-2 etc to select completions).
+  (setq company-show-numbers t)
+
+  ;; Use the tab-and-go frontend.
+  ;; Allows TAB to select and complete at the same time.
+  (company-tng-configure-default)
+  (setq company-frontends
+	'(company-tng-frontend
+          company-pseudo-tooltip-frontend
+          company-echo-metadata-frontend))
+  )
+
+;;; terraform-mode and company-terraform
+;;  ---------------------------------------------------------------------------
+(use-package terraform-mode
+  :ensure
+  :config
+  (use-package company)
+  (use-package company-quickhelp
+    :config (company-quickhelp-mode))
+  (use-package company-terraform
+    :ensure
+    :defer (company-terraform-init)
+    :hook (terraform-mode . company-terraform-init)
+    ))
+
+;;; company-tabnine
+;;  ---------------------------------------------------------------------------
+(use-package company-tabnine :ensure t)
+
+;;; restart-emacs
+;;  ---------------------------------------------------------------------------
+(use-package restart-emacs)
+
 
 ;;; init.el ends here
 (custom-set-variables
@@ -572,4 +666,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
+    (company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))

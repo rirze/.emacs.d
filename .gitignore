@@ -1,11 +1,14 @@
-# Compiled
-*.elc
+# # Compiled
+# *.elc
 
-# Packaging
-.cask
+# # Packaging
+# .cask
 
-# Backup files
-*~
+# # Backup files
+# *~
 
-# Undo-tree save-files
-*.~undo-tree
+# # Undo-tree save-files
+# *.~undo-tree
+
+*
+!init.el
