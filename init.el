@@ -31,10 +31,10 @@
 
 ;; Restore after startup
 (add-hook 'after-init-hook
-	  (lambda ()
-	    (setq gc-cons-threshold 1000000)
-	    (message "gc-cons-threshold restored to %S"
-		     gc-cons-threshold)))
+          (lambda ()
+            (setq gc-cons-threshold 1000000)
+            (message "gc-cons-threshold restored to %S"
+                     gc-cons-threshold)))
 
 ;; Get user PATH
 (use-package exec-path-from-shell
@@ -148,8 +148,8 @@
 
 (setq frame-title-format
       '("" (:eval (if (buffer-file-name)
-		      (abbreviate-file-name (buffer-file-name))
-		    "[%b]"))))
+                      (abbreviate-file-name (buffer-file-name))
+                    "[%b]"))))
 
 
 ;; use zenburn as the default theme
@@ -178,75 +178,75 @@
 ;;  ----------------------------------------------------------------------------
 
 (setq package-list '(ag
-		     auto-yasnippet
-		     ;;autopair
-		     dumb-jump
-		     lsp-mode ;eglot
-		     ;;ein-mumamo
-		     ;;ein
-		     auto-complete
-		     elpy
-		     ;;company
-		     exec-path-from-shell
-		     ;;fill-column-indicator
-		     ;;find-file-in-project
-		     flycheck
-		     flymake
-		     ;;git-commit-mode
-		     helm-ag
-		     helm-projectile
-		     ;;helm-sage
-		     helm-system-packages
-		     helm
-		     helm-core
-		     highlight-indentation
-		     ;;htmlize
-		     ido-hacks
-		     ;;ido-vertical-mode
-		     ivy
-		     json-mode
-		     json-reformat
-		     json-snatcher
-		     jsonrpc
-		     magit
-		     git-commit
-		     magit-popup
-		     ;;mmm-mode
-		     multiple-cursors
-		     ob-ipython
-		     dash-functional
-		     org
-		     ;;org-ehtml
-		     php-mode
-		     popup
-		     project-explorer
-		     es-windows
-		     es-lib
-		     pyvenv
-		     pos-tip
-		     request
-		     markdown-mode
-		     projectile
-		     pkg-info
-		     epl
-		     f
-		     dash
-		     s
-		     deferred
-		     shell-switcher
-		     spinner
-		     ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
-		     switch-window
-		     telephone-line
-		     use-package
-		     bind-key
-		     web-server
-		     websocket
-		     with-editor
-		     async
-		     xterm-color
-		     yaml-mode
-		     yasnippet))
+                     auto-yasnippet
+                     ;;autopair
+                     dumb-jump
+                     lsp-mode ;eglot
+                     ;;ein-mumamo
+                     ;;ein
+                     auto-complete
+                     elpy
+                     ;;company
+                     exec-path-from-shell
+                     ;;fill-column-indicator
+                     ;;find-file-in-project
+                     flycheck
+                     flymake
+                     ;;git-commit-mode
+                     helm-ag
+                     helm-projectile
+                     ;;helm-sage
+                     helm-system-packages
+                     helm
+                     helm-core
+                     highlight-indentation
+                     ;;htmlize
+                     ido-hacks
+                     ;;ido-vertical-mode
+                     ivy
+                     json-mode
+                     json-reformat
+                     json-snatcher
+                     jsonrpc
+                     magit
+                     git-commit
+                     magit-popup
+                     ;;mmm-mode
+                     multiple-cursors
+                     ob-ipython
+                     dash-functional
+                     org
+                     ;;org-ehtml
+                     php-mode
+                     popup
+                     project-explorer
+                     es-windows
+                     es-lib
+                     pyvenv
+                     pos-tip
+                     request
+                     markdown-mode
+                     projectile
+                     pkg-info
+                     epl
+                     f
+                     dash
+                     s
+                     deferred
+                     shell-switcher
+                     spinner
+                     ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
+                     switch-window
+                     telephone-line
+                     use-package
+                     bind-key
+                     web-server
+                     websocket
+                     with-editor
+                     async
+                     xterm-color
+                     yaml-mode
+                     yasnippet))
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -343,9 +343,9 @@
 (defhydra hydra-mc (:hint nil)
   "
       ^Up^            ^Down^        ^All^                ^Lines^               ^Edit^                 ^Other^
------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 [_p_]   Next    [_n_]   Next    [_A_] All like this  [_E_] Edit lines      [_i_] Insert numbers   [_t_] Tag pair
-[_P_]   Skip    [_N_]   Skip    [_r_] All by regexp  [_a_] Edit line beg.  [_s_] Sort regions      ^ ^
+[_P_]   Skip    [_N_]   Skip    [_r_] All by regexp  [_a_] Edit line beg.  [_s_] Sort regions     [_._] Set Rect Region
 [_M-p_] Unmark  [_M-n_] Unmark  [_d_] All DWIM       [_e_] Edit line ends. [_R_] Reverse regions  [_q_] Quit
 "
   ("p" mc/mark-previous-like-this)
@@ -370,7 +370,9 @@
 
   ("t" mc/mark-sgml-tag-pair)
   ("q" nil)
+  ("." set-rectangular-region-anchor)
 
+  ;;  ("x" er/expand)
   ("<mouse-1>" mc/add-cursor-on-click)
   )
 (bind-key "H-m" 'hydra-mc/body)
@@ -380,10 +382,10 @@
   :init
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   :bind (:map yas-minor-mode-map
-	      ("<tab>" . nil)
-	      ("TAB" . nil)
-	      ("<C-tab>" . yas-expand)
-	      ("C-j" . yas-next-field))
+              ("<tab>" . nil)
+              ("TAB" . nil)
+              ("<C-tab>" . yas-expand)
+              ("C-j" . yas-next-field))
   :config
   (yas-global-mode 1))
 
@@ -432,7 +434,7 @@
   (use-package helm-projectile)
   (use-package helm-ag)
   :bind (("M-x" . helm-M-x)
-	 ("C-x C-f" . helm-find-files)))
+         ("C-x C-f" . helm-find-files)))
 
 ;; Dumb jump
 (use-package dumb-jump
@@ -440,8 +442,8 @@
 ;;  (setq dumb-jump-selector 'helm)
   (dumb-jump-mode)
   :bind (("H-g g" . dumb-jump-go)
-	 ("H-g b" . dumb-jump-back)
-	 ("H-g o" . dumb-jump-go-other-window)))
+         ("H-g b" . dumb-jump-back)
+         ("H-g o" . dumb-jump-go-other-window)))
 
 ;;; Python
 ;;  ----------------------------------------------------------------------------
@@ -465,8 +467,8 @@
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
-	 ("\\.md\\'" . markdown-mode)
-	 ("\\.markdown\\'" . markdown-mode))
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
 ;;; Yaml
@@ -477,7 +479,7 @@
   (setq indent-tabs-mode nil)
   :mode "\\.yml\\'"
   :bind (:map yaml-mode-map
-	      ("C-m" . newline-and-indent)))
+              ("C-m" . newline-and-indent)))
 
 ;;; Emacs iPython Notebook (EIN) with Jupyter support
 ;;  ----------------------------------------------------------------------------
@@ -502,7 +504,7 @@
   :mode ("\\.tex\\'" . TeX-latex-mode)
   :config
   (add-hook 'TeX-after-compilation-finished-functions
-	    #'TeX-revert-document-buffer))
+            #'TeX-revert-document-buffer))
 
 
 ;;; Ace-Jump-Mode
@@ -524,9 +526,9 @@
 (use-package telephone-line
   :init
   (setq telephone-line-primary-right-separator 'telephone-line-halfcos-left
-	telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
-	telephone-line-primary-left-separator 'telephone-line-halfcos-left
-	telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
+        telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
+        telephone-line-primary-left-separator 'telephone-line-halfcos-left
+        telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
   (telephone-line-mode 1))
 
 ;;; Org-Mode
@@ -545,11 +547,11 @@
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
 (setq org-agenda-files (quote ("~/docs/org-files/yearlyevents.org"
-			       "~/docs/org-files/events.org"
-			       "~/docs/org-files/skillRequirements.org"
-			       "~/docs/org-files/jobStatus.org"
-			       "~/docs/org-files/geicoJavaDeveloper.org"
-			       "~/docs/org-files/agenda.org")))
+                               "~/docs/org-files/events.org"
+                               "~/docs/org-files/skillRequirements.org"
+                               "~/docs/org-files/jobStatus.org"
+                               "~/docs/org-files/geicoJavaDeveloper.org"
+                               "~/docs/org-files/agenda.org")))
 
 
 (bind-key "C-c l" 'org-store-link)
@@ -576,7 +578,7 @@
 (use-package move-text
   ;;:config (move-text-default-bindings)) ;; uses M-up and M-down
   :bind (("M-p" . move-text-up)
-	 ("M-n" . move-text-down)))
+         ("M-n" . move-text-down)))
 
 ;;; operate-on-number
 ;;  ---------------------------------------------------------------------------
@@ -602,7 +604,7 @@
 (use-package crux
   :config (crux-reopen-as-root-mode)
   :bind (("H-c i" . crux-find-user-init-file)
-	 ("H-u"   . crux-kill-line-backwards)))
+         ("H-u"   . crux-kill-line-backwards)))
 
 ;;; ace-window
 ;;  ---------------------------------------------------------------------------
@@ -613,7 +615,16 @@
 ;;  ---------------------------------------------------------------------------
 (use-package tiny
   ;;  :init  (tiny-setup-default)
-  :bind (("M-;" . tiny-expand)))
+  :bind (("H-;" . tiny-expand)))
+
+;; Examples of Tiny
+;; m5 10*xx -> 25 36 49 64 81 100
+;; m5 10*xx|0x%x -> 0x19 0x24 0x31 0x40 0x51 0x64
+;; m10+x?a%c -> a b c d e f g h i j k
+;; m10+x?A%c -> A B C D E F G H I J K
+;; m97,105stringx -> a,b,c,d,e,f,g,h,i
+;; m97,102stringxupcasex -> aA,bB,cC,dD,eE,fF
+;; m,3|%(+ x x) and %(* x x) and %s -> 0 and 0 and 0,2 and 1 and 1,4 and 4 and 2,6 and 9 and 3
 
 ;;; company
 ;;  ---------------------------------------------------------------------------
@@ -630,7 +641,7 @@
   ;; Allows TAB to select and complete at the same time.
   (company-tng-configure-default)
   (setq company-frontends
-	'(company-tng-frontend
+        '(company-tng-frontend
           company-pseudo-tooltip-frontend
           company-echo-metadata-frontend))
   )
