@@ -170,9 +170,29 @@
 ;;  ---------------------------------------------------------------------------
 (use-package bind-key)
 
+;; use-package-hydra
+(use-package hydra)
+(use-package use-package-hydra
+  :ensure t)
+
+
 (bind-key "H-k" 'kill-this-buffer)
 (bind-key "H-r" 'replace-regexp)
 (bind-key "H-c c" 'comment-region)
+
+(defhydra frame-resize-hydra (:hint nil)
+  "
+        ^Vertical^                    ^Horizontal^
+--------------------------------------------------------------
+[_a_] Shrink  [_s_] Enlarge    [_d_] Shrink  [_f_] Enlarge
+
+"
+  ("a" shrink-window)
+  ("s" enlarge-window)
+  ("d" shrink-window-horizontally)
+  ("f" enlarge-window-horizontally)
+  )
+(bind-key "H-f" 'frame-resize-hydra/body)
 
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
@@ -254,10 +274,6 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-;; use-package-hydra
-(use-package hydra)
-(use-package use-package-hydra
-  :ensure t)
 
 
 ;; Smartparens - keep parentheses balanced (from Jamie's)
@@ -348,33 +364,33 @@
 [_P_]   Skip    [_N_]   Skip    [_r_] All by regexp  [_a_] Edit line beg.  [_s_] Sort regions     [_._] Set Rect Region
 [_M-p_] Unmark  [_M-n_] Unmark  [_d_] All DWIM       [_e_] Edit line ends. [_R_] Reverse regions  [_q_] Quit
 "
-  ("p" mc/mark-previous-like-this)
-  ("P" mc/skip-to-previous-like-this)
-  ("M-p" mc/unmark-previous-like-this)
+    ("p" mc/mark-previous-like-this)
+    ("P" mc/skip-to-previous-like-this)
+    ("M-p" mc/unmark-previous-like-this)
 
-  ("n" mc/mark-next-like-this)
-  ("N" mc/skip-to-next-like-this)
-  ("M-n" mc/unmark-next-like-this)
+    ("n" mc/mark-next-like-this)
+    ("N" mc/skip-to-next-like-this)
+    ("M-n" mc/unmark-next-like-this)
 
-  ("A" mc/mark-all-like-this :exit t)
-  ("r" mc/mark-all-in-region-regexp :exit t)
-  ("d" mc/mark-all-dwim :exit t)
+    ("A" mc/mark-all-like-this :exit t)
+    ("r" mc/mark-all-in-region-regexp :exit t)
+    ("d" mc/mark-all-dwim :exit t)
 
-  ("E" mc/edit-lines :exit t)
-  ("a" mc/edit-beginnings-of-lines :exit t)
-  ("e" mc/edit-ends-of-lines :exit t)
+    ("E" mc/edit-lines :exit t)
+    ("a" mc/edit-beginnings-of-lines :exit t)
+    ("e" mc/edit-ends-of-lines :exit t)
 
-  ("i" mc/insert-numbers)
-  ("s" mc/sort-regions)
-  ("R" mc/reverse-regions)
+    ("i" mc/insert-numbers)
+    ("s" mc/sort-regions)
+    ("R" mc/reverse-regions)
 
-  ("t" mc/mark-sgml-tag-pair)
-  ("q" nil)
-  ("." set-rectangular-region-anchor)
+    ("t" mc/mark-sgml-tag-pair)
+    ("q" nil)
+    ("." set-rectangular-region-anchor)
 
-  ;;  ("x" er/expand)
-  ("<mouse-1>" mc/add-cursor-on-click)
-  )
+    ;;  ("x" er/expand)
+    ("<mouse-1>" mc/add-cursor-on-click)
+    )
 (bind-key "H-m" 'hydra-mc/body)
 
 ;; Yasnippet
@@ -518,7 +534,8 @@
   :init
   (set-face-background 'highlight-indentation-face "#4F4F4F")
   (set-face-background 'highlight-indentation-current-column-face "#5F5F5F")
-  (highlight-indentation-mode 1))
+  ;; (highlight-indentation-mode 1)
+  )
 
 
 ;;; Telephone Line (powerline)
@@ -565,7 +582,8 @@
 (use-package aggressive-indent
   :config
   (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
-  (global-aggressive-indent-mode 1))
+  ;; (global-aggressive-indent-mode 1)
+  )
 
 ;;; guru-mode
 ;;  ---------------------------------------------------------------------------
