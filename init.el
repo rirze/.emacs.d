@@ -526,15 +526,26 @@
 ;;; Ace-Jump-Mode
 ;;  ----------------------------------------------------------------------------
 (use-package ace-jump-mode
-  :bind (("H-SPC" . ace-jump-mode)))
+  :init
+  (setq ace-jump-mode-scope 'frame)
+  (setq ace-jump-mode-case-fold t)
+
+  :bind (("H-SPC" . ace-jump-mode)
+	 ("H-j w" . ace-jump-word-mode)
+	 ("H-j c" . ace-jump-char-mode)
+	 ("H-j l" . ace-jump-line-mode)
+	 )
+  )
 
 ;;; Highlight-Indentation
+
 ;; -----------------------------------------------------------------------------
 (use-package highlight-indentation
   :init
   (set-face-background 'highlight-indentation-face "#4F4F4F")
   (set-face-background 'highlight-indentation-current-column-face "#5F5F5F")
   ;; (highlight-indentation-mode 1)
+  (bind-key (("H-h i" . highlight-indentation-mode)))
   )
 
 
