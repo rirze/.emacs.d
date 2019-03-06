@@ -179,6 +179,8 @@
 (bind-key "H-k" 'kill-this-buffer)
 (bind-key "H-r" 'replace-regexp)
 (bind-key "H-c c" 'comment-region)
+(bind-key "H-a" 'align-current)
+(bind-key "H-w" 'eval-region)
 
 (defhydra frame-resize-hydra (:hint nil)
   "
