@@ -547,7 +547,7 @@
   (set-face-background 'highlight-indentation-face "#4F4F4F")
   (set-face-background 'highlight-indentation-current-column-face "#5F5F5F")
   ;; (highlight-indentation-mode 1)
-  (bind-key (("H-h i" . highlight-indentation-mode)))
+  :bind (("H-h i" . highlight-indentation-mode))
   )
 
 
