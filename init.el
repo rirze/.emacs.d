@@ -703,6 +703,10 @@
 ;;  ---------------------------------------------------------------------------
 (use-package powershell)
 
+;;; nlinum-mode.el
+;;  ---------------------------------------------------------------------------
+(use-package nlinum)
+
 
 ;;; init.el ends here
 (custom-set-variables
@@ -712,4 +716,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powershell fill-column-indicator fci-mode company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
+    (nlinum powershell fill-column-indicator fci-mode company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
