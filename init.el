@@ -142,6 +142,10 @@
 ;; paste like civilized people - C-y
 (global-unset-key [mouse-2])
 
+;; Tramp Settings
+(setq vc-handled-backends '(Git))
+(setq tramp-verbose 1)
+
 
 ;;; Appearance
 ;;  ----------------------------------------------------------------------------
@@ -176,9 +180,9 @@
   :ensure t)
 
 
-(bind-key "H-k" 'kill-this-buffer)
+(bind-key "H-K" 'kill-this-buffer)
 (bind-key "H-r" 'replace-regexp)
-(bind-key "H-c c" 'comment-region)
+(bind-key "H-c c" 'comment-or-uncomment-region)
 (bind-key "H-a" 'align-current)
 (bind-key "H-w" 'eval-region)
 
@@ -195,6 +199,15 @@
   ("f" enlarge-window-horizontally)
   )
 (bind-key "H-f" 'frame-resize-hydra/body)
+
+;; select current line
+(defun select-current-line ()
+  "Select the current line."
+  (interactive)
+  (end-of-line) ; move to end of line
+  (set-mark (line-beginning-position)))
+
+(bind-key "H-l l" 'select-current-line)
 
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
@@ -427,22 +440,28 @@
   (ido-mode t)
   (ido-vertical-mode))
 
-(defun ido-find-file-in-tag-files ()
-  (interactive)
-  (save-excursion
-    (let ((enable-recursive-minibuffers t))
-      (visit-tags-table-buffer))
-    (find-file
-     (expand-file-name
-      (ido-completing-read
-       "Project file: " (tags-table-files) nil t)))))
+;; (defun ido-find-file-in-tag-files ()
+;;   (interactive)
+;;   (save-excursion
+;;     (let ((enable-recursive-minibuffers t))
+;;       (visit-tags-table-buffer))
+;;     (find-file
+;;      (expand-file-name
+;;       (ido-completing-read
+;;        "Project file: " (tags-table-files) nil t)))))
 
-(global-set-key (kbd "C-S-x C-S-f") 'ido-find-file-in-tag-files)
+;; (global-set-key (kbd "C-S-x C-S-f") 'ido-find-file-in-tag-files)
 
 ;; Projectile
 (use-package projectile
   :bind-keymap
   ("H-p" . projectile-command-map)
+  :init
+  (setq projectile-file-exists-remote-cache-expire nil)
+  ;; (setq projectile-mode-line '(:eval (format " Projectile[%s]" (projectile-project-name))))
+  (setq projectile-globally-ignored-directories
+	(quote
+	 (".idea" ".eunit" ".git" ".hg" ".svn" ".fslckout" ".bzr" "_darcs" ".tox" "build" "target")))
   :config
   (projectile-mode +1))
 
@@ -608,8 +627,8 @@
 ;;  ---------------------------------------------------------------------------
 (use-package move-text
   ;;:config (move-text-default-bindings)) ;; uses M-up and M-down
-  :bind (("M-p" . move-text-up)
-	 ("M-n" . move-text-down)))
+  :bind (("M-P" . move-text-up)
+	 ("M-N" . move-text-down)))
 
 ;;; operate-on-number
 ;;  ---------------------------------------------------------------------------
@@ -633,9 +652,29 @@
 ;;  ---------------------------------------------------------------------------
 ;; TODO: add key bindings for commands [https://github.com/bbatsov/crux]
 (use-package crux
-  :config (crux-reopen-as-root-mode)
+  :config
+  (crux-reopen-as-root-mode)
+  (crux-with-region-or-line comment-or-uncomment-region)
   :bind (("H-c i" . crux-find-user-init-file)
-	 ("H-u"   . crux-kill-line-backwards)))
+	 ("H-u"   . crux-kill-line-backwards)
+	 ("H-c o" . crux-open-with)
+	 ("H-RET" . crux-smart-open-line)
+	 ("H-S-RET" . crux-smart-open-line-above)
+	 ("H-c n" . crux-cleanup-buffer-or-region)
+	 ("H-c 2" . crux-transpose-windows)
+	 ("H-c D" . crux-delete-file-and-buffer)
+	 ("H-c C" . crux-copy-file-preserve-attributes)
+	 ("H-c C-c" . crux-duplicate-and-comment-current-line-or-region)
+	 ("H-c r" . crux-rename-file-and-buffer)
+	 ("H-c t" . crux-visit-term-buffer)
+	 ("H-c K" . crux-kill-other-buffers)
+	 ("H-c S" . crux-find-shell-init-file)
+	 ("H-6" . crux-top-join-line)
+	 ("H-k" . crux-kill-whole-line)
+	 ("H-c u" . crux-upcase-region)
+	 ("H-c l" . crux-downcase-region)
+	 ("H-c M-c" . crux-capitalize-region)
+  ))
 
 ;;; ace-window
 ;;  ---------------------------------------------------------------------------
