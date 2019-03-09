@@ -442,7 +442,7 @@
 ;; Projectile
 (use-package projectile
   :bind-keymap
-  ("C-c p" . projectile-command-map)
+  ("H-p" . projectile-command-map)
   :config
   (projectile-mode +1))
 
@@ -546,7 +546,7 @@
   :init
   (set-face-background 'highlight-indentation-face "#4F4F4F")
   (set-face-background 'highlight-indentation-current-column-face "#5F5F5F")
-  ;; (highlight-indentation-mode 1)
+  (highlight-indentation-mode 0)
   :bind (("H-h i" . highlight-indentation-mode))
   )
 
