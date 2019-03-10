@@ -86,6 +86,9 @@
       backup-inhibited t
       auto-save-default nil)
 
+;; test out Save Place
+(save-place-mode 1)
+
 ;;; Interface
 ;;  ----------------------------------------------------------------------------
 
@@ -185,6 +188,7 @@
 (bind-key "H-c c" 'comment-or-uncomment-region)
 (bind-key "H-a" 'align-current)
 (bind-key "H-w" 'eval-region)
+(bind-key "H-L" 'display-line-numbers-mode)
 
 (defhydra frame-resize-hydra (:hint nil)
   "
@@ -208,6 +212,22 @@
   (set-mark (line-beginning-position)))
 
 (bind-key "H-l l" 'select-current-line)
+
+;;; Default Emacs Packages Configuration
+;;  ---------------------------------------------------------------------------
+
+;; wind move - move across frames with <mod> + arrow keys
+(require 'windmove)
+(windmove-default-keybindings 'hyper)
+
+;; Tramp
+(require 'tramp)
+(setq tramp-default-method "ssh")
+
+;; configure sh-mode
+;; recognize bash config files as sh scripts
+;; TODO: make this more elegant
+(add-to-list 'auto-mode-alist '(".*\\.bash.*\\'" . sh-mode))
 
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
@@ -489,7 +509,9 @@
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("/usr/bin/ipython3" . python-mode)
-  :hook (python-mode . fci-mode)
+  :hook
+  (python-mode . fci-mode)
+  (python-mode . subword-mode)
   :config
   (use-package pyvenv))
 
@@ -744,7 +766,7 @@
 
 ;;; nlinum-mode.el
 ;;  ---------------------------------------------------------------------------
-(use-package nlinum)
+;; (use-package nlinum)
 
 
 ;;; init.el ends here
