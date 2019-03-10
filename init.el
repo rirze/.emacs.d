@@ -184,7 +184,6 @@
 
 
 (bind-key "H-K" 'kill-this-buffer)
-(bind-key "H-r" 'replace-regexp)
 (bind-key "H-c c" 'comment-or-uncomment-region)
 (bind-key "H-a" 'align-current)
 (bind-key "H-w" 'eval-region)
@@ -776,8 +775,11 @@
 ;;; phi-search
 ;;  ---------------------------------------------------------------------------
 (use-package phi-search
+  :init
+  (require 'phi-replace)
   :bind (("C-s" . phi-search)
-	 ("C-r" . phi-search-backward)))
+	 ("C-r" . phi-search-backward)
+	 ("H-r" . phi-replace-query)))
 
 ;;; init.el ends here
 (custom-set-variables
