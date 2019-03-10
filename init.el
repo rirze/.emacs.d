@@ -42,9 +42,6 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
-;; make sure theme can be loaded
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/zenburn-emacs")
-
 ;;; Preferences
 ;;  ----------------------------------------------------------------------------
 
@@ -151,14 +148,17 @@
 ;;  ----------------------------------------------------------------------------
 
 (setq frame-title-format
-      '("" (:eval (if (buffer-file-name)
-		      (abbreviate-file-name (buffer-file-name))
-		    "[%b]"))))
+      '("" invocation-name (:eval (if (buffer-file-name)
+				      (abbreviate-file-name (buffer-file-name))
+				    "[%b]"))))
 
 
 ;; use zenburn as the default theme
 (use-package zenburn-theme)
 (load-theme 'zenburn t)
+
+;; highlight the current line
+(global-hl-line-mode +1)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -650,7 +650,7 @@
 
 ;;; crux
 ;;  ---------------------------------------------------------------------------
-;; TODO: add key bindings for commands [https://github.com/bbatsov/crux]
+;; DONE: add key bindings for commands [https://github.com/bbatsov/crux]
 (use-package crux
   :config
   (crux-reopen-as-root-mode)
@@ -658,8 +658,8 @@
   :bind (("H-c i" . crux-find-user-init-file)
 	 ("H-u"   . crux-kill-line-backwards)
 	 ("H-c o" . crux-open-with)
-	 ("H-RET" . crux-smart-open-line)
-	 ("H-S-RET" . crux-smart-open-line-above)
+	 ("H-<return>" . crux-smart-open-line)
+	 ("H-S-<return>" . crux-smart-open-line-above)
 	 ("H-c n" . crux-cleanup-buffer-or-region)
 	 ("H-c 2" . crux-transpose-windows)
 	 ("H-c D" . crux-delete-file-and-buffer)
