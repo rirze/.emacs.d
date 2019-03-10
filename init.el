@@ -773,6 +773,11 @@
 	 ("H-q j" . string-infleciton-java-style-cycle))
   )
 
+;;; phi-search
+;;  ---------------------------------------------------------------------------
+(use-package phi-search
+  :bind (("C-s" . phi-search)
+	 ("C-r" . phi-search-backward)))
 
 ;;; init.el ends here
 (custom-set-variables
@@ -782,4 +787,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (string-inflection nlinum powershell fill-column-indicator fci-mode company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
+    (phi-search string-inflection nlinum powershell fill-column-indicator fci-mode company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
