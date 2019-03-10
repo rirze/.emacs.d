@@ -573,10 +573,11 @@
   (setq ace-jump-mode-scope 'window)
   (setq ace-jump-mode-case-fold t)
 
-  :bind (("H-SPC" . ace-jump-mode)
+  :bind (("H-SPC" . ace-jump-char-mode)
 	 ("H-j w" . ace-jump-word-mode)
 	 ("H-j c" . ace-jump-char-mode)
 	 ("H-j l" . ace-jump-line-mode)
+	 ("H-j v" . ace-jump-mode)
 	 )
   )
 
@@ -587,7 +588,7 @@
   :init
   (set-face-background 'highlight-indentation-face "#4F4F4F")
   (set-face-background 'highlight-indentation-current-column-face "#5F5F5F")
-  (highlight-indentation-mode 0)
+  ;; (highlight-indentation-mode 0)
   :bind (("H-h i" . highlight-indentation-mode))
   )
 
@@ -621,7 +622,6 @@
 			       "~/docs/org-files/events.org"
 			       "~/docs/org-files/skillRequirements.org"
 			       "~/docs/org-files/jobStatus.org"
-			       "~/docs/org-files/geicoJavaDeveloper.org"
 			       "~/docs/org-files/agenda.org")))
 
 
@@ -680,8 +680,8 @@
   :bind (("H-c i" . crux-find-user-init-file)
 	 ("H-u"   . crux-kill-line-backwards)
 	 ("H-c o" . crux-open-with)
-	 ("H-<return>" . crux-smart-open-line)
-	 ("H-S-<return>" . crux-smart-open-line-above)
+	 ("<H-return>" . crux-smart-open-line)
+	 ("<H-S-return>" . crux-smart-open-line-above)
 	 ("H-c n" . crux-cleanup-buffer-or-region)
 	 ("H-c 2" . crux-transpose-windows)
 	 ("H-c D" . crux-delete-file-and-buffer)
@@ -768,6 +768,15 @@
 ;;  ---------------------------------------------------------------------------
 ;; (use-package nlinum)
 
+;;; string-inflection
+;; ---------------------------------------------------------------------------
+(use-package string-inflection
+  :bind (("H-q q" . string-inflection-all-cycle)
+	 ("H-q p" . string-inflection-python-style-cycle)
+	 ("H-q r" . string-inflection-ruby-style-cycle)
+	 ("H-q j" . string-infleciton-java-style-cycle))
+  )
+
 
 ;;; init.el ends here
 (custom-set-variables
@@ -777,4 +786,4 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (nlinum powershell fill-column-indicator fci-mode company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
+    (string-inflection nlinum powershell fill-column-indicator fci-mode company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
