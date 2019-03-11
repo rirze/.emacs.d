@@ -492,6 +492,7 @@
   :config
   (use-package helm-projectile)
   (use-package helm-ag)
+  (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)))
 
