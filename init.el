@@ -146,6 +146,9 @@
 (setq vc-handled-backends '(Git))
 (setq tramp-verbose 1)
 
+;; dired settings
+(setq dired-dwim-target t)
+
 ;; SPACES
 (setq-default indent-tabs-mode nil)
 
