@@ -26,15 +26,15 @@
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
 
-; Increase Garbage Collector size, improves startup speed
+;; Increase Garbage Collector size, improves startup speed
 (setq gc-cons-threshold 50000000)
 
 ;; Restore after startup
 (add-hook 'after-init-hook
-	  (lambda ()
-	    (setq gc-cons-threshold 1000000)
-	    (message "gc-cons-threshold restored to %S"
-		     gc-cons-threshold)))
+          (lambda ()
+            (setq gc-cons-threshold 1000000)
+            (message "gc-cons-threshold restored to %S"
+                     gc-cons-threshold)))
 
 ;; Get user PATH
 (use-package exec-path-from-shell
@@ -154,8 +154,8 @@
 
 (setq frame-title-format
       '("" invocation-name (:eval (if (buffer-file-name)
-				      (abbreviate-file-name (buffer-file-name))
-				    "[%b]"))))
+                                      (abbreviate-file-name (buffer-file-name))
+                                    "[%b]"))))
 
 
 ;; use zenburn as the default theme
@@ -193,7 +193,7 @@
 
 (defhydra frame-resize-hydra (:hint nil)
   "
-	^Vertical^                    ^Horizontal^
+        ^Vertical^                    ^Horizontal^
 --------------------------------------------------------------
 [_a_] Shrink  [_s_] Enlarge    [_d_] Shrink  [_f_] Enlarge
 
@@ -234,76 +234,76 @@
 ;;  ----------------------------------------------------------------------------
 
 (setq package-list '(ag
-		     auto-yasnippet
-		     ;;autopair
-		     dumb-jump
+                     auto-yasnippet
+                     ;;autopair
+                     dumb-jump
                      diminish
-		     lsp-mode ;eglot
-		     ;;ein-mumamo
-		     ;;ein
-		     auto-complete
-		     elpy
-		     ;;company
-		     exec-path-from-shell
-		     fill-column-indicator
-		     ;;find-file-in-project
-		     flycheck
-		     flymake
-		     ;;git-commit-mode
-		     helm-ag
-		     helm-projectile
-		     ;;helm-sage
-		     helm-system-packages
-		     helm
-		     helm-core
-		     highlight-indentation
-		     ;;htmlize
-		     ido-hacks
-		     ;;ido-vertical-mode
-		     ivy
-		     json-mode
-		     json-reformat
-		     json-snatcher
-		     jsonrpc
-		     magit
-		     git-commit
-		     magit-popup
-		     ;;mmm-mode
-		     multiple-cursors
-		     ob-ipython
-		     dash-functional
-		     org
-		     ;;org-ehtml
-		     php-mode
-		     popup
-		     project-explorer
-		     es-windows
-		     es-lib
-		     pyvenv
-		     pos-tip
-		     request
-		     markdown-mode
-		     projectile
-		     pkg-info
-		     epl
-		     f
-		     dash
-		     s
-		     deferred
-		     shell-switcher
-		     spinner
-		     ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
-		     switch-window
-		     ;; telephone-line
-		     use-package
-		     bind-key
-		     web-server
-		     websocket
-		     with-editor
-		     async
-		     xterm-color
-		     yaml-mode
-		     yasnippet))
+                     lsp-mode ;eglot
+                     ;;ein-mumamo
+                     ;;ein
+                     auto-complete
+                     elpy
+                     ;;company
+                     exec-path-from-shell
+                     fill-column-indicator
+                     ;;find-file-in-project
+                     flycheck
+                     flymake
+                     ;;git-commit-mode
+                     helm-ag
+                     helm-projectile
+                     ;;helm-sage
+                     helm-system-packages
+                     helm
+                     helm-core
+                     highlight-indentation
+                     ;;htmlize
+                     ido-hacks
+                     ;;ido-vertical-mode
+                     ivy
+                     json-mode
+                     json-reformat
+                     json-snatcher
+                     jsonrpc
+                     magit
+                     git-commit
+                     magit-popup
+                     ;;mmm-mode
+                     multiple-cursors
+                     ob-ipython
+                     dash-functional
+                     org
+                     ;;org-ehtml
+                     php-mode
+                     popup
+                     project-explorer
+                     es-windows
+                     es-lib
+                     pyvenv
+                     pos-tip
+                     request
+                     markdown-mode
+                     projectile
+                     pkg-info
+                     epl
+                     f
+                     dash
+                     s
+                     deferred
+                     shell-switcher
+                     spinner
+                     ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
+                     switch-window
+                     ;; telephone-line
+                     use-package
+                     bind-key
+                     web-server
+                     websocket
+                     with-editor
+                     async
+                     xterm-color
+                     yaml-mode
+                     yasnippet))
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -350,43 +350,43 @@
 (use-package multiple-cursors
   :after hydra
   ;; :bind (("H-m ^"     . mc/edit-beginnings-of-lines)
-  ;;	 ("H-m a"     . mc/edit-beginnings-of-lines)
-  ;;	 ("H-m $"     . mc/edit-ends-of-lines)
-  ;;	 ("H-m e"     . mc/edit-ends-of-lines)
-  ;;	 ("H-m R"     . mc/reverse-regions)
-  ;;	 ("H-m S"     . mc/sort-regions)
-  ;;	 ("H-m W"     . mc/mark-all-words-like-this)
-  ;;	 ("H-m Y"     . mc/mark-all-symbols-like-this)
-  ;;	 ("H-m A"     . mc/mark-all-like-this-dwim)
-  ;;	 ("H-m c"     . mc/mark-all-dwim)
-  ;;	 ("H-m l"     . mc/insert-letters)
-  ;;	 ("H-m n"     . mc/insert-numbers)
-  ;;	 ("H-m r"     . mc/mark-all-in-region)
-  ;;	 ("H-m s"     . set-rectangular-region-anchor)
-  ;;	 ("H-m %"     . mc/mark-all-in-region-regexp)
-  ;;	 ("H-m t"     . mc/mark-sgml-tag-pair)
-  ;;	 ("H-m w"     . mc/mark-next-like-this-word)
-  ;;	 ("H-m x"     . mc/mark-more-like-this-extended)
-  ;;	 ("H-m y"     . mc/mark-next-like-this-symbol)
-  ;;	 ("H-m C-x"   . reactivate-mark)
-  ;;	 ("H-m C-SPC" . mc/mark-pop)
-  ;;	 ("H-m ("     . mc/mark-all-symbols-like-this-in-defun)
-  ;;	 ("H-m C-("   . mc/mark-all-words-like-this-in-defun)
-  ;;	 ("H-m M-("   . mc/mark-all-like-this-in-defun)
-  ;;	 ("H-m ["     . mc/vertical-align-with-space)
-  ;;	 ("H-m {"     . mc/vertical-align))
+  ;;     ("H-m a"     . mc/edit-beginnings-of-lines)
+  ;;     ("H-m $"     . mc/edit-ends-of-lines)
+  ;;     ("H-m e"     . mc/edit-ends-of-lines)
+  ;;     ("H-m R"     . mc/reverse-regions)
+  ;;     ("H-m S"     . mc/sort-regions)
+  ;;     ("H-m W"     . mc/mark-all-words-like-this)
+  ;;     ("H-m Y"     . mc/mark-all-symbols-like-this)
+  ;;     ("H-m A"     . mc/mark-all-like-this-dwim)
+  ;;     ("H-m c"     . mc/mark-all-dwim)
+  ;;     ("H-m l"     . mc/insert-letters)
+  ;;     ("H-m n"     . mc/insert-numbers)
+  ;;     ("H-m r"     . mc/mark-all-in-region)
+  ;;     ("H-m s"     . set-rectangular-region-anchor)
+  ;;     ("H-m %"     . mc/mark-all-in-region-regexp)
+  ;;     ("H-m t"     . mc/mark-sgml-tag-pair)
+  ;;     ("H-m w"     . mc/mark-next-like-this-word)
+  ;;     ("H-m x"     . mc/mark-more-like-this-extended)
+  ;;     ("H-m y"     . mc/mark-next-like-this-symbol)
+  ;;     ("H-m C-x"   . reactivate-mark)
+  ;;     ("H-m C-SPC" . mc/mark-pop)
+  ;;     ("H-m ("     . mc/mark-all-symbols-like-this-in-defun)
+  ;;     ("H-m C-("   . mc/mark-all-words-like-this-in-defun)
+  ;;     ("H-m M-("   . mc/mark-all-like-this-in-defun)
+  ;;     ("H-m ["     . mc/vertical-align-with-space)
+  ;;     ("H-m {"     . mc/vertical-align))
   ;; :bind (:map region-bindings-mode-map
-  ;;	      ("c"   . mc/edit-lines)
-  ;;	      ("."   . mc/mark-next-like-this)
-  ;;	      ("<"   . mc/unmark-next-like-this)
-  ;;	      ("C->" . mc/skip-to-next-like-this)
-  ;;	      (","   . mc/mark-previous-like-this)
-  ;;	      (">"   . mc/unmark-previous-like-this)
-  ;;	      ("C-<" . mc/skip-to-previous-like-this)
-  ;;	      ("y"   . mc/mark-next-symbol-like-this)
-  ;;	      ("Y"   . mc/mark-previous-symbol-like-this)
-  ;;	      ("w"   . mc/mark-next-word-like-this)
-  ;;	      ("W"   . mc/mark-previous-word-like-this))
+  ;;          ("c"   . mc/edit-lines)
+  ;;          ("."   . mc/mark-next-like-this)
+  ;;          ("<"   . mc/unmark-next-like-this)
+  ;;          ("C->" . mc/skip-to-next-like-this)
+  ;;          (","   . mc/mark-previous-like-this)
+  ;;          (">"   . mc/unmark-previous-like-this)
+  ;;          ("C-<" . mc/skip-to-previous-like-this)
+  ;;          ("y"   . mc/mark-next-symbol-like-this)
+  ;;          ("Y"   . mc/mark-previous-symbol-like-this)
+  ;;          ("w"   . mc/mark-next-word-like-this)
+  ;;          ("W"   . mc/mark-previous-word-like-this))
 
   :preface
   (defun reactivate-mark ()
@@ -401,33 +401,33 @@
 [_P_]   Skip    [_N_]   Skip    [_r_] All by regexp  [_a_] Edit line beg.  [_s_] Sort regions     [_._] Set Rect Region
 [_M-p_] Unmark  [_M-n_] Unmark  [_d_] All DWIM       [_e_] Edit line ends. [_R_] Reverse regions  [_q_] Quit
 "
-    ("p" mc/mark-previous-like-this)
-    ("P" mc/skip-to-previous-like-this)
-    ("M-p" mc/unmark-previous-like-this)
+  ("p" mc/mark-previous-like-this)
+  ("P" mc/skip-to-previous-like-this)
+  ("M-p" mc/unmark-previous-like-this)
 
-    ("n" mc/mark-next-like-this)
-    ("N" mc/skip-to-next-like-this)
-    ("M-n" mc/unmark-next-like-this)
+  ("n" mc/mark-next-like-this)
+  ("N" mc/skip-to-next-like-this)
+  ("M-n" mc/unmark-next-like-this)
 
-    ("A" mc/mark-all-like-this :exit t)
-    ("r" mc/mark-all-in-region-regexp :exit t)
-    ("d" mc/mark-all-dwim :exit t)
+  ("A" mc/mark-all-like-this :exit t)
+  ("r" mc/mark-all-in-region-regexp :exit t)
+  ("d" mc/mark-all-dwim :exit t)
 
-    ("E" mc/edit-lines :exit t)
-    ("a" mc/edit-beginnings-of-lines :exit t)
-    ("e" mc/edit-ends-of-lines :exit t)
+  ("E" mc/edit-lines :exit t)
+  ("a" mc/edit-beginnings-of-lines :exit t)
+  ("e" mc/edit-ends-of-lines :exit t)
 
-    ("i" mc/insert-numbers)
-    ("s" mc/sort-regions)
-    ("R" mc/reverse-regions)
+  ("i" mc/insert-numbers)
+  ("s" mc/sort-regions)
+  ("R" mc/reverse-regions)
 
-    ("t" mc/mark-sgml-tag-pair)
-    ("q" nil)
-    ("." set-rectangular-region-anchor)
+  ("t" mc/mark-sgml-tag-pair)
+  ("q" nil)
+  ("." set-rectangular-region-anchor)
 
-    ;;  ("x" er/expand)
-    ("<mouse-1>" mc/add-cursor-on-click)
-    )
+  ;;  ("x" er/expand)
+  ("<mouse-1>" mc/add-cursor-on-click)
+  )
 (bind-key "H-m" 'hydra-mc/body)
 
 ;; Yasnippet
@@ -435,10 +435,10 @@
   :init
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   :bind (:map yas-minor-mode-map
-	      ("<tab>" . nil)
-	      ("TAB" . nil)
-	      ("<C-tab>" . yas-expand)
-	      ("C-j" . yas-next-field))
+              ("<tab>" . nil)
+              ("TAB" . nil)
+              ("<C-tab>" . yas-expand)
+              ("C-j" . yas-next-field))
   :config
   (yas-global-mode 1))
 
@@ -482,8 +482,8 @@
   (setq projectile-file-exists-remote-cache-expire nil)
   ;; (setq projectile-mode-line '(:eval (format " Projectile[%s]" (projectile-project-name))))
   (setq projectile-globally-ignored-directories
-	(quote
-	 (".idea" ".eunit" ".git" ".hg" ".svn" ".fslckout" ".bzr" "_darcs" ".tox" "build" "target")))
+        (quote
+         (".idea" ".eunit" ".git" ".hg" ".svn" ".fslckout" ".bzr" "_darcs" ".tox" "build" "target")))
   :config
   (projectile-mode +1))
 
@@ -493,16 +493,16 @@
   (use-package helm-projectile)
   (use-package helm-ag)
   :bind (("M-x" . helm-M-x)
-	 ("C-x C-f" . helm-find-files)))
+         ("C-x C-f" . helm-find-files)))
 
 ;; Dumb jump
 (use-package dumb-jump
   :config
-;;  (setq dumb-jump-selector 'helm)
+  ;;  (setq dumb-jump-selector 'helm)
   (dumb-jump-mode)
   :bind (("H-g g" . dumb-jump-go)
-	 ("H-g b" . dumb-jump-back)
-	 ("H-g o" . dumb-jump-go-other-window)))
+         ("H-g b" . dumb-jump-back)
+         ("H-g o" . dumb-jump-go-other-window)))
 
 ;;; Python
 ;;  ----------------------------------------------------------------------------
@@ -528,8 +528,8 @@
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
-	 ("\\.md\\'" . markdown-mode)
-	 ("\\.markdown\\'" . markdown-mode))
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
 ;;; Yaml
@@ -540,7 +540,7 @@
   (setq indent-tabs-mode nil)
   :mode "\\.yml\\'"
   :bind (:map yaml-mode-map
-	      ("C-m" . newline-and-indent)))
+              ("C-m" . newline-and-indent)))
 
 ;;; Emacs iPython Notebook (EIN) with Jupyter support
 ;;  ----------------------------------------------------------------------------
@@ -565,7 +565,7 @@
   :mode ("\\.tex\\'" . TeX-latex-mode)
   :config
   (add-hook 'TeX-after-compilation-finished-functions
-	    #'TeX-revert-document-buffer))
+            #'TeX-revert-document-buffer))
 
 
 ;;; Ace-Jump-Mode
@@ -576,11 +576,11 @@
   (setq ace-jump-mode-case-fold t)
 
   :bind (("H-SPC" . ace-jump-char-mode)
-	 ("H-j w" . ace-jump-word-mode)
-	 ("H-j c" . ace-jump-char-mode)
-	 ("H-j l" . ace-jump-line-mode)
-	 ("H-j v" . ace-jump-mode)
-	 )
+         ("H-j w" . ace-jump-word-mode)
+         ("H-j c" . ace-jump-char-mode)
+         ("H-j l" . ace-jump-line-mode)
+         ("H-j v" . ace-jump-mode)
+         )
   )
 
 ;;; Highlight-Indentation
@@ -600,9 +600,9 @@
 ;; (use-package telephone-line
 ;;   :init
 ;;   (setq telephone-line-primary-right-separator 'telephone-line-halfcos-left
-;;	telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
-;;	telephone-line-primary-left-separator 'telephone-line-halfcos-left
-;;	telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
+;;      telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
+;;      telephone-line-primary-left-separator 'telephone-line-halfcos-left
+;;      telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
 ;;   (telephone-line-mode 1))
 
 ;;; Org-Mode
@@ -614,17 +614,17 @@
 ;;   (setq org-agenda-skip-scheduled-if-done t)
 ;;   (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
 ;;   :bind (("C-c l" . org-store-link)
-;;	 ("C-c a" . org-agenda)
-;;	 ("C-c c" . org-capture)
-;;	 ("C-c b" . org-switchb)))
+;;       ("C-c a" . org-agenda)
+;;       ("C-c c" . org-capture)
+;;       ("C-c b" . org-switchb)))
 
 (setq org-agenda-skip-scheduled-if-done t)
 (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
 (setq org-agenda-files (quote ("~/docs/org-files/yearlyevents.org"
-			       "~/docs/org-files/events.org"
-			       "~/docs/org-files/skillRequirements.org"
-			       "~/docs/org-files/jobStatus.org"
-			       "~/docs/org-files/agenda.org")))
+                               "~/docs/org-files/events.org"
+                               "~/docs/org-files/skillRequirements.org"
+                               "~/docs/org-files/jobStatus.org"
+                               "~/docs/org-files/agenda.org")))
 
 
 (bind-key "C-c l" 'org-store-link)
@@ -652,7 +652,7 @@
 (use-package move-text
   ;;:config (move-text-default-bindings)) ;; uses M-up and M-down
   :bind (("M-P" . move-text-up)
-	 ("M-N" . move-text-down)))
+         ("M-N" . move-text-down)))
 
 ;;; operate-on-number
 ;;  ---------------------------------------------------------------------------
@@ -680,25 +680,25 @@
   (crux-reopen-as-root-mode)
   (crux-with-region-or-line comment-or-uncomment-region)
   :bind (("H-c i" . crux-find-user-init-file)
-	 ("H-u"   . crux-kill-line-backwards)
-	 ("H-c o" . crux-open-with)
-	 ("<H-return>" . crux-smart-open-line)
-	 ("<H-S-return>" . crux-smart-open-line-above)
-	 ("H-c n" . crux-cleanup-buffer-or-region)
-	 ("H-c 2" . crux-transpose-windows)
-	 ("H-c D" . crux-delete-file-and-buffer)
-	 ("H-c C" . crux-copy-file-preserve-attributes)
-	 ("H-c C-c" . crux-duplicate-and-comment-current-line-or-region)
-	 ("H-c r" . crux-rename-file-and-buffer)
-	 ("H-c t" . crux-visit-term-buffer)
-	 ("H-c K" . crux-kill-other-buffers)
-	 ("H-c S" . crux-find-shell-init-file)
-	 ("H-6" . crux-top-join-line)
-	 ("H-k" . crux-kill-whole-line)
-	 ("H-c u" . crux-upcase-region)
-	 ("H-c l" . crux-downcase-region)
-	 ("H-c M-c" . crux-capitalize-region)
-  ))
+         ("H-u"   . crux-kill-line-backwards)
+         ("H-c o" . crux-open-with)
+         ("<H-return>" . crux-smart-open-line)
+         ("<H-S-return>" . crux-smart-open-line-above)
+         ("H-c n" . crux-cleanup-buffer-or-region)
+         ("H-c 2" . crux-transpose-windows)
+         ("H-c D" . crux-delete-file-and-buffer)
+         ("H-c C" . crux-copy-file-preserve-attributes)
+         ("H-c C-c" . crux-duplicate-and-comment-current-line-or-region)
+         ("H-c r" . crux-rename-file-and-buffer)
+         ("H-c t" . crux-visit-term-buffer)
+         ("H-c K" . crux-kill-other-buffers)
+         ("H-c S" . crux-find-shell-init-file)
+         ("H-6" . crux-top-join-line)
+         ("H-k" . crux-kill-whole-line)
+         ("H-c u" . crux-upcase-region)
+         ("H-c l" . crux-downcase-region)
+         ("H-c M-c" . crux-capitalize-region)
+         ))
 
 ;;; ace-window
 ;;  ---------------------------------------------------------------------------
@@ -735,9 +735,9 @@
   ;; Allows TAB to select and complete at the same time.
   (company-tng-configure-default)
   (setq company-frontends
-	'(company-tng-frontend
-	  company-pseudo-tooltip-frontend
-	  company-echo-metadata-frontend))
+        '(company-tng-frontend
+          company-pseudo-tooltip-frontend
+          company-echo-metadata-frontend))
   )
 
 ;;; terraform-mode and company-terraform
@@ -770,9 +770,9 @@
 ;;  ---------------------------------------------------------------------------
 (use-package string-inflection
   :bind (("H-q q" . string-inflection-all-cycle)
-	 ("H-q p" . string-inflection-python-style-cycle)
-	 ("H-q r" . string-inflection-ruby-style-cycle)
-	 ("H-q j" . string-infleciton-java-style-cycle))
+         ("H-q p" . string-inflection-python-style-cycle)
+         ("H-q r" . string-inflection-ruby-style-cycle)
+         ("H-q j" . string-infleciton-java-style-cycle))
   )
 
 ;;; phi-search
@@ -781,8 +781,8 @@
   :init
   (require 'phi-replace)
   :bind (("C-s" . phi-search)
-	 ("C-r" . phi-search-backward)
-	 ("H-r" . phi-replace-query)))
+         ("C-r" . phi-search-backward)
+         ("H-r" . phi-replace-query)))
 
 ;;; init.el ends here
 (custom-set-variables
