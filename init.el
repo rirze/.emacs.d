@@ -291,7 +291,7 @@
 		     spinner
 		     ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
 		     switch-window
-		     telephone-line
+		     ;; telephone-line
 		     use-package
 		     bind-key
 		     web-server
@@ -594,13 +594,13 @@
 
 ;;; Telephone Line (powerline)
 ;;  ----------------------------------------------------------------------------
-(use-package telephone-line
-  :init
-  (setq telephone-line-primary-right-separator 'telephone-line-halfcos-left
-	telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
-	telephone-line-primary-left-separator 'telephone-line-halfcos-left
-	telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
-  (telephone-line-mode 1))
+;; (use-package telephone-line
+;;   :init
+;;   (setq telephone-line-primary-right-separator 'telephone-line-halfcos-left
+;;	telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
+;;	telephone-line-primary-left-separator 'telephone-line-halfcos-left
+;;	telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
+;;   (telephone-line-mode 1))
 
 ;;; Org-Mode
 ;;  ----------------------------------------------------------------------------
