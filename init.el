@@ -146,6 +146,8 @@
 (setq vc-handled-backends '(Git))
 (setq tramp-verbose 1)
 
+;; SPACES
+(setq-default indent-tabs-mode nil)
 
 ;;; Appearance
 ;;  ----------------------------------------------------------------------------
@@ -235,6 +237,7 @@
 		     auto-yasnippet
 		     ;;autopair
 		     dumb-jump
+                     diminish
 		     lsp-mode ;eglot
 		     ;;ein-mumamo
 		     ;;ein
