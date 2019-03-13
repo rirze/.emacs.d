@@ -142,13 +142,6 @@
 ;; paste like civilized people - C-y
 (global-unset-key [mouse-2])
 
-;; Tramp Settings
-(setq vc-handled-backends '(Git))
-(setq tramp-verbose 1)
-
-;; dired settings
-(setq dired-dwim-target t)
-
 ;; SPACES
 (setq-default indent-tabs-mode nil)
 
@@ -176,7 +169,7 @@
  '(mode-line ((t (:background "dark sea green" :foreground "black" :box nil))))
  '(mode-line-inactive ((t (:background "DarkSeaGreen1" :foreground "dim gray" :box nil)))))
 
-;; (set-face-attribute 'default nil :font "Ubuntu Mono" :height 110)
+(set-face-attribute 'default nil :font "Ubuntu Mono" :height 110)
 
 ;;; Custom Key Bindings
 ;;  ---------------------------------------------------------------------------
@@ -217,6 +210,56 @@
 
 (bind-key "H-l l" 'select-current-line)
 
+(defun my/smarter-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
+
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there.
+
+Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/"
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+;; remap C-a to `smarter-move-beginning-of-line'
+(global-set-key [remap move-beginning-of-line]
+                'my/smarter-move-beginning-of-line)
+
+;; Move more quickly
+(global-set-key (kbd "C-S-n")
+                (lambda ()
+                  (interactive)
+                  (ignore-errors (next-line 5))))
+
+(global-set-key (kbd "C-S-p")
+                (lambda ()
+                  (interactive)
+                  (ignore-errors (previous-line 5))))
+
+(global-set-key (kbd "C-S-f")
+                (lambda ()
+                  (interactive)
+                  (ignore-errors (forward-char 5))))
+
+(global-set-key (kbd "C-S-b")
+                (lambda ()
+                  (interactive)
+                  (ignore-errors (backward-char 5))))
+
 ;;; Default Emacs Packages Configuration
 ;;  ---------------------------------------------------------------------------
 
@@ -226,12 +269,25 @@
 
 ;; Tramp
 (require 'tramp)
-(setq tramp-default-method "ssh")
+(setq tramp-default-method "scp")
 
 ;; configure sh-mode
 ;; recognize bash config files as sh scripts
 ;; TODO: make this more elegant
 (add-to-list 'auto-mode-alist '(".*\\.bash.*\\'" . sh-mode))
+
+;; Recent files
+(require 'recentf)
+(setq recentf-max-saved-items 200
+      recentf-max-menu-items 15)
+(recentf-mode)
+
+;; Tramp Settings
+(setq vc-handled-backends '(Git))
+(setq tramp-verbose 1)
+
+;; dired settings
+(setq dired-dwim-target t)
 
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
@@ -787,6 +843,13 @@
   :bind (("C-s" . phi-search)
          ("C-r" . phi-search-backward)
          ("H-r" . phi-replace-query)))
+
+;;; expand-region
+;;  ---------------------------------------------------------------------------
+(use-package expand-region
+  :defer t
+  :bind (("H-[" . er/expand-region)
+         ("H-]" . er/contract-region)))
 
 ;;; init.el ends here
 (custom-set-variables
