@@ -145,6 +145,9 @@
 ;; SPACES
 (setq-default indent-tabs-mode nil)
 
+;; Don't write lock-files, I'm the only one here
+(setq create-lockfiles nil)
+
 ;;; Appearance
 ;;  ----------------------------------------------------------------------------
 
@@ -186,6 +189,17 @@
 (bind-key "H-a" 'align-current)
 (bind-key "H-w" 'eval-region)
 (bind-key "H-L" 'display-line-numbers-mode)
+(bind-key "M-g l" 'goto-line)
+(bind-key "<C-M-backspace>" 'backward-kill-sexp)
+(bind-key "C-c m b" 'eval-buffer)
+(bind-key "C-c m e" 'eval-last-sexp)
+(bind-key "C-c m i" 'eval-expression)
+(bind-key "C-c m d" 'eval-defun)
+(bind-key "C-c m n" 'eval-print-last-sexp)
+(bind-key "C-c m r" 'eval-region)
+
+
+
 
 (defhydra frame-resize-hydra (:hint nil)
   "
@@ -288,6 +302,13 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;; dired settings
 (setq dired-dwim-target t)
+(setq dired-hide-details-hide-symlink-targets nil)
+(setq dired-listing-switches "-alhv")
+(setq dired-omit-files "^\\.\\|^#.*#$")
+(setq dired-omit-verbose nil)
+(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
+(setq dired-subtree-line-prefix " ")
 
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
@@ -505,7 +526,10 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (use-package magit
   :bind (("C-x g" . magit-status))
   :config
-  (use-package magit-popup))
+  (use-package magit-popup)
+  :init
+  (setq magit-stage-all-confirm nil)
+  (setq magit-unstage-all-confirm nil))
 
 ;; Silversearcher support - faster-than-grep
 (use-package ag)
@@ -850,6 +874,14 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :defer t
   :bind (("H-[" . er/expand-region)
          ("H-]" . er/contract-region)))
+
+(use-package smart-hungry-delete
+  :ensure t
+  :bind (("H-d" . smart-hungry-delete-backward-char)
+         ("C-d" . smart-hungry-delete-forward-char))
+  :defer nil ;; dont defer so we can add our functions to hooks
+  :config (smart-hungry-delete-add-default-hooks)
+  )
 
 ;;; init.el ends here
 (custom-set-variables
