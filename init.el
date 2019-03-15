@@ -531,6 +531,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   (setq magit-stage-all-confirm nil)
   (setq magit-unstage-all-confirm nil))
 
+(use-package forge)
+
 ;; Silversearcher support - faster-than-grep
 (use-package ag)
 
@@ -577,7 +579,10 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   (use-package helm-ag)
   (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
   :bind (("M-x" . helm-M-x)
-         ("C-x C-f" . helm-find-files)))
+         ("C-x C-f" . helm-find-files)
+         ("C-x b" . helm-buffers-list)
+         ("C-z" . helm-select-action)
+         ("M-y" . helm-show-kill-ring)))
 
 ;; Dumb jump
 (use-package dumb-jump
@@ -891,4 +896,4 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (phi-search string-inflection nlinum powershell fill-column-indicator fci-mode company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
+    (forge phi-search string-inflection nlinum powershell fill-column-indicator fci-mode company-tabnine restart-emacs company-mode company-terraform ace-jump-mode go-mode yaml-mode xterm-color web-server use-package telephone-line switch-window smartparens shell-switcher rainbow-mode rainbow-delimiters project-explorer pos-tip php-mode ob-ipython multiple-cursors markdown-mode magit-popup magit lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks helm-system-packages helm-sage helm-projectile helm-ag flycheck-inline exec-path-from-shell elpy ein-mumamo dumb-jump auto-yasnippet auto-compile ag))))
