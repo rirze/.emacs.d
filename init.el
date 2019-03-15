@@ -538,12 +538,12 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;  ----------------------------------------------------------------------------
 
 ;; IDO
-(use-package ido
-  :config
-  (use-package ido-vertical-mode)
-  (use-package ido-hacks)
-  (ido-mode t)
-  (ido-vertical-mode))
+;; (use-package ido
+;;   :config
+;;   (use-package ido-vertical-mode)
+;;   (use-package ido-hacks)
+;;   (ido-mode t)
+;;   (ido-vertical-mode))
 
 ;; (defun ido-find-file-in-tag-files ()
 ;;   (interactive)
