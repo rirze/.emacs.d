@@ -32,7 +32,7 @@
 ;; Restore after startup
 (add-hook 'after-init-hook
           (lambda ()
-            (setq gc-cons-threshold 1000000)
+            (setq gc-cons-threshold 10000000)
             (message "gc-cons-threshold restored to %S"
                      gc-cons-threshold)))
 
