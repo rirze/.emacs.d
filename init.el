@@ -193,8 +193,7 @@
 
 ;; use-package-hydra
 (use-package hydra)
-(use-package use-package-hydra
-  :ensure t)
+(use-package use-package-hydra)
 
 
 (bind-key "H-K" 'kill-this-buffer)
@@ -829,7 +828,6 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;  ---------------------------------------------------------------------------
 (use-package company
   :defer t
-  :ensure
   :init (add-hook 'after-init-hook 'global-company-mode)
   :config
   (setq company-idle-delay 0)
@@ -848,20 +846,18 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;; terraform-mode and company-terraform
 ;;  ---------------------------------------------------------------------------
 (use-package terraform-mode
-  :ensure
   :config
   (use-package company)
   (use-package company-quickhelp
     :config (company-quickhelp-mode))
   (use-package company-terraform
-    :ensure
     :defer (company-terraform-init)
     :hook (terraform-mode . company-terraform-init)
     ))
 
 ;;; company-tabnine
 ;;  ---------------------------------------------------------------------------
-(use-package company-tabnine :ensure t)
+(use-package company-tabnine)
 
 ;;; restart-emacs
 ;;  ---------------------------------------------------------------------------
@@ -897,7 +893,6 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
          ("H-]" . er/contract-region)))
 
 (use-package smart-hungry-delete
-  :ensure t
   :bind (("H-d" . smart-hungry-delete-backward-char)
          ("C-d" . smart-hungry-delete-forward-char))
   :defer nil ;; dont defer so we can add our functions to hooks
