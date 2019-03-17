@@ -172,7 +172,9 @@
  '(mode-line ((t (:background "dark sea green" :foreground "black" :box nil))))
  '(mode-line-inactive ((t (:background "DarkSeaGreen1" :foreground "dim gray" :box nil)))))
 
-(set-face-attribute 'default nil :font "Ubuntu Mono" :height 110)
+(set-face-attribute 'default nil :font "Operator Mono Book" :height 100)
+;; (set-frame-font "Operator Mono Book-9" nil t) ;; this messes up my dpi? either way the text looks realllly small when i use emacs-daemon
+
 
 ;;; Custom Key Bindings
 ;;  ---------------------------------------------------------------------------
@@ -189,7 +191,7 @@
 (bind-key "H-a" 'align-current)
 (bind-key "H-w" 'eval-region)
 (bind-key "H-L" 'display-line-numbers-mode)
-(bind-key "M-g l" 'goto-line)
+(bind-key "H-l g" 'goto-line)
 (bind-key "<C-M-backspace>" 'backward-kill-sexp)
 (bind-key "C-c m b" 'eval-buffer)
 (bind-key "C-c m e" 'eval-last-sexp)
@@ -768,6 +770,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :config
   (crux-reopen-as-root-mode)
   (crux-with-region-or-line comment-or-uncomment-region)
+  (crux-with-region-or-line eval-region)
   :bind (("H-c i" . crux-find-user-init-file)
          ("H-u"   . crux-kill-line-backwards)
          ("H-c o" . crux-open-with)
