@@ -158,21 +158,28 @@
 
 
 ;; use zenburn as the default theme
-(use-package zenburn-theme)
-(load-theme 'zenburn t)
+(use-package zenburn-theme
+  :config
+  (let ((line (face-attribute 'mode-line :underline)))
+    (zenburn-with-color-variables
+      (set-face-attribute 'mode-line          nil :overline   line)
+      (set-face-attribute 'mode-line-inactive nil :overline   line)
+      (set-face-attribute 'mode-line-inactive nil :underline  line)
+      (set-face-attribute 'mode-line          nil :box        nil)
+      (set-face-attribute 'mode-line-inactive nil :box        nil)
+      (set-face-attribute 'mode-line          nil :background zenburn-bg-2)
+      (set-face-attribute 'mode-line-inactive nil :background zenburn-bg-1)
+      (set-face-attribute 'mode-line          nil :foreground zenburn-green+4)
+      (set-face-attribute 'mode-line-inactive nil :foreground "gray70")))
+    :init
+    (load-theme 'zenburn t)
+  )
 
 ;; highlight the current line
 (global-hl-line-mode +1)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(mode-line ((t (:background "dark sea green" :foreground "black" :box nil))))
- '(mode-line-inactive ((t (:background "DarkSeaGreen1" :foreground "dim gray" :box nil)))))
-
-(set-face-attribute 'default nil :font "Operator Mono Book" :height 100)
+(set-face-attribute 'default nil :font "Source Code Pro SemiBold" :height 90)
+;; (set-face-attribute 'bold nil :font "Operator Mono Bold" : :height 90)
 ;; (set-frame-font "Operator Mono Book-9" nil t) ;; this messes up my dpi? either way the text looks realllly small when i use emacs-daemon
 
 
@@ -408,6 +415,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;; Color comprehension
 (use-package rainbow-mode
+  :diminish rainbow-mode
   :config
   (setq rainbow-x-colors nil)
   (add-hook 'prog-mode-hook 'rainbow-mode))
@@ -563,6 +571,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;; Projectile
 (use-package projectile
+  :diminish projectile-mode
   :bind-keymap
   ("H-p" . projectile-command-map)
   :init
