@@ -30,6 +30,13 @@
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
 
+
+;; quelpa and quelpa-use-package
+(use-package quelpa
+  :config
+  (setq quelpa-upgrade-p t))
+(use-package quelpa-use-package)
+
 ;; Increase Garbage Collector size, improves startup speed
 (setq gc-cons-threshold 50000000)
 
@@ -364,7 +371,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                      multiple-cursors
                      ob-ipython
                      dash-functional
-                     org
+                     ;; org
                      ;;org-ehtml
                      php-mode
                      popup
@@ -721,20 +728,22 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;       ("C-c c" . org-capture)
 ;;       ("C-c b" . org-switchb)))
 
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
-(setq org-agenda-files (quote ("~/docs/org-files/yearlyevents.org"
-                               "~/docs/org-files/events.org"
-                               "~/docs/org-files/skillRequirements.org"
-                               "~/docs/org-files/jobStatus.org"
-                               "~/docs/org-files/agenda.org")))
-
-
-(bind-key "C-c l" 'org-store-link)
-(bind-key "C-c a" 'org-agend)
-(bind-key "C-c c" 'org-capture)
-(bind-key "C-c b" 'org-switchb)
-
+(use-package org
+  :quelpa (org-mode :fetcher git :url "https://code.orgmode.org/bzg/org-mode.git")
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+  (setq org-agenda-files (quote ("~/docs/org-files/yearlyevents.org"
+                                 "~/docs/org-files/events.org"
+                                 "~/docs/org-files/skillRequirements.org"
+                                 "~/docs/org-files/jobStatus.org"
+                                 "~/docs/org-files/agenda.org")))
+  :bind
+  (("H-o l" . org-store-link)
+   ("H-o a" . org-agend)
+   ("H-o c" . org-capture)
+   ("H-o b" . org-switchb)
+   )
+  )
 
 ;;; aggressive-indent-mode
 ;;  ---------------------------------------------------------------------------
@@ -806,8 +815,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;;; ace-window
 ;;  ---------------------------------------------------------------------------
-(use-package ace-window
-  :bind (("H-o" . ace-window)))
+;; (use-package ace-window
+;;   :bind (("H-o" . ace-window)))
 
 ;;; tiny
 ;;  ---------------------------------------------------------------------------
