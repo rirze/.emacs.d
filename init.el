@@ -551,7 +551,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   (setq magit-stage-all-confirm nil)
   (setq magit-unstage-all-confirm nil))
 
-(use-package forge)
+(use-package forge
+  :defer t)
 
 ;; Silversearcher support - faster-than-grep
 (use-package ag)
@@ -855,6 +856,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;; terraform-mode and company-terraform
 ;;  ---------------------------------------------------------------------------
 (use-package terraform-mode
+  :defer t
   :config
   (use-package company)
   (use-package company-quickhelp
@@ -909,3 +911,17 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   )
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (org-mode quelpa-use-package quelpa zenburn-theme yaml-mode xterm-color which-key websocket web-server use-package-hydra tiny telephone-line switch-window string-inflection smartparens smart-hungry-delete shell-switcher restart-emacs request rainbow-mode rainbow-delimiters project-explorer powershell php-mode phi-search operate-on-number ob-ipython nlinum multiple-cursors move-text magit-popup lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks hydra helm-system-packages helm-projectile helm-ag guru-mode go-mode forge flycheck-inline fill-column-indicator expand-region exec-path-from-shell elpy dumb-jump discover-my-major diminish deferred crux company-terraform company-tabnine company-quickhelp auto-yasnippet auto-complete auto-compile auctex aggressive-indent ag ace-window ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
