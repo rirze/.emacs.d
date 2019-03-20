@@ -116,8 +116,22 @@
 (tool-bar-mode -1)
 
 ;; switch-window
-(use-package switch-window)
-(global-set-key (kbd "C-x o") 'switch-window)
+(use-package switch-window
+  :config
+  (setq switch-window-minibuffer-shortcut ?z)
+  :bind
+  (("H-o w" . switch-window)
+   ("H-o m" . switch-window-then-maximize)
+   ("H-o v" . switch-window-then-split-below)
+   ("H-o h" . switch-window-then-split-right)
+   ("H-o r" . switch-window-then-delete)
+   ("H-o d" . switch-window-then-dired)
+   ("H-o f" . switch-window-then-find-file)
+   ("H-o M" . switch-window-then-compose-mail)
+   ("H-o n" . switch-window-then-find-file-read-only)
+   ("H-o C-f" . switch-window-then-find-file)
+   ("H-o C-o" . switch-window-then-display-buffer))
+  )
 
 ;; [DHA] I *never* use the stupid thing..
 (menu-bar-mode -1)
