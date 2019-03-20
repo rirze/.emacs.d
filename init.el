@@ -369,16 +369,15 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                      helm-system-packages
                      helm
                      helm-core
-                     highlight-indentation
+                     ;; highlight-indentation
                      ;;htmlize
-                     ido-hacks
+                     ;; ido-hacks
                      ;;ido-vertical-mode
-                     ivy
+                     ;; ivy
                      json-mode
                      json-reformat
                      json-snatcher
                      jsonrpc
-                     magit
                      git-commit
                      magit-popup
                      ;;mmm-mode
@@ -393,10 +392,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                      es-windows
                      es-lib
                      pyvenv
-                     pos-tip
                      request
                      markdown-mode
-                     projectile
                      pkg-info
                      epl
                      f
@@ -408,8 +405,6 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                      ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
                      switch-window
                      ;; telephone-line
-                     use-package
-                     bind-key
                      web-server
                      websocket
                      with-editor
@@ -924,6 +919,16 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :config (smart-hungry-delete-add-default-hooks)
   )
 
+(use-package tide
+  :defer t
+  :after (typescript-mode company flycheck)
+  :config
+  (setq tide-format-options '(:tabSize 2
+                                       :indentSize 2))
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
+
 ;;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -932,7 +937,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-mode quelpa-use-package quelpa zenburn-theme yaml-mode xterm-color which-key websocket web-server use-package-hydra tiny telephone-line switch-window string-inflection smartparens smart-hungry-delete shell-switcher restart-emacs request rainbow-mode rainbow-delimiters project-explorer powershell php-mode phi-search operate-on-number ob-ipython nlinum multiple-cursors move-text magit-popup lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks hydra helm-system-packages helm-projectile helm-ag guru-mode go-mode forge flycheck-inline fill-column-indicator expand-region exec-path-from-shell elpy dumb-jump discover-my-major diminish deferred crux company-terraform company-tabnine company-quickhelp auto-yasnippet auto-complete auto-compile auctex aggressive-indent ag ace-window ace-jump-mode))))
+    (tide org-mode quelpa-use-package quelpa zenburn-theme yaml-mode xterm-color which-key websocket web-server use-package-hydra tiny telephone-line switch-window string-inflection smartparens smart-hungry-delete shell-switcher restart-emacs request rainbow-mode rainbow-delimiters project-explorer powershell php-mode phi-search operate-on-number ob-ipython nlinum multiple-cursors move-text magit-popup lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks hydra helm-system-packages helm-projectile helm-ag guru-mode go-mode forge flycheck-inline fill-column-indicator expand-region exec-path-from-shell elpy dumb-jump discover-my-major diminish deferred crux company-terraform company-tabnine company-quickhelp auto-yasnippet auto-complete auto-compile auctex aggressive-indent ag ace-window ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
