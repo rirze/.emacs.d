@@ -351,15 +351,15 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (setq package-list '(ag
                      auto-yasnippet
                      ;;autopair
-                     dumb-jump
+                     ;; dumb-jump
                      diminish
                      ;;lsp-mode ;eglot
                      ;;ein-mumamo
                      ;;ein
                      auto-complete
-                     elpy
+                     ;; elpy
                      ;;company
-                     exec-path-from-shell
+                     ;; exec-path-from-shell
                      fill-column-indicator
                      ;;find-file-in-project
                      flycheck
@@ -381,9 +381,9 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                      json-snatcher
                      jsonrpc
                      git-commit
-                     magit-popup
+                     ;; magit-popup
                      ;;mmm-mode
-                     multiple-cursors
+                     ;; multiple-cursors
                      ob-ipython
                      dash-functional
                      ;; org
@@ -405,7 +405,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                      shell-switcher
                      spinner
                      ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
-                     switch-window
+                     ;; switch-window
                      ;; telephone-line
                      web-server
                      websocket
@@ -419,7 +419,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   (package-refresh-contents))
 (dolist (package package-list)
   (unless (package-installed-p package)
-    (package-install package)))
+    (use-package package)))
 
 
 
@@ -945,17 +945,3 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
          (before-save . tide-format-before-save)))
 
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (tide org-mode quelpa-use-package quelpa zenburn-theme yaml-mode xterm-color which-key websocket web-server use-package-hydra tiny telephone-line switch-window string-inflection smartparens smart-hungry-delete shell-switcher restart-emacs request rainbow-mode rainbow-delimiters project-explorer powershell php-mode phi-search operate-on-number ob-ipython nlinum multiple-cursors move-text magit-popup lsp-mode jsonrpc json-mode hydra helm-system-packages helm-projectile helm-ag guru-mode go-mode forge flycheck-inline fill-column-indicator expand-region exec-path-from-shell elpy dumb-jump discover-my-major diminish deferred crux company-terraform company-tabnine company-quickhelp auto-yasnippet auto-complete auto-compile auctex aggressive-indent ag ace-window ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
