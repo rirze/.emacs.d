@@ -422,7 +422,6 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
     (use-package package)))
 
 
-
 ;; Smartparens - keep parentheses balanced (from Jamie's)
 (use-package smartparens
   :diminish smartparens-mode
@@ -444,6 +443,9 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;; Flycheck
 (use-package flycheck
   :config
+  (setq flycheck-python-flake8-executable "python3"
+        flycheck-python-pylint-executable "python3"
+        flycheck-python-mypy-executable   "python3")
   (global-flycheck-mode))
 (use-package flycheck-inline
   :config
@@ -645,6 +647,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;; Elpy makes Emacs a full Python IDE. Do I want that? I dunno yet. Guess I'll try it...
 (use-package elpy
   :config
+  (setq elpy-rpc-python-command "python3")
   (elpy-enable))
 
 ;;; Markdown (from Jamie's)
