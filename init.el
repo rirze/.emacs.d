@@ -119,6 +119,8 @@
 (use-package switch-window
   :config
   (setq switch-window-minibuffer-shortcut ?z)
+  (setq switch-window-shortcut-style 'qwerty)
+  (setq switch-window-preferred 'helm)
   :bind
   (("H-o w" . switch-window)
    ("H-o m" . switch-window-then-maximize)
@@ -129,8 +131,8 @@
    ("H-o f" . switch-window-then-find-file)
    ("H-o M" . switch-window-then-compose-mail)
    ("H-o n" . switch-window-then-find-file-read-only)
-   ("H-o C-f" . switch-window-then-find-file)
-   ("H-o C-o" . switch-window-then-display-buffer))
+   ("H-o H-f" . switch-window-then-find-file)
+   ("H-o H-o" . switch-window-then-display-buffer))
   )
 
 ;; [DHA] I *never* use the stupid thing..
@@ -351,7 +353,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                      ;;autopair
                      dumb-jump
                      diminish
-                     lsp-mode ;eglot
+                     ;;lsp-mode ;eglot
                      ;;ein-mumamo
                      ;;ein
                      auto-complete
@@ -609,6 +611,9 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   (use-package helm-projectile)
   (use-package helm-ag)
   (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+  ;; use helm everywhere
+  ;; (advice-add 'find-file :override 'helm-find-files)
+  ;; (advice-add 'switch-to-buffer :override 'helm-buffers-list)
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
@@ -738,8 +743,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;       ("C-c c" . org-capture)
 ;;       ("C-c b" . org-switchb)))
 
-(use-package org
-  :quelpa (org-mode :fetcher git :url "https://code.orgmode.org/bzg/org-mode.git")
+(use-package org-mode
+  :quelpa (org-mode :fetcher git :url "https://code.orgmode.org/bzg/org-mode.git" :branch "maint")
   (setq org-agenda-skip-scheduled-if-done t)
   (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
   (setq org-agenda-files (quote ("~/docs/org-files/yearlyevents.org"
@@ -748,10 +753,10 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                                  "~/docs/org-files/jobStatus.org"
                                  "~/docs/org-files/agenda.org")))
   :bind
-  (("H-o l" . org-store-link)
-   ("H-o a" . org-agend)
-   ("H-o c" . org-capture)
-   ("H-o b" . org-switchb)
+  (("H-r l" . org-store-link)
+   ("H-r a" . org-agend)
+   ("H-r c" . org-capture)
+   ("H-r b" . org-switchb)
    )
   )
 
@@ -879,6 +884,16 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;  ---------------------------------------------------------------------------
 (use-package company-tabnine)
 
+;;; company-lsp
+;;  ---------------------------------------------------------------------------
+(use-package lsp-mode
+  :init
+  :config
+  (use-package company-lsp
+    :config
+    (push 'company-lsp company-backends)
+    )
+)
 ;;; restart-emacs
 ;;  ---------------------------------------------------------------------------
 (use-package restart-emacs)
@@ -937,7 +952,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (tide org-mode quelpa-use-package quelpa zenburn-theme yaml-mode xterm-color which-key websocket web-server use-package-hydra tiny telephone-line switch-window string-inflection smartparens smart-hungry-delete shell-switcher restart-emacs request rainbow-mode rainbow-delimiters project-explorer powershell php-mode phi-search operate-on-number ob-ipython nlinum multiple-cursors move-text magit-popup lsp-mode jsonrpc json-mode ido-vertical-mode ido-hacks hydra helm-system-packages helm-projectile helm-ag guru-mode go-mode forge flycheck-inline fill-column-indicator expand-region exec-path-from-shell elpy dumb-jump discover-my-major diminish deferred crux company-terraform company-tabnine company-quickhelp auto-yasnippet auto-complete auto-compile auctex aggressive-indent ag ace-window ace-jump-mode))))
+    (tide org-mode quelpa-use-package quelpa zenburn-theme yaml-mode xterm-color which-key websocket web-server use-package-hydra tiny telephone-line switch-window string-inflection smartparens smart-hungry-delete shell-switcher restart-emacs request rainbow-mode rainbow-delimiters project-explorer powershell php-mode phi-search operate-on-number ob-ipython nlinum multiple-cursors move-text magit-popup lsp-mode jsonrpc json-mode hydra helm-system-packages helm-projectile helm-ag guru-mode go-mode forge flycheck-inline fill-column-indicator expand-region exec-path-from-shell elpy dumb-jump discover-my-major diminish deferred crux company-terraform company-tabnine company-quickhelp auto-yasnippet auto-complete auto-compile auctex aggressive-indent ag ace-window ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
