@@ -100,6 +100,9 @@
 ;; test out Save Place
 (save-place-mode 1)
 
+;; get that outta here!
+(setq custom-file (make-temp-file "emacs-custom"))
+
 ;;; Interface
 ;;  ----------------------------------------------------------------------------
 
