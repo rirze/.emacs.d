@@ -209,6 +209,7 @@
 (global-hl-line-mode +1)
 
 (set-face-attribute 'default nil :font "Source Code Pro SemiBold" :height 90)
+;; (setq default-frame-alist '((font . "Inconsolata-dz-15")))
 ;; (set-face-attribute 'bold nil :font "Operator Mono Bold" : :height 90)
 ;; (set-frame-font "Operator Mono Book-9" nil t) ;; this messes up my dpi? either way the text looks realllly small when i use emacs-daemon
 
@@ -615,6 +616,11 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :config
   (use-package helm-projectile)
   (use-package helm-ag)
+  (use-package helm-company
+    :config
+    (progn
+     (define-key company-mode-map (kbd "H-;") 'helm-company)
+     (define-key company-active-map (kbd "H-;") 'helm-company)))
   (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
   ;; use helm everywhere
   ;; (advice-add 'find-file :override 'helm-find-files)
@@ -843,7 +849,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;  ---------------------------------------------------------------------------
 (use-package tiny
   ;;  :init  (tiny-setup-default)
-  :bind (("H-;" . tiny-expand)))
+  :bind (("H-'" . tiny-expand)))
 
 ;; Examples of Tiny
 ;; m5 10*xx -> 25 36 49 64 81 100
