@@ -348,6 +348,10 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (setq dired-recursive-copies 'always)
 (setq dired-recursive-deletes 'always)
 (setq dired-subtree-line-prefix " ")
+(use-package dired-avfs)
+(use-package dired-subtree)
+(use-package dired-collapse)
+(add-hook 'dired-mode 'dired-collapse-mode)
 
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
@@ -928,6 +932,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (use-package phi-search
   :init
   (require 'phi-replace)
+  :config
+  (setq phi-search-limit 10000)
   :bind (("C-s" . phi-search)
          ("C-r" . phi-search-backward)
          ("H-r" . phi-replace-query)))
