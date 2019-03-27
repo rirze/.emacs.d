@@ -570,7 +570,9 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   (use-package magit-popup)
   :init
   (setq magit-stage-all-confirm nil)
-  (setq magit-unstage-all-confirm nil))
+  (setq magit-unstage-all-confirm nil)
+  (setq magit-completing-read-function 'helm--completing-read-default))
+
 
 (use-package forge
   :defer t)
@@ -961,5 +963,11 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
          (before-save . tide-format-before-save)))
+
+(use-package helm-posframe
+  :init
+  ;; (helm-posframe-enable)
+  :config
+  (setq helm-posframe-poshandler 'posframe-poshandler-frame-center))
 
 ;;; init.el ends here
