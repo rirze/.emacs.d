@@ -470,45 +470,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;; Multiple-cursors
 (use-package multiple-cursors
   :after hydra
-  ;; :bind (("H-m ^"     . mc/edit-beginnings-of-lines)
-  ;;     ("H-m a"     . mc/edit-beginnings-of-lines)
-  ;;     ("H-m $"     . mc/edit-ends-of-lines)
-  ;;     ("H-m e"     . mc/edit-ends-of-lines)
-  ;;     ("H-m R"     . mc/reverse-regions)
-  ;;     ("H-m S"     . mc/sort-regions)
-  ;;     ("H-m W"     . mc/mark-all-words-like-this)
-  ;;     ("H-m Y"     . mc/mark-all-symbols-like-this)
-  ;;     ("H-m A"     . mc/mark-all-like-this-dwim)
-  ;;     ("H-m c"     . mc/mark-all-dwim)
-  ;;     ("H-m l"     . mc/insert-letters)
-  ;;     ("H-m n"     . mc/insert-numbers)
-  ;;     ("H-m r"     . mc/mark-all-in-region)
-  ;;     ("H-m s"     . set-rectangular-region-anchor)
-  ;;     ("H-m %"     . mc/mark-all-in-region-regexp)
-  ;;     ("H-m t"     . mc/mark-sgml-tag-pair)
-  ;;     ("H-m w"     . mc/mark-next-like-this-word)
-  ;;     ("H-m x"     . mc/mark-more-like-this-extended)
-  ;;     ("H-m y"     . mc/mark-next-like-this-symbol)
-  ;;     ("H-m C-x"   . reactivate-mark)
-  ;;     ("H-m C-SPC" . mc/mark-pop)
-  ;;     ("H-m ("     . mc/mark-all-symbols-like-this-in-defun)
-  ;;     ("H-m C-("   . mc/mark-all-words-like-this-in-defun)
-  ;;     ("H-m M-("   . mc/mark-all-like-this-in-defun)
-  ;;     ("H-m ["     . mc/vertical-align-with-space)
-  ;;     ("H-m {"     . mc/vertical-align))
-  ;; :bind (:map region-bindings-mode-map
-  ;;          ("c"   . mc/edit-lines)
-  ;;          ("."   . mc/mark-next-like-this)
-  ;;          ("<"   . mc/unmark-next-like-this)
-  ;;          ("C->" . mc/skip-to-next-like-this)
-  ;;          (","   . mc/mark-previous-like-this)
-  ;;          (">"   . mc/unmark-previous-like-this)
-  ;;          ("C-<" . mc/skip-to-previous-like-this)
-  ;;          ("y"   . mc/mark-next-symbol-like-this)
-  ;;          ("Y"   . mc/mark-previous-symbol-like-this)
-  ;;          ("w"   . mc/mark-next-word-like-this)
-  ;;          ("W"   . mc/mark-previous-word-like-this))
-
+  :init
+  (use-package mc-extras)
   :preface
   (defun reactivate-mark ()
     (interactive)
@@ -518,33 +481,45 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   "
       ^Up^            ^Down^        ^All^                ^Lines^               ^Edit^                 ^Other^
 -----------------------------------------------------------------------------------------------------------------------
-[_p_]   Next    [_n_]   Next    [_A_] All like this  [_E_] Edit lines      [_i_] Insert numbers   [_t_] Tag pair
+[_p_]   Prev    [_n_]   Next    [_A_] All like this  [_E_] Edit lines      [_i_] Insert numbers   [_t_] Tag pair
 [_P_]   Skip    [_N_]   Skip    [_r_] All by regexp  [_a_] Edit line beg.  [_s_] Sort regions     [_._] Set Rect Region
 [_M-p_] Unmark  [_M-n_] Unmark  [_d_] All DWIM       [_e_] Edit line ends. [_R_] Reverse regions  [_q_] Quit
+[_{_] Prev Sexp [_}_] Next Sexp [_<_] All Above      [_|_] Align w/ Space  [_c_] Insert letters
+                                [_>_] All Below      [_/_] Align w/ Char   [_=_] Compare chars
+                                                     [_?_] Move to Column
 "
-  ("p" mc/mark-previous-like-this)
-  ("P" mc/skip-to-previous-like-this)
+  ("p"   mc/mark-previous-like-this)
+  ("P"   mc/skip-to-previous-like-this)
   ("M-p" mc/unmark-previous-like-this)
+  ("{"   mc/mark-previous-sexps)
 
-  ("n" mc/mark-next-like-this)
-  ("N" mc/skip-to-next-like-this)
+  ("n"   mc/mark-next-like-this)
+  ("N"   mc/skip-to-next-like-this)
   ("M-n" mc/unmark-next-like-this)
+  ("}"   mc/mark-next-sexps)
 
-  ("A" mc/mark-all-like-this :exit t)
-  ("r" mc/mark-all-in-region-regexp :exit t)
-  ("d" mc/mark-all-dwim :exit t)
+  ("A"   mc/mark-all-like-this)
+  ("r"   mc/mark-all-in-region-regexp)
+  ("d"   mc/mark-all-dwim)
+  ("<"   mc/mark-all-above)
+  (">"   mc/mark-all-below)
 
-  ("E" mc/edit-lines :exit t)
-  ("a" mc/edit-beginnings-of-lines :exit t)
-  ("e" mc/edit-ends-of-lines :exit t)
+  ("E"   mc/edit-lines)
+  ("a"   mc/edit-beginnings-of-lines)
+  ("e"   mc/edit-ends-of-lines)
+  ("|"   mc/vertical-align-with-space)
+  ("/"   mc/vertical-align)
+  ("?"   mc/move-to-column)
 
-  ("i" mc/insert-numbers)
-  ("s" mc/sort-regions)
-  ("R" mc/reverse-regions)
+  ("i"   mc/insert-numbers)
+  ("s"   mc/sort-regions)
+  ("R"   mc/reverse-regions)
+  ("c"   mc/insert-letters)
+  ("="   mc/compare-chars)
 
-  ("t" mc/mark-sgml-tag-pair)
-  ("q" nil)
-  ("." set-rectangular-region-anchor)
+  ("t"   mc/mark-sgml-tag-pair)
+  ("q"   nil)
+  ("."   set-rectangular-region-anchor)
 
   ;;  ("x" er/expand)
   ("<mouse-1>" mc/add-cursor-on-click)
