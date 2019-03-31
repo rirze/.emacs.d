@@ -11,7 +11,6 @@
 (setq package-check-signature nil)  ; because GNU ELPA keeps choking on the sigs
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 
 ;; don't auto-initialize
 (setq package-enable-at-startup nil
@@ -178,6 +177,9 @@
 ;; Don't write lock-files, I'm the only one here
 (setq create-lockfiles nil)
 
+;; save minibuffer history across sessions
+(savehist-mode 1)
+
 ;;; Appearance
 ;;  ----------------------------------------------------------------------------
 
@@ -201,8 +203,8 @@
       (set-face-attribute 'mode-line-inactive nil :background zenburn-bg-1)
       (set-face-attribute 'mode-line          nil :foreground zenburn-green+4)
       (set-face-attribute 'mode-line-inactive nil :foreground "gray70")))
-    :init
-    (load-theme 'zenburn t)
+  :init
+  (load-theme 'zenburn t)
   )
 
 ;; highlight the current line
@@ -217,6 +219,8 @@
 ;;; Custom Key Bindings
 ;;  ---------------------------------------------------------------------------
 (use-package bind-key)
+
+(use-package general)
 
 ;; use-package-hydra
 (use-package hydra)
@@ -236,9 +240,6 @@
 (bind-key "C-c m d" 'eval-defun)
 (bind-key "C-c m n" 'eval-print-last-sexp)
 (bind-key "C-c m r" 'eval-region)
-
-
-
 
 (defhydra frame-resize-hydra (:hint nil)
   "
@@ -680,6 +681,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;(load "auctex.el" nil t )
 ;;(load "preview-latex.el" nil t t)
 (use-package auctex
+  :defer t
   :mode ("\\.tex\\'" . TeX-latex-mode)
   :config
   (add-hook 'TeX-after-compilation-finished-functions
@@ -705,6 +707,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;; -----------------------------------------------------------------------------
 (use-package highlight-indentation
+  :disabled
   :init
   (set-face-background 'highlight-indentation-face "#4F4F4F")
   (set-face-background 'highlight-indentation-current-column-face "#5F5F5F")
@@ -940,9 +943,24 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
          (before-save . tide-format-before-save)))
 
 (use-package helm-posframe
+  :disabled
+  :defer t
   :init
   ;; (helm-posframe-enable)
   :config
   (setq helm-posframe-poshandler 'posframe-poshandler-frame-center))
+
+(use-package objed
+  :bind ("H-e" . objed-activate))
+
+(use-package scrollkeeper
+  :general ([remap scroll-up-command]   #'scrollkeeper-contents-up
+            [remap scroll-down-command] #'scrollkeeper-contents-down)
+  :custom
+  (scrollkeeper-scroll-distance 0.9)
+  (scrollkeeper-scroll-steps 2)
+  :custom-face
+  (scrollkeeper-guideline-highlight ((t (:background "#BFEBBF"))))
+  )
 
 ;;; init.el ends here
