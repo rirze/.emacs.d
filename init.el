@@ -553,6 +553,48 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (use-package forge
   :defer t)
 
+;; hydra for convienent smerge commands
+;; hydra stolen from alphapapa's unpackaged repository
+(use-package smerge-mode
+  :after hydra
+  :config
+  (defhydra unpackaged/smerge-hydra
+    (:color pink :hint nil :post (smerge-auto-leave))
+    "
+^Move^       ^Keep^               ^Diff^                 ^Other^
+^^-----------^^-------------------^^---------------------^^-------
+_n_ext       _b_ase               _<_: upper/base        _C_ombine
+_p_rev       _u_pper              _=_: upper/lower       _r_esolve
+^^           _l_ower              _>_: base/lower        _k_ill current
+^^           _a_ll                _R_efine
+^^           _RET_: current       _E_diff
+"
+    ("n" smerge-next)
+    ("p" smerge-prev)
+    ("b" smerge-keep-base)
+    ("u" smerge-keep-upper)
+    ("l" smerge-keep-lower)
+    ("a" smerge-keep-all)
+    ("RET" smerge-keep-current)
+    ("\C-m" smerge-keep-current)
+    ("<" smerge-diff-base-upper)
+    ("=" smerge-diff-upper-lower)
+    (">" smerge-diff-base-lower)
+    ("R" smerge-refine)
+    ("E" smerge-ediff)
+    ("C" smerge-combine-with-next)
+    ("r" smerge-resolve)
+    ("k" smerge-kill-current)
+    ("ZZ" (lambda ()
+            (interactive)
+            (save-buffer)
+            (bury-buffer))
+     "Save and bury buffer" :color blue)
+    ("q" nil "cancel" :color blue))
+  :hook (magit-diff-visit-file . (lambda ()
+                                   (when smerge-mode
+                                     (unpackaged/smerge-hydra/body)))))
+
 ;; Silversearcher support - faster-than-grep
 (use-package ag)
 
@@ -718,27 +760,17 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;;; Telephone Line (powerline)
 ;;  ----------------------------------------------------------------------------
-;; (use-package telephone-line
-;;   :init
-;;   (setq telephone-line-primary-right-separator 'telephone-line-halfcos-left
-;;      telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
-;;      telephone-line-primary-left-separator 'telephone-line-halfcos-left
-;;      telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
-;;   (telephone-line-mode 1))
+(use-package telephone-line
+  :disabled
+  :init
+  (setq telephone-line-primary-right-separator 'telephone-line-halfcos-left
+     telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
+     telephone-line-primary-left-separator 'telephone-line-halfcos-left
+     telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
+  (telephone-line-mode 1))
 
 ;;; Org-Mode
 ;;  ----------------------------------------------------------------------------
-;; (use-package org
-;;   :ensure org-plus-contrib
-;;   :init
-;;   (setq org-agenda-files (quote ("~/notes/events.org" "~/notes/homework.org" "~/notes/personal.org")))
-;;   (setq org-agenda-skip-scheduled-if-done t)
-;;   (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
-;;   :bind (("C-c l" . org-store-link)
-;;       ("C-c a" . org-agenda)
-;;       ("C-c c" . org-capture)
-;;       ("C-c b" . org-switchb)))
-
 (use-package org-mode
   :quelpa (org-mode :fetcher git :url "https://code.orgmode.org/bzg/org-mode.git" :branch "maint")
   (setq org-agenda-skip-scheduled-if-done t)
