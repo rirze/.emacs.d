@@ -974,14 +974,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          (typescript-mode . tide-hl-identifier-mode)
          (before-save . tide-format-before-save)))
 
-(use-package helm-posframe
-  :disabled
-  :defer t
-  :init
-  ;; (helm-posframe-enable)
-  :config
-  (setq helm-posframe-poshandler 'posframe-poshandler-frame-center))
-
 (use-package objed
   :bind ("H-e" . objed-activate))
 
@@ -994,5 +986,32 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom-face
   (scrollkeeper-guideline-highlight ((t (:background "#BFEBBF"))))
   )
+
+(use-package torus
+  :bind-keymap ("H-t" . torus-map)
+  :bind (:map torus-map
+              ("t" . torus-copy-to-circle))
+  :hook ((emacs-startup . torus-start)
+           (kill-emacs . torus-quit))
+  :custom ((torus-prefix-key "H-t")
+             (torus-binding-level 3)
+             (torus-verbosity 1)
+             (torus-dirname (concat user-emacs-directory (file-name-as-directory "torus")))
+             (torus-load-on-startup t)
+             (torus-save-on-exit t)
+             (torus-autoread-file (concat torus-dirname "last.el"))
+             (torus-autowrite-file torus-autoread-file)
+             (torus-backup-number 10)
+             (torus-history-maximum-elements 30)
+             (torus-maximum-horizontal-split 4)
+             (torus-maximum-vertical-split 4)
+             (torus-display-tab-bar t)
+             (torus-separator-torus-circle " >> ")
+             (torus-separator-circle-location " > ")
+             (torus-prefix-separator "/")
+             (torus-join-separator " & "))
+  :config
+  (torus-init)
+  (torus-install-default-bindings))
 
 ;;; init.el ends here
