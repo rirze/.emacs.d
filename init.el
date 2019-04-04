@@ -434,31 +434,32 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;; Smartparens - keep parentheses balanced (from Jamie's)
 (use-package smartparens
   :diminish smartparens-mode
-  :config
-  (add-hook 'prog-mode-hook 'smartparens-mode))
+  :hook (prog-mode . smartparens-mode))
 
 ;; Highlight nested parentheses (from Jamie's)
 (use-package rainbow-delimiters
-  :config
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 ;; Color comprehension
 (use-package rainbow-mode
   :diminish rainbow-mode
-  :config
-  (setq rainbow-x-colors nil)
-  (add-hook 'prog-mode-hook 'rainbow-mode))
+  :custom
+  (rainbow-x-colors nil)
+  :hook prog-mode
+  )
 
 ;; Flycheck
 (use-package flycheck
+  :custom
+  (flycheck-python-flake8-executable "python3")
+  (flycheck-python-pylint-executable "python3")
+  (flycheck-python-mypy-executable   "python3")
   :config
-  (setq flycheck-python-flake8-executable "python3"
-        flycheck-python-pylint-executable "python3"
-        flycheck-python-mypy-executable   "python3")
   (global-flycheck-mode))
 (use-package flycheck-inline
-  :config
-  (add-hook 'flycheck-mode-hook #'turn-on-flycheck-inline))
+  :hook
+  (flycheck-mode . turn-on-flycheck-inline))
 
 ;; Auto-complete
 ;; (use-package auto-complete
@@ -529,8 +530,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;; Yasnippet
 (use-package yasnippet
-  :init
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  :custom
+  (yas-snippet-dirs '("~/.emacs.d/snippets"))
   :bind (:map yas-minor-mode-map
               ("<tab>" . nil)
               ("TAB" . nil)
@@ -544,10 +545,11 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :bind (("C-x g" . magit-status))
   :config
   (use-package magit-popup)
-  :init
-  (setq magit-stage-all-confirm nil)
-  (setq magit-unstage-all-confirm nil)
-  (setq magit-completing-read-function 'helm--completing-read-default))
+  (use-package magit-todos)
+  :custom
+  (magit-stage-all-confirm nil)
+  (magit-unstage-all-confirm nil)
+  (magit-completing-read-function 'helm--completing-read-default))
 
 
 (use-package forge
@@ -558,7 +560,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (use-package smerge-mode
   :after hydra
   :config
-  (defhydra unpackaged/smerge-hydra
+  (defhydra smerge-hydra
     (:color pink :hint nil :post (smerge-auto-leave))
     "
 ^Move^       ^Keep^               ^Diff^                 ^Other^
@@ -593,7 +595,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     ("q" nil "cancel" :color blue))
   :hook (magit-diff-visit-file . (lambda ()
                                    (when smerge-mode
-                                     (unpackaged/smerge-hydra/body)))))
+                                     (smerge-hydra/body)))))
 
 ;; Silversearcher support - faster-than-grep
 (use-package ag)
@@ -626,17 +628,18 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :diminish projectile-mode
   :bind-keymap
   ("H-p" . projectile-command-map)
-  :init
-  (setq projectile-file-exists-remote-cache-expire nil)
+  :custom
+  (projectile-file-exists-remote-cache-expire nil)
   ;; (setq projectile-mode-line '(:eval (format " Projectile[%s]" (projectile-project-name))))
-  (setq projectile-globally-ignored-directories
-        (quote
-         (".idea" ".eunit" ".git" ".hg" ".svn" ".fslckout" ".bzr" "_darcs" ".tox" "build" "target")))
+  (projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".svn" ".fslckout" ".bzr" "_darcs" ".tox" "build" "target")))
   :config
   (projectile-mode +1))
 
 ;; Helm - incremental completions and narrowing
 (use-package helm
+  :diminish helm-mode
   :config
   (use-package helm-projectile)
   (use-package helm-ag)
@@ -645,10 +648,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (progn
      (define-key company-mode-map (kbd "H-;") 'helm-company)
      (define-key company-active-map (kbd "H-;") 'helm-company)))
-  (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
-  ;; use helm everywhere
-  ;; (advice-add 'find-file :override 'helm-find-files)
-  ;; (advice-add 'switch-to-buffer :override 'helm-buffers-list)
+  :custom
+  (helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
@@ -672,15 +673,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("/usr/bin/ipython3" . python-mode)
   :hook
-  (python-mode . fci-mode)
   (python-mode . subword-mode)
   :config
   (use-package pyvenv))
 
 ;; Elpy makes Emacs a full Python IDE. Do I want that? I dunno yet. Guess I'll try it...
 (use-package elpy
+  :custom
+  (elpy-rpc-python-command "python3")
   :config
-  (setq elpy-rpc-python-command "python3")
   (elpy-enable))
 
 ;;; Markdown (from Jamie's)
@@ -691,7 +692,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :custom (markdown-command "multimarkdown"))
 
 ;;; Yaml
 ;;  ----------------------------------------------------------------------------
@@ -725,17 +726,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package auctex
   :defer t
   :mode ("\\.tex\\'" . TeX-latex-mode)
-  :config
-  (add-hook 'TeX-after-compilation-finished-functions
-            #'TeX-revert-document-buffer))
+  :hook
+  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer))
 
 
 ;;; Ace-Jump-Mode
 ;;  ----------------------------------------------------------------------------
 (use-package ace-jump-mode
-  :init
-  (setq ace-jump-mode-scope 'window)
-  (setq ace-jump-mode-case-fold t)
+  :custom
+  (ace-jump-mode-scope 'window)
+  (ace-jump-mode-case-fold t)
 
   :bind (("H-SPC" . ace-jump-char-mode)
          ("H-j w" . ace-jump-word-mode)
@@ -749,10 +749,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;; -----------------------------------------------------------------------------
 (use-package highlight-indentation
-  :disabled
-  :init
-  (set-face-background 'highlight-indentation-face "#4F4F4F")
-  (set-face-background 'highlight-indentation-current-column-face "#5F5F5F")
+  ;; :disabled
+  :custom
+  (highlight-indentation-face "#4F4F4F")
+  (highlight-indentation-current-column-face "#5F5F5F")
   ;; (highlight-indentation-mode 0)
   :bind (("H-h i" . highlight-indentation-mode))
   )
@@ -773,13 +773,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;  ----------------------------------------------------------------------------
 (use-package org-mode
   :quelpa (org-mode :fetcher git :url "https://code.orgmode.org/bzg/org-mode.git" :branch "maint")
-  (setq org-agenda-skip-scheduled-if-done t)
-  (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
-  (setq org-agenda-files (quote ("~/docs/org-files/yearlyevents.org"
-                                 "~/docs/org-files/events.org"
-                                 "~/docs/org-files/skillRequirements.org"
-                                 "~/docs/org-files/jobStatus.org"
-                                 "~/docs/org-files/agenda.org")))
+  :custom
+  (org-agenda-skip-scheduled-if-done t)
+  (org-agenda-skip-deadline-prewarning-if-scheduled t)
+  (org-agenda-files (quote ("~/docs/org-files/yearlyevents.org"
+                            "~/docs/org-files/events.org"
+                            "~/docs/org-files/skillRequirements.org"
+                            "~/docs/org-files/jobStatus.org"
+                            "~/docs/org-files/agenda.org")))
   :bind
   (("H-r l" . org-store-link)
    ("H-r a" . org-agend)
@@ -788,9 +789,28 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
    )
   )
 
+(use-package org-jira
+  :custom
+  (jiralib-url "https://code.integrity-apps.com:8443/jira")
+  (org-jira-jira-status-to-org-keyword-alist
+   '(("In Progress" . "INPROGRESS")
+     ("To Do" . "TODO")
+     ("In Review" . "REVIEW")
+     ("Done" . "DONE")))
+  (org-todo-keyword-faces
+   '(("TODO" . "orange")
+     ("INPROGRESS" . "yellow")
+     ("REVIEW" . "blue")))
+  ;; (org-jira-custom-jqls
+  ;;  '(:jql "assignee = currentUser() AND resolution IN (Unresolved, Incomplete) ORDER BY priority DESC, updated DESC, created ASC"))
+  ;; "<option value="">Unresolved</option>"
+  )
+
+
 ;;; aggressive-indent-mode
 ;;  ---------------------------------------------------------------------------
 (use-package aggressive-indent
+  :disabled
   :config
   (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
   ;; (global-aggressive-indent-mode 1)
@@ -880,19 +900,19 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;  ---------------------------------------------------------------------------
 (use-package company
   :defer t
-  :init (add-hook 'after-init-hook 'global-company-mode)
-  :config
-  (setq company-idle-delay 0)
+  :hook (after-init-hook . global-company-mode)
+  :custom
+  (company-idle-delay 0)
   ;; Number the candidates (use M-1, M-2 etc to select completions).
-  (setq company-show-numbers t)
+  (company-show-numbers t)
 
   ;; Use the tab-and-go frontend.
   ;; Allows TAB to select and complete at the same time.
   (company-tng-configure-default)
-  (setq company-frontends
-        '(company-tng-frontend
-          company-pseudo-tooltip-frontend
-          company-echo-metadata-frontend))
+  (company-frontends
+   '(company-tng-frontend
+     company-pseudo-tooltip-frontend
+     company-echo-metadata-frontend))
   )
 
 ;;; terraform-mode and company-terraform
@@ -915,7 +935,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; company-lsp
 ;;  ---------------------------------------------------------------------------
 (use-package lsp-mode
-  :init
   :config
   (use-package company-lsp
     :config
@@ -944,11 +963,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package phi-search
   :init
   (require 'phi-replace)
-  :config
-  (setq phi-search-limit 10000)
+  :custom
+  (phi-search-limit 10000)
   :bind (("C-s" . phi-search)
          ("C-r" . phi-search-backward)
-         ("H-r" . phi-replace-query)))
+         ("H-R" . phi-replace-query)))
 
 ;;; expand-region
 ;;  ---------------------------------------------------------------------------
@@ -967,14 +986,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package tide
   :defer t
   :after (typescript-mode company flycheck)
-  :config
-  (setq tide-format-options '(:tabSize 2
-                                       :indentSize 2))
+  :custom
+  (tide-format-options '(:tabSize 2
+                                  :indentSize 2))
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
          (before-save . tide-format-before-save)))
 
 (use-package objed
+  :quelpa (objec :fetcher git :url "https://github.com/clemera/objed" :branch "master")
   :bind ("H-e" . objed-activate))
 
 (use-package scrollkeeper
@@ -1013,5 +1033,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (torus-init)
   (torus-install-default-bindings))
+
+(use-package helm-spotify-plus
+  :disabled
+  :bind (
+         ("H-s s" . helm-spotify-plus)  ;; s for SEARCH
+         ("H-s f" . helm-spotify-plus-next)
+         ("H-s b" . helm-spotify-plus-previous)
+         ("H-s p" . helm-spotify-plus-play)
+         ("H-s g" . helm-spotify-plus-pause)
+         ))
 
 ;;; init.el ends here
