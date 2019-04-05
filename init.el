@@ -52,6 +52,15 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
+;; check if we're on WSL (Windows Subsystem Linux)
+(defconst wsl (not (null
+                    (string-match ".*Microsoft$"
+                                  (with-temp-buffer (insert-file-contents "/proc/sys/kernel/osrelease") (buffer-string))))))
+
+(if wsl
+    (progn
+      (setq browse-url-browser-function 'browse-url-generic browse-url-generic-program "wslview")))
+
 ;;; Preferences
 ;;  ----------------------------------------------------------------------------
 
