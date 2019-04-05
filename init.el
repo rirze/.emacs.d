@@ -776,17 +776,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom
   (org-agenda-skip-scheduled-if-done t)
   (org-agenda-skip-deadline-prewarning-if-scheduled t)
-  (org-agenda-files (quote ("~/docs/org-files/yearlyevents.org"
-                            "~/docs/org-files/events.org"
-                            "~/docs/org-files/skillRequirements.org"
-                            "~/docs/org-files/jobStatus.org"
-                            "~/docs/org-files/agenda.org")))
+  (org-agenda-files '("~/docs/org-files"))
   :bind
   (("H-r l" . org-store-link)
-   ("H-r a" . org-agend)
+   ("H-r a" . org-agenda)
    ("H-r c" . org-capture)
    ("H-r b" . org-switchb)
    )
+  :hook (org-mode . visual-line-mode)
   )
 
 (use-package org-jira
