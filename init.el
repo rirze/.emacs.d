@@ -554,7 +554,11 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :bind (("C-x g" . magit-status))
   :config
   (use-package magit-popup)
-  (use-package magit-todos)
+  (use-package magit-todos
+    :config
+    (use-package hl-todo
+      :config (global-hl-todo-mode))
+    )
   :custom
   (magit-stage-all-confirm nil)
   (magit-unstage-all-confirm nil)
@@ -1000,7 +1004,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          (before-save . tide-format-before-save)))
 
 (use-package objed
-  :quelpa (objec :fetcher git :url "https://github.com/clemera/objed" :branch "master")
+  :quelpa (objed :fetcher git :url "https://github.com/clemera/objed" :branch "master")
+  :config
+  (use-package avy)
   :bind ("H-e" . objed-activate))
 
 (use-package scrollkeeper
