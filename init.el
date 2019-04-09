@@ -189,6 +189,9 @@
 ;; save minibuffer history across sessions
 (savehist-mode 1)
 
+;; disable scroll lock because it keeps getting stuck and making noises....
+(global-set-key (kbd "<Scroll_Lock>") 'ignore)
+
 ;;; Appearance
 ;;  ----------------------------------------------------------------------------
 
@@ -555,14 +558,20 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :config
   (use-package magit-popup)
   (use-package magit-todos
+    :custom
+    (magit-todos-insert-at 'unpushed)
     :config
     (use-package hl-todo
       :config (global-hl-todo-mode))
+    (magit-todos-mode)
     )
+  (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files nil t)
+  (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-ignored-files   nil t)
   :custom
   (magit-stage-all-confirm nil)
   (magit-unstage-all-confirm nil)
-  (magit-completing-read-function 'helm--completing-read-default))
+  (magit-completing-read-function 'helm--completing-read-default)
+  )
 
 
 (use-package forge
@@ -1055,5 +1064,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-s p" . helm-spotify-plus-play)
          ("H-s g" . helm-spotify-plus-pause)
          ))
+
+(use-package paradox
+  :custom
+  (paradox-github-token t)
+  (paradox-execute-asynchronously t))
 
 ;;; init.el ends here
