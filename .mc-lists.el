@@ -7,14 +7,20 @@
         backward-sexp
         beginning-of-buffer
         comment-or-uncomment-region
+        crux-downcase-region
         crux-kill-line-backwards
         end-of-buffer
         goto-line
         hydra--negative-argument
+        hydra-mc/mc/mark-sgml-tag-pair
+        ignore
         indent-for-tab-command
         kill-region
         move-text-down
         my/smarter-move-beginning-of-line
+        objed-activate
+        objed-forward-word
+        objed-move-word-forward
         operate-on-number-at-point
         phi-search
         phi-search-backward
@@ -24,6 +30,7 @@
         smart-hungry-delete-forward-char
         sp-remove-active-pair-overlay
         string-inflection-all-cycle
+        switch-window
         ))
 
 (setq mc/cmds-to-run-once
@@ -45,10 +52,12 @@
         hydra-mc/mc/mark-previous-sexps
         hydra-mc/mc/reverse-regions
         hydra-mc/mc/skip-to-next-like-this
+        hydra-mc/mc/skip-to-previous-like-this
         hydra-mc/mc/unmark-next-like-this
         hydra-mc/mc/unmark-previous-like-this
         hydra-mc/mc/vertical-align-with-space
         hydra-mc/nil
+        magit-mode-bury-buffer
         move-text-up
         yas-next-field
         ))

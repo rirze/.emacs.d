@@ -222,7 +222,13 @@
 ;; highlight the current line
 (global-hl-line-mode +1)
 
-(set-face-attribute 'default nil :font "Source Code Pro SemiBold" :height 90)
+(defun my/set-font ()
+  "Function to manually set the font."
+  (interactive)
+  (set-face-attribute 'default nil :font "Source Code Pro SemiBold" :height 90)
+  )
+(my/set-font)
+
 ;; (setq default-frame-alist '((font . "Inconsolata-dz-15")))
 ;; (set-face-attribute 'bold nil :font "Operator Mono Bold" : :height 90)
 ;; (set-frame-font "Operator Mono Book-9" nil t) ;; this messes up my dpi? either way the text looks realllly small when i use emacs-daemon
@@ -325,6 +331,30 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                 (lambda ()
                   (interactive)
                   (ignore-errors (backward-char 5))))
+
+(global-set-key [remap backward-delete-char-untabify]
+                'my/backward-delete-char)
+
+(defun my/backward-delete-char ()
+  (interactive)
+  (cond ((bolp)
+         (delete-char -1)
+         (indent-according-to-mode)
+         (when (looking-at "\\([ \t]+\\)[^ \t]")
+           (delete-region (point) (match-end 1))))
+        ((<= (point) (save-excursion (back-to-indentation) (point)))
+         (let ((backward-delete-char-untabify-method 'hungry))
+           (call-interactively 'backward-delete-char-untabify)
+           (delete-char -1))
+         (indent-according-to-mode))
+        (t
+         (let ((backward-delete-char-untabify-method 'hungry))
+           (call-interactively 'backward-delete-char-untabify)))))
+
+(require 'stagger-mode)
+(bind-key "A-s" 'stagger-mode)
+
+;; TODO: Remap move-paragraph ( M-{ , M-} ) to M-[ M-]
 
 ;;; Default Emacs Packages Configuration
 ;;  ---------------------------------------------------------------------------
@@ -654,16 +684,20 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (projectile-file-exists-remote-cache-expire nil)
   ;; (setq projectile-mode-line '(:eval (format " Projectile[%s]" (projectile-project-name))))
   (projectile-globally-ignored-directories
-   (quote
-    (".idea" ".eunit" ".git" ".hg" ".svn" ".fslckout" ".bzr" "_darcs" ".tox" "build" "target")))
+   '(".idea" ".eunit" ".git" ".hg" ".svn" ".fslckout" ".bzr" "_darcs" ".tox" "build" "target"))
   :config
+  (use-package persp-projectile
+    :config
+    (persp-mode))
   (projectile-mode +1))
 
 ;; Helm - incremental completions and narrowing
 (use-package helm
   :diminish helm-mode
   :config
-  (use-package helm-projectile)
+  (use-package helm-projectile
+    :config
+    (helm-projectile-on))
   (use-package helm-ag)
   (use-package helm-company
     :config
@@ -703,6 +737,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package elpy
   :custom
   (elpy-rpc-python-command "python3")
+  (elpy-modules '(elpy-module-company))
+  (python-shell-interpreter "ipython3")
+  (python-shell-interpreter "-i --simple-prompt")
   :config
   (elpy-enable))
 
@@ -798,7 +835,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom
   (org-agenda-skip-scheduled-if-done t)
   (org-agenda-skip-deadline-prewarning-if-scheduled t)
-  (org-agenda-files '("~/docs/org-files"))
+  (org-agenda-files '("~/org-files"))
   :bind
   (("H-r l" . org-store-link)
    ("H-r a" . org-agenda)
@@ -996,6 +1033,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-]" . er/contract-region)))
 
 (use-package smart-hungry-delete
+  :disabled
   :bind (("H-d" . smart-hungry-delete-backward-char)
          ("C-d" . smart-hungry-delete-forward-char))
   :defer nil ;; dont defer so we can add our functions to hooks
@@ -1005,12 +1043,17 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package tide
   :defer t
   :after (typescript-mode company flycheck)
+  :config
+  (use-package js-mode
+    :custom (js-indent-level 8))
   :custom
-  (tide-format-options '(:tabSize 2
-                                  :indentSize 2))
+  (tide-format-options '(:tabSize 8
+                                  :indentSize 8))
+
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save)))
+         )
+  )
 
 (use-package objed
   :quelpa (objed :fetcher git :url "https://github.com/clemera/objed" :branch "master")
@@ -1029,30 +1072,32 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package torus
+  :disabled
   :bind-keymap ("H-t" . torus-map)
   :bind (:map torus-map
               ("t" . torus-copy-to-circle))
   :hook ((emacs-startup . torus-start)
-           (kill-emacs . torus-quit))
+         (save-buffers-kill-emacs . torus-quit)
+         (kill-emacs . torus-quit))
   :custom ((torus-prefix-key "H-t")
-             (torus-binding-level 3)
-             (torus-verbosity 1)
-             (torus-dirname (concat user-emacs-directory (file-name-as-directory "torus")))
-             (torus-load-on-startup t)
-             (torus-save-on-exit t)
-             (torus-autoread-file (concat torus-dirname "last.el"))
-             (torus-autowrite-file torus-autoread-file)
-             (torus-backup-number 10)
-             (torus-history-maximum-elements 30)
-             (torus-maximum-horizontal-split 4)
-             (torus-maximum-vertical-split 4)
-             (torus-display-tab-bar t)
-             (torus-separator-torus-circle " >> ")
-             (torus-separator-circle-location " > ")
-             (torus-prefix-separator "/")
-             (torus-join-separator " & "))
+           (torus-binding-level 3)
+           (torus-verbosity 1)
+           (torus-dirname (concat user-emacs-directory (file-name-as-directory "torus")))
+           (torus-load-on-startup t)
+           (torus-save-on-exit t)
+           (torus-autoread-file (concat torus-dirname "last.el"))
+           (torus-autowrite-file torus-autoread-file)
+           (torus-backup-number 10)
+           (torus-history-maximum-elements 30)
+           (torus-maximum-horizontal-split 4)
+           (torus-maximum-vertical-split 4)
+           (torus-display-tab-bar t)
+           (torus-separator-torus-circle " >> ")
+           (torus-separator-circle-location " > ")
+           (torus-prefix-separator "/")
+           (torus-join-separator " & "))
   :config
-  (torus-init)
+  ;; (torus-init)
   (torus-install-default-bindings))
 
 (use-package helm-spotify-plus
@@ -1069,5 +1114,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom
   (paradox-github-token t)
   (paradox-execute-asynchronously t))
+
+(use-package helm-posframe
+  :disabled
+  :custom
+  (helm-posframe-poshandler 'posframe-poshandler-frame-center))
+
+(use-package web-mode
+  :mode "\\.j2\\'")
 
 ;;; init.el ends here
