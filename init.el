@@ -53,11 +53,11 @@
     (exec-path-from-shell-initialize)))
 
 ;; check if we're on WSL (Windows Subsystem Linux)
-(defconst wsl (not (null
+(defconst my/wsl (not (null
                     (string-match ".*Microsoft$"
                                   (with-temp-buffer (insert-file-contents "/proc/sys/kernel/osrelease") (buffer-string))))))
 
-(if wsl
+(if my/wsl
     (progn
       (setq browse-url-browser-function 'browse-url-generic browse-url-generic-program "wslview")))
 
@@ -314,12 +314,12 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (global-set-key (kbd "C-S-n")
                 (lambda ()
                   (interactive)
-                  (ignore-errors (next-line 5))))
+                  (ignore-errors (forward-line 5))))
 
 (global-set-key (kbd "C-S-p")
                 (lambda ()
                   (interactive)
-                  (ignore-errors (previous-line 5))))
+                  (ignore-errors (forward-line -5))))
 
 (global-set-key (kbd "C-S-f")
                 (lambda ()
