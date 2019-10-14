@@ -151,7 +151,6 @@
 (mouse-wheel-mode -1)
 (scroll-bar-mode -1)
 
-
 ;; split window vertically
 ;; (split-window-right)
 
@@ -189,7 +188,7 @@
 ;; save minibuffer history across sessions
 (savehist-mode 1)
 
-;; disable scroll lock because it keeps getting stuck and making noises....
+;; disable scroll lock because it keeps getting stuck and making noises.... on WSL atleast
 (global-set-key (kbd "<Scroll_Lock>") 'ignore)
 
 ;;; Appearance
@@ -724,7 +723,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; Python
 ;;  ----------------------------------------------------------------------------
 
-;; Basic python-mode config. I've been using this for years with no problems.
+;; Basic python-mode config.
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("/usr/bin/ipython3" . python-mode)
@@ -733,7 +732,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (use-package pyvenv))
 
-;; Elpy makes Emacs a full Python IDE. Do I want that? I dunno yet. Guess I'll try it...
+;; Elpy makes Emacs a full Python IDE.
 (use-package elpy
   :custom
   (elpy-rpc-python-command "python3")
