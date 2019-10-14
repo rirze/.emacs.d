@@ -222,12 +222,13 @@
 ;; highlight the current line
 (global-hl-line-mode +1)
 
-(defun my/set-font ()
-  "Function to manually set the font."
-  (interactive)
-  (set-face-attribute 'default nil :font "Source Code Pro SemiBold" :height 90)
-  )
-(my/set-font)
+;; (defun my/set-font ()
+;;   "Function to manually set the font."
+;;   (interactive)
+;;   (set-face-attribute 'default nil :font "Source Code Pro SemiBold" :height 90)
+;;   )
+
+;; (my/set-font)
 
 ;; (setq default-frame-alist '((font . "Inconsolata-dz-15")))
 ;; (set-face-attribute 'bold nil :font "Operator Mono Bold" : :height 90)
@@ -351,8 +352,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
          (let ((backward-delete-char-untabify-method 'hungry))
            (call-interactively 'backward-delete-char-untabify)))))
 
-(require 'stagger-mode)
-(bind-key "A-s" 'stagger-mode)
+;; (require 'stagger-mode)
+;; (bind-key "A-s" 'stagger-mode)
 
 ;; TODO: Remap move-paragraph ( M-{ , M-} ) to M-[ M-]
 
