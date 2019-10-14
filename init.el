@@ -1124,4 +1124,17 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package web-mode
   :mode "\\.j2\\'")
 
+;; Ansible
+(use-package ansible)
+(use-package company-ansible)
+
+;; json tools
+(use-package json-snatcher
+  :mode "\\.json'"
+  :bind (
+         ("C-c C-g" . jsons-print-path)
+         )
+  :hook (js-mode js2-mode))
+
+
 ;;; init.el ends here
