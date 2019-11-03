@@ -30,12 +30,26 @@
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
 
+;; Bootstrap straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq straight-use-package-by-default t)
 
-;; quelpa and quelpa-use-package
-(use-package quelpa
-  :config
-  (setq quelpa-upgrade-p t))
-(use-package quelpa-use-package)
+;; ;; quelpa and quelpa-use-package
+;; (use-package quelpa
+;;   :config
+;;   (setq quelpa-upgrade-p t))
+;; (use-package quelpa-use-package)
 
 ;; Increase Garbage Collector size, improves startup speed
 (setq gc-cons-threshold 50000000)
@@ -54,9 +68,11 @@
     (exec-path-from-shell-initialize)))
 
 ;; check if we're on WSL (Windows Subsystem Linux)
-(defconst my/wsl (not (null
-                    (string-match ".*Microsoft$"
-                                  (with-temp-buffer (insert-file-contents "/proc/sys/kernel/osrelease") (buffer-string))))))
+;; (defconst my/wsl (not (null
+                    ;; (string-match ".*Microsoft$"
+                    ;;               (with-temp-buffer (insert-file-contents "/proc/sys/kernel/osrelease") (buffer-string))))))
+
+(defconst my/wsl (not (null (string-match "Linux.*Microsoft" (shell-command-to-string "uname -a")))))
 
 (if my/wsl
     (progn
@@ -191,6 +207,9 @@
 
 ;; disable scroll lock because it keeps getting stuck and making noises.... on WSL atleast
 (global-set-key (kbd "<Scroll_Lock>") 'ignore)
+
+;; enable local variables
+(setq enable-local-variables :all)
 
 ;;; Appearance
 ;;  ----------------------------------------------------------------------------
@@ -736,13 +755,34 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;; Elpy makes Emacs a full Python IDE.
 (use-package elpy
+;;  :quelpa (elpy :fetcher git :url "https://github.com/jorgenschaefer/elpy" :branch "master")
   :custom
   (elpy-rpc-python-command "python3")
   (elpy-modules '(elpy-module-company))
   (python-shell-interpreter "ipython3")
-  (python-shell-interpreter "-i --simple-prompt")
+  (python-shell-interpreter-args "-i --simple-prompt")
   :config
   (elpy-enable))
+
+(use-package pip-requirements
+  ;;:blackout "Requirements"
+  )
+
+;;; Java
+;;  ----------------------------------------------------------------------------
+(use-package lsp-java
+  :after lsp
+  :hook (java-mode . lsp))
+
+;;; Kotlin
+;;  ----------------------------------------------------------------------------
+(use-package kotlin-mode)
+
+;; (use-package lsp-kotlin
+;;   :after lsp
+;;   :straight (lsp-kotlin :type git :host github :repo "whily/lsp-kotlin"))
+
+(add-to-list 'exec-path "~/cart/kotlin-language-server/server/build/scripts")
 
 ;;; Markdown (from Jamie's)
 ;;  ----------------------------------------------------------------------------
@@ -831,8 +871,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;;; Org-Mode
 ;;  ----------------------------------------------------------------------------
-(use-package org-mode
-  :quelpa (org-mode :fetcher git :url "https://code.orgmode.org/bzg/org-mode.git" :branch "maint")
+;; NOTE: Enabling/disabling this, before running Emacs or downloading
+;; org-plus-contrib doesn't change anything (visibly).
+(setq-default straight-fix-org t)
+(use-package org
+  ;; :quelpa (org-mode :fetcher git :url "https://code.orgmode.org/bzg/org-mode.git" :branch "maint")
   :custom
   (org-agenda-skip-scheduled-if-done t)
   (org-agenda-skip-deadline-prewarning-if-scheduled t)
@@ -997,7 +1040,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :config
     (push 'company-lsp company-backends)
     )
-)
+  :custom
+  (lsp-prefer-flymake nil)
+  )
+
 ;;; restart-emacs
 ;;  ---------------------------------------------------------------------------
 (use-package restart-emacs)
@@ -1057,7 +1103,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package objed
-  :quelpa (objed :fetcher git :url "https://github.com/clemera/objed" :branch "master")
+  ;; :quelpa (objed :fetcher git :url "https://github.com/clemera/objed" :branch "master")
   :config
   (use-package avy)
   :bind ("H-e" . objed-activate))
@@ -1102,7 +1148,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (torus-install-default-bindings))
 
 (use-package helm-spotify-plus
-  :disabled
   :bind (
          ("H-s s" . helm-spotify-plus)  ;; s for SEARCH
          ("H-s f" . helm-spotify-plus-next)
@@ -1136,5 +1181,81 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          )
   :hook (js-mode js2-mode))
 
+
+
+;;; Kakoune
+;;  ---------------------------------------------------------------------------
+(use-package kakoune
+  ;; Having a non-chord way to escape is important, since key-chords don't work in macros
+  :bind ("C-z" . ryo-modal-mode)
+  :hook (after-init . my/kakoune-setup)
+  :config
+  (push '((nil . "ryo:.*:") . (nil . "")) which-key-replacement-alist)
+  (defun ryo-enter () "Enter normal mode" (interactive) (ryo-modal-mode 1))
+  (defun my/kakoune-setup ()
+      "Call kakoune-setup-keybinds and then add some personal config."
+      (kakoune-setup-keybinds)
+      (setq ryo-modal-cursor-type 'box)
+      (setq ryo-modal-cursor-color "PaleGreen")
+      ;; (add-hook 'prog-mode-hook #'ryo-enter)
+      (define-key ryo-modal-mode-map (kbd "SPC h") 'help-command)
+      ;; Access all C-x bindings easily
+      (define-key ryo-modal-mode-map (kbd "z") ctl-x-map)
+      (ryo-modal-keys
+       ("," save-buffer)
+       ;; ("P" counsel-yank-pop)
+       ("m" mc/mark-next-like-this)
+       ("M" mc/skip-to-next-like-this)
+       ("n" mc/mark-previous-like-this)
+       ("N" mc/skip-to-previous-like-this)
+       ("M-m" mc/edit-lines)
+       ("*" mc/mark-all-like-this)
+       ("v" er/expand-region)
+       ("C-v" set-rectangular-region-anchor)
+       ("M-s" mc/split-region)
+       (";" (("q" delete-window)
+             ("v" split-window-horizontally)
+             ("s" split-window-vertically)))
+       ("C-h" windmove-left)
+       ("C-j" windmove-down)
+       ("C-k" windmove-up)
+       ("C-l" windmove-right)
+       ("C-u" scroll-down-command :first '(deactivate-mark))
+       ("C-d" scroll-up-command :first '(deactivate-mark)))))
+
+;; This overrides the default mark-in-region with a prettier-looking one,
+;; and provides a couple extra commands
+(use-package visual-regexp
+  :bind (("M-%" . vr/query-replace))
+  :ryo
+  ("s" vr/mc-mark)
+  ("?" vr/replace)
+  ("M-/" vr/query-replace))
+
+(use-package visual-regexp-steroids
+  :after visual-regexp)
+
+;; Probably the first thing you'd miss is undo and redo, which requires an extra package
+;; to work like it does in kakoune (and almost every other editor).
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  :ryo
+  ("u" undo-tree-undo)
+  ("U" undo-tree-redo)
+  ("SPC u" undo-tree-visualize)
+  :bind (:map undo-tree-visualizer-mode-map
+              ("h" . undo-tree-visualize-switch-branch-left)
+              ("j" . undo-tree-visualize-redo)
+              ("k" . undo-tree-visualize-undo)
+              ("l" . undo-tree-visualize-switch-branch-right)))
+
+
+;; Support for fasd in emacs
+(use-package fasd
+  :bind (
+         ("C-x C-j" . fasd-find-file)))
+
+(use-package ssh-config-mode)
 
 ;;; init.el ends here

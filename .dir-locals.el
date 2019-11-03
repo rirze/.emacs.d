@@ -2,4 +2,4 @@
 ;;; For more information see (info "(emacs) Directory Variables")
 
 ((magit-status-mode
-  (magit-todos-exclude-globs "*elpa/*" "*cart/*")))
+  (magit-todos-exclude-globs "*elpa/*" "*elpy/*" "*straight/*")))
