@@ -6,6 +6,7 @@
         ace-jump-move
         backward-sexp
         beginning-of-buffer
+        beginning-of-visual-line
         comment-or-uncomment-region
         crux-downcase-region
         crux-kill-line-backwards
@@ -23,6 +24,7 @@
         kakoune-p
         kakoune-x
         kill-region
+        kill-visual-line
         move-text-down
         my/backward-delete-char
         my/smarter-move-beginning-of-line
@@ -49,7 +51,9 @@
         smart-hungry-delete-backward-char
         smart-hungry-delete-forward-char
         sp-remove-active-pair-overlay
+        string-infleciton-java-style-cycle
         string-inflection-all-cycle
+        string-inflection-python-style-cycle
         switch-window
         transpose-words
         yaml-electric-backspace

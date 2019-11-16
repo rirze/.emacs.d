@@ -5,9 +5,9 @@
 ;;; Code:
 (package-initialize)
 ;;(package-refresh-contents)
-(add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path "~/.emacs.d/elpa")
 (add-to-list 'load-path "~/.emacs.d/cart")
+(add-to-list 'load-path "~/.emacs.d/elisp/")
 
 (setq package-check-signature nil)  ; because GNU ELPA keeps choking on the sigs
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
@@ -371,8 +371,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
          (let ((backward-delete-char-untabify-method 'hungry))
            (call-interactively 'backward-delete-char-untabify)))))
 
-;; (require 'stagger-mode)
-;; (bind-key "A-s" 'stagger-mode)
+(require 'stagger-mode)
+(bind-key "A-s" 'stagger-mode)
 
 ;; TODO: Remap move-paragraph ( M-{ , M-} ) to M-[ M-]
 
@@ -764,9 +764,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (elpy-enable))
 
-(use-package pip-requirements
-  ;;:blackout "Requirements"
-  )
+(use-package pip-requirements)
 
 ;;; Java
 ;;  ----------------------------------------------------------------------------
@@ -1257,5 +1255,23 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("C-x C-j" . fasd-find-file)))
 
 (use-package ssh-config-mode)
+
+;; use tree-sitter
+(use-package tree-sitter
+  :disabled
+  :init
+  (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter")
+  :straight (tree-sitter :type git :host github :repo "ubolonton/emacs-tree-sitter")
+  :config
+  (ts-require-language 'rust)
+  (ts-require-language 'python))
+
+;; (require 'tree-sitter)
+;; (ts-require-language 'rust)
+;; (ts-require-language 'python)
+
+
+(require 'cfn-lint)
+
 
 ;;; init.el ends here
