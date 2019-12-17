@@ -953,6 +953,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (crux-reopen-as-root-mode)
   (crux-with-region-or-line comment-or-uncomment-region)
   (crux-with-region-or-line eval-region)
+
   :bind (("H-c i" . crux-find-user-init-file)
          ("H-u"   . crux-kill-line-backwards)
          ("H-c o" . crux-open-with)
@@ -963,6 +964,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-c D" . crux-delete-file-and-buffer)
          ("H-c C" . crux-copy-file-preserve-attributes)
          ("H-c C-c" . crux-duplicate-and-comment-current-line-or-region)
+         ("H-c d" . crux-duplicate-current-line-or-region)
          ("H-c r" . crux-rename-file-and-buffer)
          ("H-c t" . crux-visit-term-buffer)
          ("H-c K" . crux-kill-other-buffers)
@@ -1254,7 +1256,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :bind (
          ("C-x C-j" . fasd-find-file)))
 
-(use-package ssh-config-mode)
+(use-package ssh-config-mode
+  :custom
+  (ssh-config-mode-indent 4))
 
 ;; use tree-sitter
 (use-package tree-sitter
@@ -1273,5 +1277,27 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (require 'cfn-lint)
 
+(use-package atomic-chrome
+  :config
+  (atomic-chrome-start-server))
+
+(use-package impatient-mode)
+
+(use-package vterm
+  :straight (vterm :type git :host github :repo "akermu/emacs-libvterm")
+  :bind (:map vterm-mode-map
+              ("C-g" . vterm--self-insert)
+              ("C-u" . vterm--self-insert))
+  )
+
+(use-package vterm-toggle
+  :straight (vterm :type git :host github :repo "jixiuf/vterm-toggle")
+  :custom
+  (vterm-toggle-fullscreen-p nil)
+  :bind (
+         ("H-t" . vterm-toggle)
+         ("H-T" . vterm-toggle-cd)
+         )
+  )
 
 ;;; init.el ends here
