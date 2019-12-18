@@ -725,12 +725,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
      (define-key company-mode-map (kbd "H-;") 'helm-company)
      (define-key company-active-map (kbd "H-;") 'helm-company)))
   :custom
+  ; (helm-linum-relative-mode 1)
   (helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+  (helm-mode 1)
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
          ("C-z" . helm-select-action)
-         ("M-y" . helm-show-kill-ring)))
+         ("M-y" . helm-show-kill-ring)
+         ("H-\\" . helm-semantic-or-imenu)
+         ("H-'" . helm-occur)))
 
 ;; Dumb jump
 (use-package dumb-jump
@@ -985,7 +989,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;  ---------------------------------------------------------------------------
 (use-package tiny
   ;;  :init  (tiny-setup-default)
-  :bind (("H-'" . tiny-expand)))
+  :bind (("H-\"" . tiny-expand)))
 
 ;; Examples of Tiny
 ;; m5 10*xx -> 25 36 49 64 81 100
@@ -1287,7 +1291,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :straight (vterm :type git :host github :repo "akermu/emacs-libvterm")
   :bind (:map vterm-mode-map
               ("C-g" . vterm--self-insert)
-              ("C-u" . vterm--self-insert))
+              ("C-u" . vterm--self-insert)
+              ("C-k" . vterm--self-insert))
   )
 
 (use-package vterm-toggle
@@ -1299,5 +1304,55 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-T" . vterm-toggle-cd)
          )
   )
+
+(use-package parrot
+  :bind (
+         ("H-," . parrot-rotate-next-word-at-point)
+         ("H-." . parrot-rotate-prev-word-at-point))
+  :config
+  (setq parrot-rotate-dict
+      '(
+        (:rot ("alpha" "beta") :caps t :lower nil)
+        ;; => rotations are "Alpha" "Beta"
+
+        (:rot ("yes" "no") :caps t :upcase t)
+        ;; => rotations are "yes" "no", "Yes" "No", "YES" "NO"
+        (:rot ("true" "false") :caps t :upcase t)
+        ;; => rotations are "true" "false", "True" "False", "TRUE" "FALSE"
+
+        (:rot ("&" "|"))
+        ;; => rotations are "&" "|"
+
+        (:rot ("(" "[" "{"))
+        (:rot (")" "]" "}"))
+        (:rot ("is" "is not"))
+        (:rot ("and" "or") :caps t :upcase t)
+        ;; default dictionary starts here ('v')
+        (:rot ("begin" "end") :caps t :upcase t)
+        (:rot ("enable" "disable") :caps t :upcase t)
+        (:rot ("enter" "exit") :caps t :upcase t)
+        (:rot ("forward" "backward") :caps t :upcase t)
+        (:rot ("front" "rear" "back") :caps t :upcase t)
+        (:rot ("get" "set") :caps t :upcase t)
+        (:rot ("high" "low") :caps t :upcase t)
+        (:rot ("in" "out") :caps t :upcase t)
+        (:rot ("left" "right") :caps t :upcase t)
+        (:rot ("min" "max") :caps t :upcase t)
+        (:rot ("on" "off") :caps t :upcase t)
+        (:rot ("prev" "next"))
+        (:rot ("start" "stop") :caps t :upcase t)
+        (:rot ("&&" "||"))
+        (:rot ("==" "!="))
+        (:rot ("<" ">"))
+        (:rot ("." "->"))
+        (:rot ("if" "else" "elif"))
+        (:rot ("ifdef" "ifndef"))
+        (:rot ("int8_t" "int16_t" "int32_t" "int64_t"))
+        (:rot ("uint8_t" "uint16_t" "uint32_t" "uint64_t"))
+        (:rot ("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10"))
+        (:rot ("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th"))
+        ))
+  )
+
 
 ;;; init.el ends here
