@@ -759,7 +759,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;; Elpy makes Emacs a full Python IDE.
 (use-package elpy
-;;  :quelpa (elpy :fetcher git :url "https://github.com/jorgenschaefer/elpy" :branch "master")
   :custom
   (elpy-rpc-python-command "python3")
   (elpy-modules '(elpy-module-company))
@@ -839,7 +838,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (ace-jump-mode-scope 'window)
   (ace-jump-mode-case-fold t)
 
-  :bind (("H-SPC" . ace-jump-char-mode)
+  :bind (("H-d" . ace-jump-char-mode)
          ("H-j w" . ace-jump-word-mode)
          ("H-j c" . ace-jump-char-mode)
          ("H-j l" . ace-jump-line-mode)
