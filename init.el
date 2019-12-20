@@ -819,6 +819,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package go-mode)
 
+;;; C/C++
+;;  ----------------------------------------------------------------------------
+
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
+
 ;;; LaTeX
 ;;  ----------------------------------------------------------------------------
 
