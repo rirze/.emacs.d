@@ -1297,9 +1297,18 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (ts-require-language 'rust)
   (ts-require-language 'python))
 
+;; (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter")
 ;; (require 'tree-sitter)
-;; (ts-require-language 'rust)
+;; ; (ts-require-language 'rust)
 ;; (ts-require-language 'python)
+
+;; (setq tree-sitter-highlight-query-dir "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/grammars")
+;; (require 'tree-sitter-highlight)
+
+;; (defun enable-ts-hl ()
+;;   (tree-sitter-highlight-mode))
+
+;; (add-hook 'python-mode-hook #'enable-ts-hl)
 
 
 (require 'cfn-lint)

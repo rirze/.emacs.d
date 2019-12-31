@@ -41,6 +41,7 @@
         query-replace
         ryo-modal-mode
         ryo:030290537f3f8221e2d36591d8e0d90e:undo-tree-redo
+        ryo:2a4951872d3afa10aa42c1a8550a46bc:kakoune-gg
         ryo:2f73978d4422e540c99388f1d7bf31b6:kakoune-o
         ryo:3384a614304dd5324a6aa723d5ed9e5e:previous-line
         ryo:3bb381c903c6cfa663a851920ee9f42e:undo-tree-undo
@@ -85,6 +86,7 @@
         hydra-mc/mc/unmark-previous-like-this
         hydra-mc/mc/vertical-align-with-space
         hydra-mc/nil
+        kmacro-end-or-call-macro
         magit-mode-bury-buffer
         mc/split-region
         move-text-up
