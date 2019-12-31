@@ -1,7 +1,7 @@
 (require 'cl-lib)
 
 (define-minor-mode stagger-mode
-p  "StAgGeR ThE CaSe iN ThE BuFfeR."
+  "StAgGeR ThE CaSe iN ThE BuFfeR."
   :lighter " stagger"
   (add-to-list 'after-change-functions #'stagger-mode--do-it))
 

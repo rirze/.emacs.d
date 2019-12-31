@@ -492,13 +492,14 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   (unless (package-installed-p package)
     (use-package package)))
 
+(use-package diminish)
 
-;; Smartparens - keep parentheses balanced (from Jamie's)
+;; Smartparens - keep parentheses balanced
 (use-package smartparens
   :diminish smartparens-mode
   :hook (prog-mode . smartparens-mode))
 
-;; Highlight nested parentheses (from Jamie's)
+;; Highlight nested parentheses
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))
@@ -592,6 +593,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;; Yasnippet
 (use-package yasnippet
+  :init
+  (use-package yasnippet-snippets)
   :custom
   (yas-snippet-dirs '("~/.emacs.d/snippets"))
   :bind (:map yas-minor-mode-map
@@ -1085,7 +1088,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; expand-region
 ;;  ---------------------------------------------------------------------------
 (use-package expand-region
-  :defer t
   :bind (("H-[" . er/expand-region)
          ("H-]" . er/contract-region)))
 
@@ -1162,9 +1164,24 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-s s" . helm-spotify-plus)  ;; s for SEARCH
          ("H-s f" . helm-spotify-plus-next)
          ("H-s b" . helm-spotify-plus-previous)
-         ("H-s p" . helm-spotify-plus-play)
-         ("H-s g" . helm-spotify-plus-pause)
+         ("H-s p" . helm-spotify-plus-toggle-play-pause)
          ))
+
+(use-package helm-dash
+  :config
+  (defun set-python-docs ()
+    (interactive)
+    (setq-local dash-docs-docsets '("Python_3" "NumPy")))
+  :hook (python-mode . set-python-docs))
+
+(use-package helm-github-stars
+  :custom (helm-github-stars-username "rirze"))
+
+(use-package helm-gitignore)
+
+(use-package helm-system-packages)
+
+(use-package helm-tramp)
 
 (use-package paradox
   :custom
@@ -1298,7 +1315,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :bind (:map vterm-mode-map
               ("C-g" . vterm--self-insert)
               ("C-u" . vterm--self-insert)
-              ("C-k" . vterm--self-insert))
+              ("C-k" . vterm--self-insert)
+              ("C-v" . vterm--self-insert)
+              ("C-2" . vterm--self-insert))
   )
 
 (use-package vterm-toggle
