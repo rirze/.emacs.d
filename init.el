@@ -43,7 +43,9 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
 (setq straight-use-package-by-default t)
+(setq straight-check-for-modifications '(watch-files find-when-checking))
 
 ;; ;; quelpa and quelpa-use-package
 ;; (use-package quelpa
@@ -1041,10 +1043,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :hook (terraform-mode . company-terraform-init)
     ))
 
-;;; company-tabnine
-;;  ---------------------------------------------------------------------------
-(use-package company-tabnine)
-
 ;;; company-lsp
 ;;  ---------------------------------------------------------------------------
 (use-package lsp-mode
@@ -1056,6 +1054,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom
   (lsp-prefer-flymake nil)
   )
+
+;;; company-tabnine
+;;  ---------------------------------------------------------------------------
+(use-package company-tabnine
+  :init
+  (add-to-list 'company-backends #'company-tabnine))
+
 
 ;;; restart-emacs
 ;;  ---------------------------------------------------------------------------
@@ -1171,8 +1176,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (defun set-python-docs ()
     (interactive)
-    (setq-local dash-docs-docsets '("Python_3" "NumPy")))
-  :hook (python-mode . set-python-docs))
+    (setq-local dash-docs-docsets '("Python 3" "NumPy")))
+  :hook (python-mode . set-python-docs)
+  :custom
+  (helm-dash-docsets-path "~/.docsets"))
 
 (use-package helm-github-stars
   :custom (helm-github-stars-username "rirze"))
@@ -1201,12 +1208,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package company-ansible)
 
 ;; json tools
-(use-package json-snatcher
-  :mode "\\.json'"
-  :bind (
-         ("C-c C-g" . jsons-print-path)
-         )
-  :hook (js-mode js2-mode))
+(use-package json-mode
+  :straight (json-mode :type git :host github :repo "DoMiNeLa10/json-mode")
+  )
 
 
 
@@ -1297,18 +1301,21 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (ts-require-language 'rust)
   (ts-require-language 'python))
 
-;; (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter")
-;; (require 'tree-sitter)
-;; ; (ts-require-language 'rust)
-;; (ts-require-language 'python)
+(add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter")
+(require 'tree-sitter)
+; (ts-require-language 'rust)
+(ts-require-language 'python)
+(ts-require-language 'json)
+(ts-require-language 'javascript)
 
-;; (setq tree-sitter-highlight-query-dir "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/grammars")
-;; (require 'tree-sitter-highlight)
+(setq tree-sitter-highlight-query-dir "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/grammars")
+(require 'tree-sitter-highlight)
 
-;; (defun enable-ts-hl ()
-;;   (tree-sitter-highlight-mode))
+(defun enable-ts-hl ()
+  (tree-sitter-highlight-mode))
 
-;; (add-hook 'python-mode-hook #'enable-ts-hl)
+(add-hook 'python-mode-hook 'enable-ts-hl)
+(add-hook 'js-mode-hook 'enable-ts-hl)
 
 
 (require 'cfn-lint)
@@ -1389,4 +1396,28 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 
+(use-package piper
+  :straight (emacs-piper :type git :host gitlab :repo "howardabrams/emacs-piper"))
+
+
+(use-package elcord
+  :init
+  (elcord-mode))
+
+(use-package vlf
+  :straight (vlf :type git :host github :repo "m00natic/vlfi")
+  :config
+  (require 'vlf-setup))
+
+(use-package evil-numbers
+  :straight (evil-numbers :type git :host github :repo "janpath/evil-numbers")
+  :bind (
+         ("H-n j" . evil-numbers/inc-at-pt)
+         ("H-n k" . evil-numbers/dec-at-pt)
+         ("H-n l" . evil-numbers/inc-at-pt-incremental)
+         ("H-n h" . evil-numbers/dec-at-pt-incremental)
+         )
+  )
+
+; 2
 ;;; init.el ends here
