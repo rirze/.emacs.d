@@ -1091,6 +1091,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("C-r" . phi-search-backward)
          ("H-R" . phi-replace-query)))
 
+
+;;; rustic
+;;  ---------------------------------------------------------------------------
+(use-package rustic
+  )
+
+
 ;;; expand-region
 ;;  ---------------------------------------------------------------------------
 (use-package expand-region
@@ -1304,7 +1311,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter")
 (require 'tree-sitter)
-; (ts-require-language 'rust)
+(ts-require-language 'rust)
 (ts-require-language 'python)
 (ts-require-language 'json)
 (ts-require-language 'javascript)
@@ -1317,6 +1324,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (add-hook 'python-mode-hook 'enable-ts-hl)
 (add-hook 'js-mode-hook 'enable-ts-hl)
+;; (add-hook 'rustic-mode-hook 'enable-ts-hl)
 
 
 (require 'cfn-lint)
