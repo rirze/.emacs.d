@@ -1058,6 +1058,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; company-tabnine
 ;;  ---------------------------------------------------------------------------
 (use-package company-tabnine
+  :disabled
   :init
   (add-to-list 'company-backends #'company-tabnine))
 
@@ -1417,6 +1418,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-n l" . evil-numbers/inc-at-pt-incremental)
          ("H-n h" . evil-numbers/dec-at-pt-incremental)
          )
+  )
+
+(use-package intero
+  :hook (haskell-mode . intero-mode)
   )
 
 ; 2
