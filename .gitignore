@@ -7,5 +7,22 @@
 # # Undo-tree save-files
 *.~undo-tree
 
+# session files
+*session*
+
+# various package folders
+eshell*
+history
+transient*
+places
+eclipse*
+elpa*
+elpy*
+forge-database*
+hgs-cache*
+recentf*
+projectile-bookmarks.eld
+tramp
+
 # *
 # !init.el

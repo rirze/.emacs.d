@@ -1436,5 +1436,5 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :straight (helm-aws :type git :host github :repo "istib/helm-aws")
   )
 
-; 2
+
 ;;; init.el ends here
