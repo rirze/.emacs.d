@@ -1432,5 +1432,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :hook (haskell-mode . intero-mode)
   )
 
+(use-package helm-aws
+  :straight (helm-aws :type git :host github :repo "istib/helm-aws")
+  )
+
 ; 2
 ;;; init.el ends here
