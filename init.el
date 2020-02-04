@@ -270,7 +270,7 @@
 (bind-key "H-K" 'kill-this-buffer)
 (bind-key "H-c c" 'comment-or-uncomment-region)
 (bind-key "H-a" 'align-current)
-(bind-key "H-w" 'eval-region)
+(bind-key "H-E" 'eval-region)
 (bind-key "H-L" 'display-line-numbers-mode)
 (bind-key "H-l g" 'goto-line)
 (bind-key "<C-M-backspace>" 'backward-kill-sexp)
@@ -373,8 +373,15 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
          (let ((backward-delete-char-untabify-method 'hungry))
            (call-interactively 'backward-delete-char-untabify)))))
 
+
 (require 'stagger-mode)
 (bind-key "A-s" 'stagger-mode)
+
+(require 'increment-chars)
+(bind-key "H-i l" 'increment-char-at-point)
+(bind-key "H-i h" 'decrement-char-at-point)
+(bind-key "H-i j" 'increment-number-or-char-at-point)
+(bind-key "H-i k" 'decrement-number-or-char-at-point)
 
 ;; TODO: Remap move-paragraph ( M-{ , M-} ) to M-[ M-]
 
@@ -525,6 +532,10 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (use-package flycheck-inline
   :hook
   (flycheck-mode . turn-on-flycheck-inline))
+
+(use-package flyspell
+  :hook
+  (prog-mode . flyspell-prog-mode))
 
 ;; Auto-complete
 ;; (use-package auto-complete
@@ -1082,14 +1093,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;;; phi-search
 ;;  ---------------------------------------------------------------------------
-(use-package phi-search
-  :init
-  (require 'phi-replace)
-  :custom
-  (phi-search-limit 10000)
-  :bind (("C-s" . phi-search)
-         ("C-r" . phi-search-backward)
-         ("H-R" . phi-replace-query)))
+;; (use-package phi-search
+;;   :init
+;;   (require 'phi-replace)
+;;   :custom
+;;   (phi-search-limit 10000)
+;;   :bind (("C-s" . phi-search)
+;;          ("C-r" . phi-search-backward)
+;;          ("H-R" . phi-replace-query)))
 
 
 ;;; rustic
@@ -1128,7 +1139,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package objed
-  ;; :quelpa (objed :fetcher git :url "https://github.com/clemera/objed" :branch "master")
+  :straight (objed :type git :host github :repo "clemera/objed")
   :config
   (use-package avy)
   :bind ("H-e" . objed-activate))
@@ -1204,7 +1215,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (paradox-execute-asynchronously t))
 
 (use-package helm-posframe
-  :disabled
+  ;; :disabled
   :custom
   (helm-posframe-poshandler 'posframe-poshandler-frame-center))
 
@@ -1435,6 +1446,34 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package helm-aws
   :straight (helm-aws :type git :host github :repo "istib/helm-aws")
   )
+
+
+(use-package easy-kill
+  :bind
+  ("H-w" . easy-kill)
+  ("H-v" . easy-mark))
+
+(use-package easy-kill-extras
+  :bind (
+         ("H-z" . easy-mark-to-char)
+         )
+  :config
+  (add-to-list 'easy-kill-alist '(?^ backward-line-edge ""))
+  (add-to-list 'easy-kill-alist '(?$ forward-line-edge ""))
+  (add-to-list 'easy-kill-alist '(?h buffer ""))
+  (add-to-list 'easy-kill-alist '(?< buffer-before-point ""))
+  (add-to-list 'easy-kill-alist '(?> buffer-after-point ""))
+  (add-to-list 'easy-kill-alist '(?f string-to-char-forward ""))
+  (add-to-list 'easy-kill-alist '(?F string-up-to-char-forward ""))
+  (add-to-list 'easy-kill-alist '(?t string-to-char-backward ""))
+  (add-to-list 'easy-kill-alist '(?T string-up-to-char-backward ""))
+  )
+
+
+(use-package ctrlf
+  :straight (ctrlf :type git :host github :repo "raxod502/ctrlf")
+  :config
+  (ctrlf-mode))
 
 
 ;;; init.el ends here

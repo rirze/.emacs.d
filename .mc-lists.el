@@ -12,6 +12,7 @@
         crux-kill-line-backwards
         crux-kill-whole-line
         crux-top-join-line
+        easy-mark-to-char
         electric-newline-and-maybe-indent
         end-of-buffer
         goto-line
