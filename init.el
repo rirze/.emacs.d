@@ -731,19 +731,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package helm
   :diminish helm-mode
   :config
-  (use-package helm-projectile
-    :config
-    (helm-projectile-on))
-  (use-package helm-ag)
-  (use-package helm-company
-    :config
-    (progn
-     (define-key company-mode-map (kbd "H-;") 'helm-company)
-     (define-key company-active-map (kbd "H-;") 'helm-company)))
+  (helm-mode 1)
   :custom
   ; (helm-linum-relative-mode 1)
-  (helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
-  (helm-mode 1)
+  (helm-completion-style 'emacs)
+  (completion-styles '(selectrum)) ;'(helm-flex))
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
@@ -751,6 +743,26 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("M-y" . helm-show-kill-ring)
          ("H-\\" . helm-semantic-or-imenu)
          ("H-'" . helm-occur)))
+
+(use-package helm-projectile
+    :config
+    (helm-projectile-on))
+
+(use-package helm-ag)
+  (use-package helm-company
+    :config
+    (progn
+     (define-key company-mode-map (kbd "H-;") 'helm-company)
+     (define-key company-active-map (kbd "H-;") 'helm-company)))
+
+(use-package helm-fzf
+  :straight (helm-fzf :type git :host github :repo "ofnhwx/helm-fzf"))
+
+(use-package helm-flycheck
+  :straight (helm-flycheck :type git :host github :repo "cslux/helm-flycheck")
+  :bind (
+         ("C-c h" . helm-flycheck))
+  )
 
 ;; Dumb jump
 (use-package dumb-jump
