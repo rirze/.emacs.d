@@ -1360,7 +1360,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package vterm
   :straight (vterm :type git :host github :repo "akermu/emacs-libvterm")
-  :bind (:map vterm-mode-map
+  :bind (("C-c v" . vterm)
+         :map vterm-mode-map
               ("C-g" . vterm--self-insert)
               ("C-u" . vterm--self-insert)
               ("C-k" . vterm--self-insert)
@@ -1373,8 +1374,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom
   (vterm-toggle-fullscreen-p nil)
   :bind (
-         ("H-t" . vterm-toggle)
+         ("H-t t" . vterm-toggle)
          ("H-T" . vterm-toggle-cd)
+         ("H-t d" . vterm-toggle-insert-cd)
+         ("H-t n" . vterm-toggle-forward)
+         ("H-t p" . vterm-toggle-forward)
          )
   )
 
