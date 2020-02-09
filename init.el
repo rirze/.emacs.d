@@ -688,6 +688,21 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; Silversearcher support - faster-than-grep
 (use-package ag)
 
+(use-package selectrum
+  :straight (selectrum :host github :repo "raxod502/selectrum")
+  :init
+  (use-package prescient
+    :straight (selectrum-prescient :host github :repo "raxod502/prescient.el"
+                                   :files ("selectrum-prescient.el"))
+    :config
+    ;; to save your command history on disk, so the sorting gets more
+    ;; intelligent over time
+    (prescient-persist-mode +1))
+  :config
+  ;; integrate the two
+  (selectrum-prescient-mode +1)
+  )
+
 ;;; Navigation and projects
 ;;  ----------------------------------------------------------------------------
 
