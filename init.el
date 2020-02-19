@@ -750,7 +750,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom
   ; (helm-linum-relative-mode 1)
   (helm-completion-style 'emacs)
-  (completion-styles '(selectrum)) ;'(helm-flex))
+  (completion-styles '(helm-flex)) ;'(helm-flex))
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
@@ -957,6 +957,21 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   ;; "<option value="">Unresolved</option>"
   )
 
+(use-package org-roam
+  :after org
+  :hook
+  ((org-mode . org-roam-mode)
+   (after-init . org-roam--build-cache-async) ;; optional!
+   )
+  :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
+  :custom
+  (org-roam-directory "~/org")
+  :bind
+  ("C-c n l" . org-roam)
+  ("C-c n t" . org-roam-today)
+  ("C-c n f" . org-roam-find-file)
+  ("C-c n i" . org-roam-insert)
+  ("C-c n g" . org-roam-show-graph))
 
 ;;; aggressive-indent-mode
 ;;  ---------------------------------------------------------------------------
