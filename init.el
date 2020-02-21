@@ -63,6 +63,9 @@
             (message "gc-cons-threshold restored to %S"
                      gc-cons-threshold)))
 
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+
 ;; Get user PATH
 (use-package exec-path-from-shell
   :config
@@ -1106,6 +1109,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     )
   :custom
   (lsp-prefer-flymake nil)
+  (lsp-prefer-capf t)
   )
 
 ;;; company-tabnine
