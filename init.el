@@ -826,6 +826,17 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package pip-requirements)
 
+(use-package lsp-python-ms
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp)
+                         )
+                     )
+  :custom
+  (lsp-python-ms-python-executable-cmd "python3")
+  (lsp-disabled-clients '(pyls)))
+
 ;;; Java
 ;;  ----------------------------------------------------------------------------
 (use-package lsp-java
