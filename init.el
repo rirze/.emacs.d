@@ -517,6 +517,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 (use-package diminish)
 
+(diminish 'eldoc-mode)
+
 ;; Smartparens - keep parentheses balanced
 (use-package smartparens
   :diminish smartparens-mode
@@ -543,11 +545,13 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   (flycheck-python-mypy-executable   "python3")
   :config
   (global-flycheck-mode))
+
 (use-package flycheck-inline
   :hook
   (flycheck-mode . turn-on-flycheck-inline))
 
 (use-package flyspell
+  :diminish flyspell-mode
   :hook
   (prog-mode . flyspell-prog-mode))
 
@@ -620,6 +624,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 ;; Yasnippet
 (use-package yasnippet
+  :diminish yas-minor-mode
   :init
   (use-package yasnippet-snippets)
   :custom
@@ -1394,9 +1399,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (ts-require-language 'python)
 (ts-require-language 'json)
 (ts-require-language 'javascript)
+(diminish 'tree-sitter-mode)
 
 (setq tree-sitter-highlight-query-dir "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/grammars")
 (require 'tree-sitter-highlight)
+(diminish 'tree-sitter-highlight-mode)
 
 (defun enable-ts-hl ()
   (tree-sitter-highlight-mode))
