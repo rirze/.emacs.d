@@ -298,6 +298,17 @@
   )
 (bind-key "H-f" 'frame-resize-hydra/body)
 
+
+(defun switch-to-minibuffer ()
+  "Switch to minibuffer window."
+  (interactive)
+  (if (active-minibuffer-window)
+      (select-window (active-minibuffer-window))
+    (error "Minibuffer is not active")))
+
+(bind-key "C-c o" 'switch-to-minibuffer)
+
+
 ;; select current line
 (defun select-current-line ()
   "Select the current line."
