@@ -12,6 +12,7 @@
         crux-kill-line-backwards
         crux-kill-whole-line
         crux-top-join-line
+        decrement-number-or-char-at-point
         easy-mark-to-char
         electric-newline-and-maybe-indent
         end-of-buffer
@@ -19,6 +20,7 @@
         hydra--negative-argument
         hydra-mc/mc/mark-sgml-tag-pair
         ignore
+        increment-number-or-char-at-point
         indent-for-tab-command
         kakoune-d
         kakoune-insert-mode

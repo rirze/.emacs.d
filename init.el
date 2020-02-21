@@ -998,7 +998,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; operate-on-number
 ;;  ---------------------------------------------------------------------------
 (use-package operate-on-number
-  :bind (("H-=" . operate-on-number-at-point)))
+  :bind (("H-i =" . operate-on-number-at-point)))
 
 ;;; discover-my-major
 ;;  ---------------------------------------------------------------------------
