@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun increment-char-at-point (&optional arg)
   "Increment number or character at point."
   (interactive "*p")

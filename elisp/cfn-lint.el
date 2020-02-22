@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;;; package --- Summary
 ;; Set up a mode for JSON based templates
 
