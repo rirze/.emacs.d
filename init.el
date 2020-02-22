@@ -1134,6 +1134,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :config
     (push 'company-lsp company-backends)
     )
+  (advice-add #'lsp--spinner-start :around #'ignore)
+  (advice-add #'lsp--spinner-stop :around #'ignore)
   :custom
   (lsp-prefer-flymake nil)
   (lsp-prefer-capf t)
