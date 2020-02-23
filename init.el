@@ -443,78 +443,79 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
 
-(setq package-list '(ag
-                     auto-yasnippet
-                     ;;autopair
-                     ;; dumb-jump
-                     diminish
-                     ;;lsp-mode ;eglot
-                     ;;ein-mumamo
-                     ;;ein
-                     auto-complete
-                     ;; elpy
-                     ;;company
-                     ;; exec-path-from-shell
-                     fill-column-indicator
-                     ;;find-file-in-project
-                     flycheck
-                     flymake
-                     ;;git-commit-mode
-                     helm-ag
-                     helm-projectile
-                     ;;helm-sage
-                     helm-system-packages
-                     helm
-                     helm-core
-                     ;; highlight-indentation
-                     ;;htmlize
-                     ;; ido-hacks
-                     ;;ido-vertical-mode
-                     ;; ivy
-                     json-mode
-                     json-reformat
-                     json-snatcher
-                     jsonrpc
-                     git-commit
-                     ;; magit-popup
-                     ;;mmm-mode
-                     ;; multiple-cursors
-                     ob-ipython
-                     dash-functional
-                     ;; org
-                     ;;org-ehtml
-                     php-mode
-                     popup
-                     project-explorer
-                     es-windows
-                     es-lib
-                     pyvenv
-                     request
-                     markdown-mode
-                     pkg-info
-                     epl
-                     f
-                     dash
-                     s
-                     deferred
-                     shell-switcher
-                     spinner
-                     ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
-                     ;; switch-window
-                     ;; telephone-line
-                     web-server
-                     websocket
-                     with-editor
-                     async
-                     xterm-color
-                     yaml-mode
-                     yasnippet))
+;; (setq package-list '(ag
+;;                      auto-yasnippet
+;;                      ;;autopair
+;;                      ;; dumb-jump
+;;                      diminish
+;;                      ;;lsp-mode ;eglot
+;;                      ;;ein-mumamo
+;;                      ;;ein
+;;                      auto-complete
+;;                      ;; elpy
+;;                      ;;company
+;;                      ;; exec-path-from-shell
+;;                      fill-column-indicator
+;;                      ;;find-file-in-project
+;;                      flycheck
+;;                      flymake
+;;                      ;;git-commit-mode
+;;                      helm-ag
+;;                      helm-projectile
+;;                      ;;helm-sage
+;;                      helm-system-packages
+;;                      helm
+;;                      helm-core
+;;                      ;; highlight-indentation
+;;                      ;;htmlize
+;;                      ;; ido-hacks
+;;                      ;;ido-vertical-mode
+;;                      ;; ivy
+;;                      json-mode
+;;                      json-reformat
+;;                      json-snatcher
+;;                      jsonrpc
+;;                      git-commit
+;;                      ;; magit-popup
+;;                      ;;mmm-mode
+;;                      ;; multiple-cursors
+;;                      ob-ipython
+;;                      dash-functional
+;;                      ;; org
+;;                      ;;org-ehtml
+;;                      php-mode
+;;                      popup
+;;                      project-explorer
+;;                      es-windows
+;;                      es-lib
+;;                      pyvenv
+;;                      request
+;;                      markdown-mode
+;;                      pkg-info
+;;                      epl
+;;                      f
+;;                      dash
+;;                      s
+;;                      deferred
+;;                      shell-switcher
+;;                      spinner
+;;                      ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
+;;                      ;; switch-window
+;;                      ;; telephone-line
+;;                      web-server
+;;                      websocket
+;;                      with-editor
+;;                      async
+;;                      xterm-color
+;;                      yaml-mode
+;;                      yasnippet))
 
-(unless package-archive-contents
-  (package-refresh-contents))
-(dolist (package package-list)
-  (unless (package-installed-p package)
-    (use-package package)))
+;; (unless package-archive-contents
+;;   (package-refresh-contents))
+;; (dolist (package package-list)
+;;   (unless (package-installed-p package)
+;;     (use-package package)))
+
 
 (use-package diminish)
 
