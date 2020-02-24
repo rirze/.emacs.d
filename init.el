@@ -1310,6 +1310,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; json tools
 (use-package json-mode
   :straight (json-mode :type git :host github :repo "DoMiNeLa10/json-mode")
+  :custom
+  ;; (json-reformat:indent-level 2)
+  ;; (js2-basic-offset 2)
+  (js-indent-level 2)
   )
 
 

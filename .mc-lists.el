@@ -19,6 +19,7 @@
         goto-line
         hydra--negative-argument
         hydra-mc/mc/mark-sgml-tag-pair
+        hydra-mc/mc/sort-regions
         ignore
         increment-number-or-char-at-point
         indent-for-tab-command
