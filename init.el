@@ -927,6 +927,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          )
   )
 
+(use-package ace-link
+  :config
+  (ace-link-setup-default)
+  )
 ;;; Highlight-Indentation
 
 ;; -----------------------------------------------------------------------------
