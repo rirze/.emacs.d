@@ -6,6 +6,7 @@
 ;;; Code:
 (package-initialize)
 ;;(package-refresh-contents)
+
 (add-to-list 'load-path "~/.emacs.d/elpa")
 (add-to-list 'load-path "~/.emacs.d/cart")
 (add-to-list 'load-path "~/.emacs.d/elisp/")
@@ -13,6 +14,7 @@
 (setq package-check-signature nil)  ; because GNU ELPA keeps choking on the sigs
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
 
 ;; don't auto-initialize
 (setq package-enable-at-startup nil
@@ -48,11 +50,6 @@
 (setq straight-use-package-by-default t)
 (setq straight-check-for-modifications '(watch-files find-when-checking))
 
-;; ;; quelpa and quelpa-use-package
-;; (use-package quelpa
-;;   :config
-;;   (setq quelpa-upgrade-p t))
-;; (use-package quelpa-use-package)
 
 ;; Increase Garbage Collector size, improves startup speed
 (setq gc-cons-threshold 50000000)
@@ -64,7 +61,8 @@
             (message "gc-cons-threshold restored to %S"
                      gc-cons-threshold)))
 
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+;; improve process parsing speed (JSON, language servers, etc)
+(setq read-process-output-max (* 2048 2048)) ;; 2mb
 
 
 ;; Get user PATH
@@ -83,6 +81,7 @@
 (if my/wsl
     (progn
       (setq browse-url-browser-function 'browse-url-generic browse-url-generic-program "wslview")))
+
 
 ;;; Preferences
 ;;  ----------------------------------------------------------------------------
@@ -163,9 +162,9 @@
    ("H-o r" . switch-window-then-delete)
    ("H-o d" . switch-window-then-dired)
    ("H-o f" . switch-window-then-find-file)
+   ("H-o H-f" . switch-window-then-find-file)
    ("H-o M" . switch-window-then-compose-mail)
    ("H-o n" . switch-window-then-find-file-read-only)
-   ("H-o H-f" . switch-window-then-find-file)
    ("H-o H-o" . switch-window-then-display-buffer))
   )
 
@@ -189,7 +188,7 @@
 (size-indication-mode t)
 
 ;; Show keystrokes in progress
-(setq echo-keystrokes 0.1)
+(setq echo-keystrokes 0.01)
 
 ;; Real emacs knights don't use shift to mark things
 (setq shift-select-mode nil)
@@ -973,6 +972,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package org-jira
+  :disabled
   :custom
   (jiralib-url "https://code.integrity-apps.com:8443/jira")
   (org-jira-jira-status-to-org-keyword-alist
