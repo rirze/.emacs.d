@@ -785,11 +785,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (helm-projectile-on))
 
 (use-package helm-ag)
-  (use-package helm-company
-    :config
-    (progn
-     (define-key company-mode-map (kbd "H-;") 'helm-company)
-     (define-key company-active-map (kbd "H-;") 'helm-company)))
+(use-package helm-company
+  :config
+  (progn
+    (define-key company-mode-map (kbd "H-;") 'helm-company)
+    (define-key company-active-map (kbd "H-;") 'helm-company)))
 
 (use-package helm-fzf
   :straight (helm-fzf :type git :host github :repo "ofnhwx/helm-fzf"))
@@ -1105,6 +1105,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;  ---------------------------------------------------------------------------
 (use-package company
   :defer t
+  :diminish company-mode
   :hook (after-init-hook . global-company-mode)
   :custom
   (company-idle-delay 0)
