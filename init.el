@@ -519,6 +519,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (use-package diminish)
 
 (diminish 'eldoc-mode)
+(diminish 'subword-mode)
 
 ;; Smartparens - keep parentheses balanced
 (use-package smartparens
