@@ -823,6 +823,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;; Elpy makes Emacs a full Python IDE.
 (use-package elpy
+  :disabled
   :custom
   (elpy-rpc-python-command "python3")
   (elpy-modules '(elpy-module-company))
@@ -833,16 +834,29 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package pip-requirements)
 
+(defun my/setup-ms-python-lsp ()
+  "Setup us Microsoft Python Language Server with custom Flycheck module since mspyls doesn't have a syntax checker."
+  (progn
+    (require 'lsp-python-ms)
+    (lsp)
+    (setq-local flycheck-checker 'python-flake8))
+  )
+
 (use-package lsp-python-ms
   :ensure t
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-python-ms)
-                         (lsp)
-                         )
-                     )
+  :hook (python-mode . my/setup-ms-python-lsp)
   :custom
   (lsp-python-ms-python-executable-cmd "python3")
   (lsp-disabled-clients '(pyls)))
+
+(use-package flycheck-pycheckers
+  :after flycheck
+  :straight (flycheck-pycheckers :host github :repo "msherry/flycheck-pycheckers")
+  :hook (flycheck-mode . flycheck-pycheckers-setup)
+  :custom
+  (flycheck-pycheckers-command "~/.emacs.d/straight/repos/flycheck-pycheckers/bin/pycheckers.py")
+  (flycheck-pycheckers-checkers '(flake8)))
+
 
 ;;; Java
 ;;  ----------------------------------------------------------------------------
