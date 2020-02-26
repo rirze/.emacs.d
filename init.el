@@ -763,13 +763,29 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (persp-mode))
   (projectile-mode +1))
 
+;; fzf - fuzzy file finder
+(use-package fzf)
+
+(defun my/helm-run-fzf (candidate)
+  "Start fzf from helm's current directory."
+  (interactive)
+  (let ((helm-current-dir (file-name-directory (helm-get-selection))))
+      (fzf/start helm-current-dir)))
+
+(defun my/helm-ff-switch-to-fzf ()
+  "Stop helm find-files and use fzf."
+  (interactive)
+  (with-helm-alive-p
+    (helm-exit-and-execute-action 'my/helm-run-fzf)))
+
 ;; Helm - incremental completions and narrowing
 (use-package helm
   :diminish helm-mode
   :config
   (helm-mode 1)
+  (helm-add-action-to-source "Switch to fzf" #'my/helm-run-fzf helm-source-find-files)
   :custom
-  ; (helm-linum-relative-mode 1)
+  ;;; (helm-linum-relative-mode 1)
   (helm-completion-style 'emacs)
   (completion-styles '(helm-flex)) ;'(helm-flex))
   :bind (("M-x" . helm-M-x)
@@ -778,7 +794,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("C-z" . helm-select-action)
          ("M-y" . helm-show-kill-ring)
          ("H-\\" . helm-semantic-or-imenu)
-         ("H-'" . helm-occur)))
+         ("H-'" . helm-occur)
+         :map helm-find-files-map
+         ("C-," . my/helm-ff-switch-to-fzf)))
 
 (use-package helm-projectile
     :config
@@ -790,9 +808,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (progn
     (define-key company-mode-map (kbd "H-;") 'helm-company)
     (define-key company-active-map (kbd "H-;") 'helm-company)))
-
-(use-package helm-fzf
-  :straight (helm-fzf :type git :host github :repo "ofnhwx/helm-fzf"))
 
 (use-package helm-flycheck
   :straight (helm-flycheck :type git :host github :repo "cslux/helm-flycheck")
