@@ -837,9 +837,18 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (defun my/setup-ms-python-lsp ()
   "Setup us Microsoft Python Language Server with custom Flycheck module since mspyls doesn't have a syntax checker."
   (progn
+    (setq-local lsp-flycheck-live-reporting nil) ; mspyls doesn't report errors, so disable lsp waiting for errors
     (require 'lsp-python-ms)
     (lsp)
-    (setq-local flycheck-checker 'python-flake8))
+    (my/setup-python-flycheck)
+    )
+  )
+
+(defun my/setup-python-flycheck ()
+  "Setup the default python Flycheck syntax checker."
+  (progn
+    (setq-local flycheck-checker 'python-flake8)
+    )
   )
 
 (use-package lsp-python-ms
