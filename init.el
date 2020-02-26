@@ -1161,15 +1161,31 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;  ---------------------------------------------------------------------------
 (use-package lsp-mode
   :config
-  (use-package company-lsp
-    :config
-    (push 'company-lsp company-backends)
-    )
   (advice-add #'lsp--spinner-start :around #'ignore)
   (advice-add #'lsp--spinner-stop :around #'ignore)
   :custom
   (lsp-prefer-flymake nil)
   (lsp-prefer-capf t)
+  )
+
+(use-package company-lsp
+  :after lsp-mode
+  :config
+  (push 'company-lsp company-backends)
+  )
+
+(use-package company-box
+  :hook (company-mode . company-box-mode)
+  :disabled
+  )
+
+(use-package lsp-ui
+  :disabled
+  :custom
+  (lsp-ui-doc-max-height 20)
+  (lsp-ui-doc-max-width 50)
+  (lsp-ui-sideline-ignore-duplicate t)
+  (lsp-ui-peek-always-show t)
   )
 
 ;;; company-tabnine
