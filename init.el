@@ -1461,23 +1461,26 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (ts-require-language 'rust)
   (ts-require-language 'python))
 
-(add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter")
+;; (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/")
+(add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/lisp")
 (require 'tree-sitter)
-(ts-require-language 'rust)
-(ts-require-language 'python)
-(ts-require-language 'json)
-(ts-require-language 'javascript)
+;; (ts-require-language 'rust)
+;; (ts-require-language 'python)
+;; (ts-require-language 'json)
+;; (ts-require-language 'javascript)
 (diminish 'tree-sitter-mode)
 
-(setq tree-sitter-highlight-query-dir "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/grammars")
+(setq tree-sitter-highlight-query-dir "/home/chronos/cart")
 (require 'tree-sitter-highlight)
 (diminish 'tree-sitter-highlight-mode)
 
 (defun enable-ts-hl ()
+  (font-lock-mode -1) ;; Disable font-lock mode
   (tree-sitter-highlight-mode))
 
-(add-hook 'python-mode-hook 'enable-ts-hl)
-(add-hook 'js-mode-hook 'enable-ts-hl)
+(add-to-list 'tree-sitter-major-mode-language-alist '((python-mode . python)))
+(add-hook 'python-mode-hook #'enable-ts-hl)
+;; (add-hook 'js-mode-hook 'enable-ts-hl)
 ;; (add-hook 'rustic-mode-hook 'enable-ts-hl)
 
 
