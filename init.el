@@ -763,27 +763,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (persp-mode))
   (projectile-mode +1))
 
-;; fzf - fuzzy file finder
-(use-package fzf)
-
-(defun my/helm-run-fzf (candidate)
-  "Start fzf from helm's current directory."
-  (interactive)
-  (let ((helm-current-dir (file-name-directory (helm-get-selection))))
-      (fzf/start helm-current-dir)))
-
-(defun my/helm-ff-switch-to-fzf ()
-  "Stop helm find-files and use fzf."
-  (interactive)
-  (with-helm-alive-p
-    (helm-exit-and-execute-action 'my/helm-run-fzf)))
 
 ;; Helm - incremental completions and narrowing
 (use-package helm
   :diminish helm-mode
   :config
   (helm-mode 1)
-  (helm-add-action-to-source "Switch to fzf" #'my/helm-run-fzf helm-source-find-files)
+  ;; (helm-add-action-to-source "Switch to fzf" #'my/helm-run-fzf helm-source-find-files)
   :custom
   ;;; (helm-linum-relative-mode 1)
   (helm-completion-style 'emacs)
@@ -795,8 +781,27 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("M-y" . helm-show-kill-ring)
          ("H-\\" . helm-semantic-or-imenu)
          ("H-'" . helm-occur)
-         :map helm-find-files-map
-         ("C-," . my/helm-ff-switch-to-fzf)))
+         )
+  )
+
+(use-package helm-fzf
+  :straight (helm-fzf :type git :host github :repo "ofnhwx/helm-fzf")
+  :custom
+  (helm-fzf-executable "fd --type f | fzf")
+  ; '(helm-fzf-args '())
+  :config
+  (defun fzf-from-helm-session ()
+    "run fzf from a helm session."
+    (interactive)
+    (with-helm-alive-p
+      (helm-run-after-exit
+       'helm-fzf
+       helm-ff-default-directory)))
+  :bind (:map helm-find-files-map
+              ("C-," . fzf-from-helm-session)
+              )
+  )
+
 
 (use-package helm-projectile
     :config
