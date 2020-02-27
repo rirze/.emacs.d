@@ -835,6 +835,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; Basic python-mode config.
 (use-package python
   :mode ("\\.py\\'" . python-mode)
+  :diminish subword-mode
   :interpreter ("/usr/bin/ipython3" . python-mode)
   :hook
   (python-mode . subword-mode)
