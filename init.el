@@ -1466,13 +1466,17 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (ts-require-language 'rust)
   (ts-require-language 'python))
 
+
+(defun my/pre-tree-sitter-install ()
+  "Function to run before tree-sitter install."
+  (require 'tree-sitter-langs)
+  (tree-sitter-download-dyn-module)
+  (tree-sitter-langs-install)
+  )
+
 ;; (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/")
 (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/lisp")
 (require 'tree-sitter)
-;; (ts-require-language 'rust)
-;; (ts-require-language 'python)
-;; (ts-require-language 'json)
-;; (ts-require-language 'javascript)
 (diminish 'tree-sitter-mode)
 
 (setq tree-sitter-highlight-query-dir "/home/chronos/cart")
