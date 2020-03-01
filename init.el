@@ -1057,6 +1057,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package org-roam
+  :diminish org-roam-mode
   :after org
   :hook
   ((org-mode . org-roam-mode)
