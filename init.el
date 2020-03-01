@@ -785,10 +785,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package helm-fzf
+  :after helm
   :straight (helm-fzf :type git :host github :repo "ofnhwx/helm-fzf")
   :custom
-  (helm-fzf-executable "fd --type f | fzf")
-  ; '(helm-fzf-args '())
+  (helm-fzf-executable "fd | sk")
+  ;; '(helm-fzf-args '())
   :config
   (defun fzf-from-helm-session ()
     "run fzf from a helm session."
@@ -797,9 +798,26 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (helm-run-after-exit
        'helm-fzf
        helm-ff-default-directory)))
-  :bind (:map helm-find-files-map
-              ("C-," . fzf-from-helm-session)
-              )
+  ;; (map-put helm-find-files-actions '"fff `C-,'" 'fzf-from-helm-session)
+  ;; (setq helm-find-files-actions (append helm-find-files-actions "fff `C-,'" 'fzf-from-helm-session))
+  :bind
+  (:map helm-find-files-map
+        ("C-," . fzf-from-helm-session)
+        )
+  )
+
+(use-package fuz
+  :diminish helm-fuz-mode
+  :after helm
+  :straight (fuz :host github :repo "rustify-emacs/fuz.el" :files (:defaults "Cargo*" "src"))
+  :init
+  (setq completion-styles '())
+  :config
+  (unless (require 'fuz-core nil t)
+    (fuz-build-and-load-dymod))
+  (require 'fuz-core)
+  (require 'helm-fuz)
+  (helm-fuz-mode)
   )
 
 
