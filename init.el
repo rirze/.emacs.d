@@ -769,7 +769,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :diminish helm-mode
   :config
   (helm-mode 1)
-  ;; (helm-add-action-to-source "Switch to fzf" #'my/helm-run-fzf helm-source-find-files)
   :custom
   ;;; (helm-linum-relative-mode 1)
   (helm-completion-style 'emacs)
@@ -798,6 +797,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
       (helm-run-after-exit
        'helm-fzf
        helm-ff-default-directory)))
+  ;; (helm-add-action-to-source "Switch to fzf" #'my/helm-run-fzf helm-source-find-files)
   ;; (map-put helm-find-files-actions '"fff `C-,'" 'fzf-from-helm-session)
   ;; (setq helm-find-files-actions (append helm-find-files-actions "fff `C-,'" 'fzf-from-helm-session))
   :bind
