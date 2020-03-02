@@ -275,7 +275,7 @@
 (bind-key "H-a" 'align-current)
 (bind-key "H-E" 'eval-region)
 (bind-key "H-L" 'display-line-numbers-mode)
-(bind-key "H-l g" 'goto-line)
+(bind-key "H-g l" 'goto-line)
 (bind-key "<C-M-backspace>" 'backward-kill-sexp)
 (bind-key "C-c m b" 'eval-buffer)
 (bind-key "C-c m e" 'eval-last-sexp)
@@ -316,7 +316,7 @@
   (end-of-line) ; move to end of line
   (set-mark (line-beginning-position)))
 
-(bind-key "H-l l" 'select-current-line)
+(bind-key "H-c L" 'select-current-line)
 
 (defun my/smarter-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
@@ -1200,6 +1200,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; company-lsp
 ;;  ---------------------------------------------------------------------------
 (use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "H-l")
   :config
   (advice-add #'lsp--spinner-start :around #'ignore)
   (advice-add #'lsp--spinner-stop :around #'ignore)
