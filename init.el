@@ -778,7 +778,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("C-x b" . helm-buffers-list)
          ("C-z" . helm-select-action)
          ("M-y" . helm-show-kill-ring)
-         ("H-\\" . helm-semantic-or-imenu)
+         ("H-;" . helm-semantic-or-imenu)
          ("H-'" . helm-occur)
          )
   )
