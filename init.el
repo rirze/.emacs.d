@@ -397,6 +397,14 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (bind-key "H-i j" 'increment-number-or-char-at-point)
 (bind-key "H-i k" 'decrement-number-or-char-at-point)
 
+(defun my/upcase-word ()
+  "Upcase the word that is before the point."
+  (interactive)
+  (backward-word)
+  (upcase-word 1))
+
+(bind-key "M-U" 'my/upcase-word)
+
 ;; TODO: Remap move-paragraph ( M-{ , M-} ) to M-[ M-]
 
 ;;; Default Emacs Packages Configuration
