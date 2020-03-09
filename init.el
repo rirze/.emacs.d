@@ -397,13 +397,12 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (bind-key "H-i j" 'increment-number-or-char-at-point)
 (bind-key "H-i k" 'decrement-number-or-char-at-point)
 
-(defun my/upcase-word ()
-  "Upcase the word that is before the point."
-  (interactive)
-  (backward-word)
-  (upcase-word 1))
+(defun my/backward-capitalize-word (number)
+  "Captialize the word that is before the point."
+  (interactive "p")
+  (capitalize-word (- number)))
 
-(bind-key "M-U" 'my/upcase-word)
+(bind-key "M-c" 'my/backward-capitalize-word)
 
 ;; TODO: Remap move-paragraph ( M-{ , M-} ) to M-[ M-]
 
