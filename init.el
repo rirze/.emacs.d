@@ -898,8 +898,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 
 (use-package helm-projectile
-    :config
-    (helm-projectile-on))
+  :config
+  (helm-projectile-on))
 
 (use-package helm-ag
   :ensure-system-package ag)
@@ -1094,9 +1094,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :disabled
   :init
   (setq telephone-line-primary-right-separator 'telephone-line-halfcos-left
-     telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
-     telephone-line-primary-left-separator 'telephone-line-halfcos-left
-     telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
+        telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
+        telephone-line-primary-left-separator 'telephone-line-halfcos-left
+        telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
   (telephone-line-mode 1))
 
 ;;; Org-Mode
@@ -1516,35 +1516,35 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (push '((nil . "ryo:.*:") . (nil . "")) which-key-replacement-alist)
   (defun ryo-enter () "Enter normal mode" (interactive) (ryo-modal-mode 1))
   (defun my/kakoune-setup ()
-      "Call kakoune-setup-keybinds and then add some personal config."
-      (kakoune-setup-keybinds)
-      (setq ryo-modal-cursor-type 'box)
-      (setq ryo-modal-cursor-color "PaleGreen")
-      ;; (add-hook 'prog-mode-hook #'ryo-enter)
-      (define-key ryo-modal-mode-map (kbd "SPC h") 'help-command)
-      ;; Access all C-x bindings easily
-      (define-key ryo-modal-mode-map (kbd "z") ctl-x-map)
-      (ryo-modal-keys
-       ("," save-buffer)
-       ;; ("P" counsel-yank-pop)
-       ("m" mc/mark-next-like-this)
-       ("M" mc/skip-to-next-like-this)
-       ("n" mc/mark-previous-like-this)
-       ("N" mc/skip-to-previous-like-this)
-       ("M-m" mc/edit-lines)
-       ("*" mc/mark-all-like-this)
-       ("v" er/expand-region)
-       ("C-v" set-rectangular-region-anchor)
-       ("M-s" mc/split-region)
-       (";" (("q" delete-window)
-             ("v" split-window-horizontally)
-             ("s" split-window-vertically)))
-       ("C-h" windmove-left)
-       ("C-j" windmove-down)
-       ("C-k" windmove-up)
-       ("C-l" windmove-right)
-       ("C-u" scroll-down-command :first '(deactivate-mark))
-       ("C-d" scroll-up-command :first '(deactivate-mark)))))
+    "Call kakoune-setup-keybinds and then add some personal config."
+    (kakoune-setup-keybinds)
+    (setq ryo-modal-cursor-type 'box)
+    (setq ryo-modal-cursor-color "PaleGreen")
+    ;; (add-hook 'prog-mode-hook #'ryo-enter)
+    (define-key ryo-modal-mode-map (kbd "SPC h") 'help-command)
+    ;; Access all C-x bindings easily
+    (define-key ryo-modal-mode-map (kbd "z") ctl-x-map)
+    (ryo-modal-keys
+     ("," save-buffer)
+     ;; ("P" counsel-yank-pop)
+     ("m" mc/mark-next-like-this)
+     ("M" mc/skip-to-next-like-this)
+     ("n" mc/mark-previous-like-this)
+     ("N" mc/skip-to-previous-like-this)
+     ("M-m" mc/edit-lines)
+     ("*" mc/mark-all-like-this)
+     ("v" er/expand-region)
+     ("C-v" set-rectangular-region-anchor)
+     ("M-s" mc/split-region)
+     (";" (("q" delete-window)
+           ("v" split-window-horizontally)
+           ("s" split-window-vertically)))
+     ("C-h" windmove-left)
+     ("C-j" windmove-down)
+     ("C-k" windmove-up)
+     ("C-l" windmove-right)
+     ("C-u" scroll-down-command :first '(deactivate-mark))
+     ("C-d" scroll-up-command :first '(deactivate-mark)))))
 
 ;; This overrides the default mark-in-region with a prettier-looking one,
 ;; and provides a couple extra commands
@@ -1633,11 +1633,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :straight (vterm :type git :host github :repo "akermu/emacs-libvterm")
   :bind (("C-c v" . vterm)
          :map vterm-mode-map
-              ("C-g" . vterm--self-insert)
-              ("C-u" . vterm--self-insert)
-              ("C-k" . vterm--self-insert)
-              ("C-v" . vterm--self-insert)
-              ("C-2" . vterm--self-insert))
+         ("C-g" . vterm--self-insert)
+         ("C-u" . vterm--self-insert)
+         ("C-k" . vterm--self-insert)
+         ("C-v" . vterm--self-insert)
+         ("C-2" . vterm--self-insert))
   )
 
 (use-package vterm-toggle
@@ -1659,47 +1659,47 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-." . parrot-rotate-prev-word-at-point))
   :config
   (setq parrot-rotate-dict
-      '(
-        (:rot ("alpha" "beta") :caps t :lower nil)
-        ;; => rotations are "Alpha" "Beta"
+        '(
+          (:rot ("alpha" "beta") :caps t :lower nil)
+          ;; => rotations are "Alpha" "Beta"
 
-        (:rot ("yes" "no") :caps t :upcase t)
-        ;; => rotations are "yes" "no", "Yes" "No", "YES" "NO"
-        (:rot ("true" "false") :caps t :upcase t)
-        ;; => rotations are "true" "false", "True" "False", "TRUE" "FALSE"
+          (:rot ("yes" "no") :caps t :upcase t)
+          ;; => rotations are "yes" "no", "Yes" "No", "YES" "NO"
+          (:rot ("true" "false") :caps t :upcase t)
+          ;; => rotations are "true" "false", "True" "False", "TRUE" "FALSE"
 
-        (:rot ("&" "|"))
-        ;; => rotations are "&" "|"
+          (:rot ("&" "|"))
+          ;; => rotations are "&" "|"
 
-        (:rot ("(" "[" "{"))
-        (:rot (")" "]" "}"))
-        (:rot ("is" "is not"))
-        (:rot ("and" "or") :caps t :upcase t)
-        ;; default dictionary starts here ('v')
-        (:rot ("begin" "end") :caps t :upcase t)
-        (:rot ("enable" "disable") :caps t :upcase t)
-        (:rot ("enter" "exit") :caps t :upcase t)
-        (:rot ("forward" "backward") :caps t :upcase t)
-        (:rot ("front" "rear" "back") :caps t :upcase t)
-        (:rot ("get" "set") :caps t :upcase t)
-        (:rot ("high" "low") :caps t :upcase t)
-        (:rot ("in" "out") :caps t :upcase t)
-        (:rot ("left" "right") :caps t :upcase t)
-        (:rot ("min" "max") :caps t :upcase t)
-        (:rot ("on" "off") :caps t :upcase t)
-        (:rot ("prev" "next"))
-        (:rot ("start" "stop") :caps t :upcase t)
-        (:rot ("&&" "||"))
-        (:rot ("==" "!="))
-        (:rot ("<" ">"))
-        (:rot ("." "->"))
-        (:rot ("if" "else" "elif"))
-        (:rot ("ifdef" "ifndef"))
-        (:rot ("int8_t" "int16_t" "int32_t" "int64_t"))
-        (:rot ("uint8_t" "uint16_t" "uint32_t" "uint64_t"))
-        (:rot ("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10"))
-        (:rot ("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th"))
-        ))
+          (:rot ("(" "[" "{"))
+          (:rot (")" "]" "}"))
+          (:rot ("is" "is not"))
+          (:rot ("and" "or") :caps t :upcase t)
+          ;; default dictionary starts here ('v')
+          (:rot ("begin" "end") :caps t :upcase t)
+          (:rot ("enable" "disable") :caps t :upcase t)
+          (:rot ("enter" "exit") :caps t :upcase t)
+          (:rot ("forward" "backward") :caps t :upcase t)
+          (:rot ("front" "rear" "back") :caps t :upcase t)
+          (:rot ("get" "set") :caps t :upcase t)
+          (:rot ("high" "low") :caps t :upcase t)
+          (:rot ("in" "out") :caps t :upcase t)
+          (:rot ("left" "right") :caps t :upcase t)
+          (:rot ("min" "max") :caps t :upcase t)
+          (:rot ("on" "off") :caps t :upcase t)
+          (:rot ("prev" "next"))
+          (:rot ("start" "stop") :caps t :upcase t)
+          (:rot ("&&" "||"))
+          (:rot ("==" "!="))
+          (:rot ("<" ">"))
+          (:rot ("." "->"))
+          (:rot ("if" "else" "elif"))
+          (:rot ("ifdef" "ifndef"))
+          (:rot ("int8_t" "int16_t" "int32_t" "int64_t"))
+          (:rot ("uint8_t" "uint16_t" "uint32_t" "uint64_t"))
+          (:rot ("0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10"))
+          (:rot ("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th"))
+          ))
   )
 
 
