@@ -68,9 +68,9 @@
 
 ;; Get user PATH
 (use-package exec-path-from-shell
+  :if (memq window-system '(mac ns x))
   :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+  (exec-path-from-shell-initialize))
 
 ;; The :ensure-system-package keyword allows you to ensure system binaries exist alongside your package declarations.
 (use-package use-package-ensure-system-package)
@@ -155,10 +155,10 @@
 
 ;; switch-window
 (use-package switch-window
-  :config
-  (setq switch-window-minibuffer-shortcut ?z)
-  (setq switch-window-shortcut-style 'qwerty)
-  (setq switch-window-preferred 'helm)
+  :custom
+  (switch-window-minibuffer-shortcut ?z)
+  (switch-window-shortcut-style 'qwerty)
+  (switch-window-preferred 'helm)
   :bind
   (("H-o w" . switch-window)
    ("H-o m" . switch-window-then-maximize)
@@ -832,8 +832,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
    '(".idea" ".eunit" ".git" ".hg" ".svn" ".fslckout" ".bzr" "_darcs" ".tox" "build" "target"))
   :config
   (use-package persp-projectile
-    :config
-    (persp-mode))
+    :bind-keymap ("H-x" . perspective-map)
+    :commands (persp-mode))
   (projectile-mode +1))
 
 
