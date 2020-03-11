@@ -1510,11 +1510,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   ("u" undo-tree-undo)
   ("U" undo-tree-redo)
   ("SPC u" undo-tree-visualize)
-  :bind (:map undo-tree-visualizer-mode-map
-              ("h" . undo-tree-visualize-switch-branch-left)
-              ("j" . undo-tree-visualize-redo)
-              ("k" . undo-tree-visualize-undo)
-              ("l" . undo-tree-visualize-switch-branch-right)))
+  :bind (("C-x u" . undo-tree-visualize)
+         :map undo-tree-visualizer-mode-map
+         ("h" . undo-tree-visualize-switch-branch-left)
+         ("j" . undo-tree-visualize-redo)
+         ("k" . undo-tree-visualize-undo)
+         ("l" . undo-tree-visualize-switch-branch-right)))
 
 
 
