@@ -531,7 +531,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;; Smartparens - keep parentheses balanced
 (use-package smartparens
   :diminish smartparens-mode
-  :hook (prog-mode . smartparens-mode))
+  :hook (prog-mode . smartparens-mode)
+  :bind ("H-w" . sp-rewrap-sexp))
 
 ;; Highlight nested parentheses
 (use-package rainbow-delimiters
