@@ -1515,8 +1515,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; use tree-sitter
 (use-package tree-sitter
   :disabled
-  :init
-  (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter")
+  :load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter"
   :straight (tree-sitter :type git :host github :repo "ubolonton/emacs-tree-sitter")
   :config
   (ts-require-language 'rust)
