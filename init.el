@@ -1,5 +1,5 @@
-;; -*- lexical-binding: t; -*-
-;;; init.el --- my emacs configuration
+;;; init.el --- my emacs configuration  -*- lexical-binding: t; -*-
+
 ;;; Initialize
 ;;  -----------------------------------------------------------------------------
 ;;; Commentary:
@@ -7,9 +7,10 @@
 (package-initialize)
 ;;(package-refresh-contents)
 
-(add-to-list 'load-path "~/.emacs.d/elpa")
-(add-to-list 'load-path "~/.emacs.d/cart")
-(add-to-list 'load-path "~/.emacs.d/elisp/")
+(eval-when-compile
+  (add-to-list 'load-path "~/.emacs.d/cart")
+  (add-to-list 'load-path "~/.emacs.d/elisp/")
+  )
 
 (setq package-check-signature nil)  ; because GNU ELPA keeps choking on the sigs
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
@@ -231,6 +232,59 @@
 
 ;; use zenburn as the default theme
 (use-package zenburn-theme
+  :straight (zenburn-theme :host github :repo "bbatsov/zenburn-emacs"
+                           :fork (:host github :repo "rirze/zenburn-emacs"))
+  :defines (z-variable-pitch
+            z-class
+            zenburn-fg-1
+            zenburn-fg-05
+            zenburn-fg
+            zenburn-fg+1
+            zenburn-fg+2
+            zenburn-bg-2
+            zenburn-bg-1
+            zenburn-bg-08
+            zenburn-bg-05
+            zenburn-bg
+            zenburn-bg+05
+            zenburn-bg+1
+            zenburn-bg+2
+            zenburn-bg+3
+            zenburn-red-6
+            zenburn-red-5
+            zenburn-red-4
+            zenburn-red-3
+            zenburn-red-2
+            zenburn-red-1
+            zenburn-red
+            zenburn-red+1
+            zenburn-red+2
+            zenburn-orange
+            zenburn-yellow-2
+            zenburn-yellow-1
+            zenburn-yellow
+            zenburn-green-5
+            zenburn-green-4
+            zenburn-green-3
+            zenburn-green-2
+            zenburn-green-1
+            zenburn-green
+            zenburn-green+1
+            zenburn-green+2
+            zenburn-green+3
+            zenburn-green+4
+            zenburn-cyan
+            zenburn-blue+3
+            zenburn-blue+2
+            zenburn-blue+1
+            zenburn-blue
+            zenburn-blue-1
+            zenburn-blue-2
+            zenburn-blue-3
+            zenburn-blue-4
+            zenburn-blue-5
+            zenburn-magenta
+            )
   :config
   (let ((line (face-attribute 'mode-line :underline)))
     (zenburn-with-color-variables
@@ -376,6 +430,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
                 'my/backward-delete-char)
 
 (defun my/backward-delete-char ()
+  "Testing deleting multiple empty spaces with backspace."
   (interactive)
   (cond ((bolp)
          (delete-char -1)
@@ -402,7 +457,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (bind-key "H-i k" 'decrement-number-or-char-at-point)
 
 (defun my/backward-capitalize-word (number)
-  "Captialize the word that is before the point."
+  "Capitalize the word that is before the point.  Optionally provide (NUMBER) for multiple consecutive targets."
   (interactive "p")
   (capitalize-word (- number)))
 
@@ -583,7 +638,10 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 (use-package multiple-cursors
   :after hydra
   :init
-  (use-package mc-extras)
+  (use-package mc-extras
+    :straight (mc-extras :host github :repo "knu/mc-extras.el"
+                         :fork (:host github
+                                      :repo "rirze/mc-extras.el")))
   :preface
   (defun reactivate-mark ()
     (interactive)
@@ -722,7 +780,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;; Silversearcher support - faster-than-grep
 (use-package ag
-  :ensure-system-package ag)
+  :ensure-system-package (ag . silversearcher-ag))
 
 (use-package selectrum
   :straight (selectrum :host github :repo "raxod502/selectrum")
@@ -1005,7 +1063,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom
   (ace-jump-mode-scope 'window)
   (ace-jump-mode-case-fold t)
-
   :bind (("H-d" . ace-jump-char-mode)
          ("H-j w" . ace-jump-word-mode)
          ("H-j c" . ace-jump-char-mode)
@@ -1048,7 +1105,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; org-plus-contrib doesn't change anything (visibly).
 (setq-default straight-fix-org t)
 (use-package org
-  ;; :quelpa (org-mode :fetcher git :url "https://code.orgmode.org/bzg/org-mode.git" :branch "maint")
+  :defines (org-log-states)
   :custom
   (org-agenda-skip-scheduled-if-done t)
   (org-agenda-skip-deadline-prewarning-if-scheduled t)
@@ -1063,7 +1120,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
    ("H-r b" . org-switchb)
    )
   :config
-  (defun org-summary-todo (n-done n-not-done)
+  (defun org-summary-todo (_n-done n-not-done)
     "Switch entry to DONE when all subentries are done, to TODO otherwise."
     (let (org-log-done org-log-states)   ; turn off logging
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
@@ -1515,8 +1572,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("h" . undo-tree-visualize-switch-branch-left)
          ("j" . undo-tree-visualize-redo)
          ("k" . undo-tree-visualize-undo)
-         ("l" . undo-tree-visualize-switch-branch-right)))
-
+         ("l" . undo-tree-visualize-switch-branch-right)
+         ("C-g" . undo-tree-visualizer-quit)))
 
 
 (use-package ssh-config-mode
@@ -1541,7 +1598,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 ;; (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/")
-(add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/lisp")
+(eval-when-compile
+  (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/lisp"))
 (require 'tree-sitter)
 (diminish 'tree-sitter-mode)
 
@@ -1550,6 +1608,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (diminish 'tree-sitter-highlight-mode)
 
 (defun enable-ts-hl ()
+  "Function for enabling tree-sitter-highlight-mode in buffers."
   (font-lock-mode -1) ;; Disable font-lock mode
   (tree-sitter-highlight-mode))
 
@@ -1568,7 +1627,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; impatient mode
 ;; See the effect of your HTML as you type it.
 ;;  * [YouTube demo](http://youtu.be/QV6XVyXjBO8)
-
 (use-package impatient-mode)
 
 (use-package vterm
@@ -1699,3 +1757,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 
 ;;; init.el ends here
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars)
+;; End:
