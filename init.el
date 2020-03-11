@@ -916,12 +916,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; Java
 ;;  ----------------------------------------------------------------------------
 (use-package lsp-java
+  :defer t
   :after lsp
   :hook (java-mode . lsp))
 
 ;;; Kotlin
 ;;  ----------------------------------------------------------------------------
-(use-package kotlin-mode)
+(use-package kotlin-mode
+  :defer t)
 
 ;; (use-package lsp-kotlin
 ;;   :after lsp
@@ -961,12 +963,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; Go
 ;;  ----------------------------------------------------------------------------
 
-(use-package go-mode)
+(use-package go-mode
+  :defer t)
 
 ;;; C/C++
 ;;  ----------------------------------------------------------------------------
 
 (use-package ccls
+  :defer t
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp))))
 
@@ -1035,14 +1039,26 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :custom
   (org-agenda-skip-scheduled-if-done t)
   (org-agenda-skip-deadline-prewarning-if-scheduled t)
-  (org-agenda-files '("~/org-files"))
+  (org-agenda-files '("~/org"))
+  (org-odt-preferred-output-format "docx")
+  ;; (org-hierarchical-todo-statistics nil)
+  ;; (org-checkbox-hierarchical-statistics nil)
   :bind
   (("H-r l" . org-store-link)
    ("H-r a" . org-agenda)
    ("H-r c" . org-capture)
    ("H-r b" . org-switchb)
    )
-  :hook (org-mode . visual-line-mode)
+  :config
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+  :hook
+  (org-mode . visual-line-mode)
+  (org-after-todo-statistics . org-summary-todo)
+
   )
 
 (use-package org-jira
@@ -1066,13 +1082,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package org-roam
   :diminish org-roam-mode
   :after org
-  :hook
-  ((org-mode . org-roam-mode)
-   (after-init . org-roam--build-cache-async) ;; optional!
-   )
   :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
+
+  :hook
+  (org-mode . org-roam-mode)
+  (after-init . org-roam--build-cache-async) ;; optional!
+
   :custom
   (org-roam-directory "~/org")
+
   :bind
   ("C-c n l" . org-roam)
   ("C-c n t" . org-roam-today)
@@ -1092,6 +1110,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; guru-mode
 ;;  ---------------------------------------------------------------------------
 (use-package guru-mode
+  :disabled
   :diminish guru-mode
   :config (guru-global-mode 1))
 
@@ -1149,7 +1168,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-c u" . crux-upcase-region)
          ("H-c l" . crux-downcase-region)
          ("H-c M-c" . crux-capitalize-region)
-         ))
+         )
+  )
 
 ;;; ace-window
 ;;  ---------------------------------------------------------------------------
@@ -1209,6 +1229,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "H-l")
+  :hook
+  (sh-mode . lsp)
   :config
   (advice-add #'lsp--spinner-start :around #'ignore)
   (advice-add #'lsp--spinner-stop :around #'ignore)
@@ -1251,7 +1273,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;;; powershell.el
 ;;  ---------------------------------------------------------------------------
-(use-package powershell)
+(use-package powershell
+  :defer t)
 
 ;;; string-inflection
 ;;  ---------------------------------------------------------------------------
@@ -1277,6 +1300,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; rustic
 ;;  ---------------------------------------------------------------------------
 (use-package rustic
+  :defer t
   )
 
 
@@ -1372,6 +1396,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (helm-dash-docsets-path "~/.docsets"))
 
 (use-package helm-github-stars
+  :defer t
   :custom (helm-github-stars-username "rirze"))
 
 (use-package helm-gitignore)
@@ -1381,16 +1406,18 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package helm-tramp)
 
 (use-package paradox
+  :disabled
   :custom
   (paradox-github-token t)
   (paradox-execute-asynchronously t))
 
 (use-package helm-posframe
-  ;; :disabled
+  :disabled
   :custom
   (helm-posframe-poshandler 'posframe-poshandler-frame-center))
 
 (use-package web-mode
+  :defer t
   :mode "\\.j2\\'")
 
 ;; Ansible
@@ -1411,6 +1438,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; Kakoune
 ;;  ---------------------------------------------------------------------------
 (use-package kakoune
+  :defer t
   ;; Having a non-chord way to escape is important, since key-chords don't work in macros
   :bind ("C-z" . ryo-modal-mode)
   :hook (after-init . my/kakoune-setup)
@@ -1476,10 +1504,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
               ("l" . undo-tree-visualize-switch-branch-right)))
 
 
-;; Support for fasd in emacs
-(use-package fasd
-  :bind (
-         ("C-x C-j" . fasd-find-file)))
 
 (use-package ssh-config-mode
   :custom
@@ -1527,6 +1551,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package atomic-chrome
   :config
   (atomic-chrome-start-server))
+
+;; impatient mode
+;; See the effect of your HTML as you type it.
+;;  * [YouTube demo](http://youtu.be/QV6XVyXjBO8)
 
 (use-package impatient-mode)
 
@@ -1617,17 +1645,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (require 'vlf-setup))
 
-(use-package evil-numbers
-  :straight (evil-numbers :type git :host github :repo "janpath/evil-numbers")
-  :bind (
-         ("H-n j" . evil-numbers/inc-at-pt)
-         ("H-n k" . evil-numbers/dec-at-pt)
-         ("H-n l" . evil-numbers/inc-at-pt-incremental)
-         ("H-n h" . evil-numbers/dec-at-pt-incremental)
-         )
-  )
 
 (use-package intero
+  :defer t
   :hook (haskell-mode . intero-mode)
   )
 
@@ -1637,15 +1657,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 
 (use-package easy-kill
-  :bind
-  ("H-w" . easy-kill)
-  ("H-v" . easy-mark))
+  :bind*
+  ("C-." . easy-kill)
+  ("C-," . easy-mark))
 
 (use-package easy-kill-extras
+  :after easy-kill
   :bind (
-         ("H-z" . easy-mark-to-char)
+         ("C-?" . easy-mark-to-char)
          )
-  :config
+  :init
   (add-to-list 'easy-kill-alist '(?^ backward-line-edge ""))
   (add-to-list 'easy-kill-alist '(?$ forward-line-edge ""))
   (add-to-list 'easy-kill-alist '(?h buffer ""))

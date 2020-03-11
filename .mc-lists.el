@@ -69,6 +69,7 @@
       '(
         ace-jump-mode
         ace-window
+        crux-duplicate-current-line-or-region
         handle-switch-frame
         helm-M-x
         helm-buffers-list
