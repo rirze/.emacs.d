@@ -71,6 +71,10 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
+;; The :ensure-system-package keyword allows you to ensure system binaries exist alongside your package declarations.
+(use-package use-package-ensure-system-package)
+
+
 ;; check if we're on WSL (Windows Subsystem Linux)
 ;; (defconst my/wsl (not (null
                     ;; (string-match ".*Microsoft$"
@@ -717,7 +721,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                      (smerge-hydra/body)))))
 
 ;; Silversearcher support - faster-than-grep
-(use-package ag)
+(use-package ag
+  :ensure-system-package ag)
 
 (use-package selectrum
   :straight (selectrum :host github :repo "raxod502/selectrum")
@@ -796,6 +801,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package helm-fzf
   :after helm
   :straight (helm-fzf :type git :host github :repo "ofnhwx/helm-fzf")
+  :ensure-system-package
+  ((fd . "cargo install fd-find")
+   (sk . "cargo install skim"))
   :custom
   (helm-fzf-executable "fd | sk")
   ;; '(helm-fzf-args '())
@@ -835,7 +843,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     :config
     (helm-projectile-on))
 
-(use-package helm-ag)
+(use-package helm-ag
+  :ensure-system-package ag)
+
 (use-package helm-company
   :config
   (progn
