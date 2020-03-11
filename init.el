@@ -404,7 +404,9 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 (bind-key "M-c" 'my/backward-capitalize-word)
 
-;; TODO: Remap move-paragraph ( M-{ , M-} ) to M-[ M-]
+;; Remap move-paragraph ( M-{ , M-} ) to something more reachable
+(bind-key "C->" 'forward-paragraph)
+(bind-key "C-<" 'backward-paragraph)
 
 ;;; Default Emacs Packages Configuration
 ;;  ---------------------------------------------------------------------------
