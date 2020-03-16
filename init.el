@@ -916,6 +916,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("C-c h" . helm-flycheck))
   )
 
+(use-package ace-jump-helm-line
+  :straight (ace-jump-helm-line :host github :repo "cute-jumper/ace-jump-helm-line")
+  :bind (:map helm-map
+              ("C-;" . ace-jump-helm-line)))
+
 ;; Dumb jump
 (use-package dumb-jump
   :config
