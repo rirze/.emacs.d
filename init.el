@@ -584,6 +584,29 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;   (unless (package-installed-p package)
 ;;     (use-package package)))
 
+;;; company
+;;  ---------------------------------------------------------------------------
+(use-package company
+  :defer t
+  :diminish company-mode
+  :hook (after-init-hook . global-company-mode)
+  :bind (:map company-active-map ("<tab>" . company-complete-selection))
+  :custom
+  (company-idle-delay 0)
+  ;; Number the candidates (use M-1, M-2 etc to select completions).
+  (company-show-numbers t)
+
+  ;; Use the tab-and-go frontend.
+  ;; Allows TAB to select and complete at the same time.
+  ;; (company-tng-configure-default)
+  (company-frontends
+   '(;; company-tng-frontend               ;
+     company-pseudo-tooltip-frontend
+     company-echo-metadata-frontend
+     ))
+
+  )
+
 
 (use-package diminish)
 
@@ -614,7 +637,8 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :custom
   (flycheck-python-flake8-executable "python3")
   (flycheck-python-pylint-executable "python3")
-  (flycheck-python-mypy-executable   "python3")
+  ;(flycheck-python-mypy-executable   "python3")
+  (flycheck-python-pyright-executable   "python3")
   :config
   (global-flycheck-mode))
 
@@ -1266,26 +1290,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; m97,105stringx -> a,b,c,d,e,f,g,h,i
 ;; m97,102stringxupcasex -> aA,bB,cC,dD,eE,fF
 ;; m,3|%(+ x x) and %(* x x) and %s -> 0 and 0 and 0,2 and 1 and 1,4 and 4 and 2,6 and 9 and 3
-
-;;; company
-;;  ---------------------------------------------------------------------------
-(use-package company
-  :defer t
-  :diminish company-mode
-  :hook (after-init-hook . global-company-mode)
-  :custom
-  (company-idle-delay 0)
-  ;; Number the candidates (use M-1, M-2 etc to select completions).
-  (company-show-numbers t)
-
-  ;; Use the tab-and-go frontend.
-  ;; Allows TAB to select and complete at the same time.
-  (company-tng-configure-default)
-  (company-frontends
-   '(company-tng-frontend
-     company-pseudo-tooltip-frontend
-     company-echo-metadata-frontend))
-  )
 
 ;;; terraform-mode and company-terraform
 ;;  ---------------------------------------------------------------------------
