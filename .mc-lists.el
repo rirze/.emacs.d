@@ -12,6 +12,7 @@
         crux-kill-line-backwards
         crux-kill-whole-line
         crux-top-join-line
+        ctrlf-forward-literal
         decrement-number-or-char-at-point
         easy-mark-to-char
         electric-newline-and-maybe-indent

@@ -1054,7 +1054,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;   :after lsp
 ;;   :straight (lsp-kotlin :type git :host github :repo "whily/lsp-kotlin"))
 
-(add-to-list 'exec-path "~/cart/kotlin-language-server/server/build/scripts")
+;; (add-to-list 'exec-path "~/cart/kotlin-language-server/server/build/scripts")
 
 ;;; Markdown (from Jamie's)
 ;;  ----------------------------------------------------------------------------
