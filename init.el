@@ -742,6 +742,7 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :config
   (use-package magit-popup)
   (use-package magit-todos
+    :disabled
     :custom
     (magit-todos-insert-at 'unpushed)
     :config
@@ -1203,6 +1204,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package org-roam
+  :disabled
   :diminish org-roam-mode
   :after org
   :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
@@ -1444,13 +1446,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          )
   )
 
+
 (use-package objed
+  :disabled
   :straight (objed :type git :host github :repo "clemera/objed")
-  :config
-  (use-package avy)
+  ; :config
+  ; (use-package avy)
   :bind ("H-e" . objed-activate))
 
 (use-package scrollkeeper
+  :disabled
   :general ([remap scroll-up-command]   #'scrollkeeper-contents-up
             [remap scroll-down-command] #'scrollkeeper-contents-down)
   :custom
@@ -1549,6 +1554,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; Kakoune
 ;;  ---------------------------------------------------------------------------
 (use-package kakoune
+  :disabled
   :defer t
   ;; Having a non-chord way to escape is important, since key-chords don't work in macros
   :bind ("C-z" . ryo-modal-mode)
@@ -1591,10 +1597,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; and provides a couple extra commands
 (use-package visual-regexp
   :bind (("M-%" . vr/query-replace))
-  :ryo
-  ("s" vr/mc-mark)
-  ("?" vr/replace)
-  ("M-/" vr/query-replace))
+  ;; :ryo
+  ;; ("s" vr/mc-mark)
+  ;; ("?" vr/replace)
+  ;; ("M-/" vr/query-replace)
+  )
 
 (use-package visual-regexp-steroids
   :after visual-regexp)
@@ -1604,10 +1611,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package undo-tree
   :config
   (global-undo-tree-mode)
-  :ryo
-  ("u" undo-tree-undo)
-  ("U" undo-tree-redo)
-  ("SPC u" undo-tree-visualize)
+  ;; :ryo
+  ;; ("u" undo-tree-undo)
+  ;; ("U" undo-tree-redo)
+  ;; ("SPC u" undo-tree-visualize)
   :bind (("C-x u" . undo-tree-visualize)
          :map undo-tree-visualizer-mode-map
          ("h" . undo-tree-visualize-switch-branch-left)
