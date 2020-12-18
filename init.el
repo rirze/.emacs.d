@@ -965,6 +965,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :interpreter ("/usr/bin/ipython3" . python-mode)
   :hook
   (python-mode . subword-mode)
+  :custom
+  (python-shell-interpreter "python")
   :config
   (use-package pyvenv))
 
@@ -999,11 +1001,21 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package lsp-python-ms
+  :disabled
   :ensure t
   :hook (python-mode . my/setup-ms-python-lsp)
   :custom
   (lsp-python-ms-python-executable-cmd "python3")
   (lsp-disabled-clients '(pyls)))
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp)))  ; or lsp-deferred
+  :init (when (executable-find "python3")
+          (setq lsp-pyright-python-executable-cmd "python3"))
+  )
 
 (use-package flycheck-pycheckers
   :after flycheck
@@ -1013,7 +1025,18 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (flycheck-pycheckers-command "~/.emacs.d/straight/repos/flycheck-pycheckers/bin/pycheckers.py")
   (flycheck-pycheckers-checkers '(flake8)))
 
+(use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
+  :disabled
+  :config
+  (setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:complete-on-dot t)
+  (setq jedi:use-shortcuts t)
+  (defun config/enable-company-jedi ()
+    (add-to-list 'company-backends 'company-jedi))
+  (add-hook 'python-mode-hook 'config/enable-company-jedi))
 
+(use-package py-isort)
 ;;; Java
 ;;  ----------------------------------------------------------------------------
 (use-package lsp-java
@@ -1323,6 +1346,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :after lsp-mode
   :config
   (push 'company-lsp company-backends)
+  (defun lsp--sort-completions (completions)
+  (lsp-completion--sort-completions completions))
+
+  (defun lsp--annotate (item)
+    (lsp-completion--annotate item))
+
+  (defun lsp--resolve-completion (item)
+    (lsp-completion--resolve item))
   )
 
 (use-package company-box
