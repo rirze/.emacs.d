@@ -1587,39 +1587,45 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (ssh-config-mode-indent 4))
 
 ;; use tree-sitter
+
 (use-package tree-sitter
-  :disabled
-  :load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter"
-  :straight (tree-sitter :type git :host github :repo "ubolonton/emacs-tree-sitter")
-  :config
-  (ts-require-language 'rust)
-  (ts-require-language 'python))
-
-
-(defun my/pre-tree-sitter-install ()
-  "Function to run before tree-sitter install."
-  (require 'tree-sitter-langs)
-  (tree-sitter-download-dyn-module)
-  (tree-sitter-langs-install)
+  ;;:disabled
+  ;:load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter"
+  ;; :straight (tree-sitter :type git :host github :repo "ubolonton/emacs-tree-sitter")
   )
 
-;; (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/")
-(eval-when-compile
-  (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/lisp"))
-(require 'tree-sitter)
-(diminish 'tree-sitter-mode)
+(use-package tree-sitter-langs
+  :config
+  (tree-sitter-require 'rust)
+  (tree-sitter-require 'python)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+)
 
-(setq tree-sitter-highlight-query-dir "/home/chronos/cart")
-(require 'tree-sitter-highlight)
-(diminish 'tree-sitter-highlight-mode)
+;; (defun my/pre-tree-sitter-install ()
+;;   "Function to run before tree-sitter install."
+;;   (require 'tree-sitter-langs)
+;;   (tree-sitter-download-dyn-module)
+;;   (tree-sitter-langs-install)
+;;   )
 
-(defun enable-ts-hl ()
-  "Function for enabling tree-sitter-highlight-mode in buffers."
-  (font-lock-mode -1) ;; Disable font-lock mode
-  (tree-sitter-highlight-mode))
+;; ;; (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/")
+;; (eval-when-compile
+;;   (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/lisp"))
+;; (require 'tree-sitter)
+;; (diminish 'tree-sitter-mode)
 
-(add-to-list 'tree-sitter-major-mode-language-alist '((python-mode . python)))
-(add-hook 'python-mode-hook #'enable-ts-hl)
+;; (setq tree-sitter-highlight-query-dir "/home/chronos/cart")
+;; (require 'tree-sitter-highlight)
+;; (diminish 'tree-sitter-highlight-mode)
+
+;; (defun enable-ts-hl ()
+;;   "Function for enabling tree-sitter-highlight-mode in buffers."
+;;   (font-lock-mode -1) ;; Disable font-lock mode
+;;   (tree-sitter-highlight-mode))
+
+;;(add-to-list 'tree-sitter-major-mode-language-alist '((python-mode . python)))
+;;(add-hook 'python-mode-hook #'enable-ts-hl)
 ;; (add-hook 'js-mode-hook 'enable-ts-hl)
 ;; (add-hook 'rustic-mode-hook 'enable-ts-hl)
 
