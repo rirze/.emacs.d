@@ -35,6 +35,7 @@
 (setq load-prefer-newer t)
 
 ;; Bootstrap straight.el
+(setq straight-repository-branch "develop")
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -1635,7 +1636,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package impatient-mode)
 
 (use-package vterm
-  :straight (vterm :type git :host github :repo "akermu/emacs-libvterm")
+  :straight (;vterm :type git :host github :repo "akermu/emacs-libvterm"
+             :post-build (let ((vterm-always-compile-module t))
+                           (require 'vterm)))
   :bind (("C-c v" . vterm)
          :map vterm-mode-map
          ("C-g" . vterm--self-insert)
@@ -1646,6 +1649,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 (use-package vterm-toggle
+  :disabled
   :straight (vterm :type git :host github :repo "jixiuf/vterm-toggle")
   :custom
   (vterm-toggle-fullscreen-p nil)
