@@ -1346,6 +1346,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package company-lsp
   :after lsp-mode
+  :disabled
   :config
   (push 'company-lsp company-backends)
   (defun lsp--sort-completions (completions)

@@ -70,6 +70,7 @@
       '(
         ace-jump-mode
         ace-window
+        align-current
         crux-duplicate-current-line-or-region
         handle-switch-frame
         helm-M-x
