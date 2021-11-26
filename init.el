@@ -511,78 +511,6 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 ;;; Packages
 ;;  ----------------------------------------------------------------------------
 
-;; (setq package-list '(ag
-;;                      auto-yasnippet
-;;                      ;;autopair
-;;                      ;; dumb-jump
-;;                      diminish
-;;                      ;;lsp-mode ;eglot
-;;                      ;;ein-mumamo
-;;                      ;;ein
-;;                      auto-complete
-;;                      ;; elpy
-;;                      ;;company
-;;                      ;; exec-path-from-shell
-;;                      fill-column-indicator
-;;                      ;;find-file-in-project
-;;                      flycheck
-;;                      flymake
-;;                      ;;git-commit-mode
-;;                      helm-ag
-;;                      helm-projectile
-;;                      ;;helm-sage
-;;                      helm-system-packages
-;;                      helm
-;;                      helm-core
-;;                      ;; highlight-indentation
-;;                      ;;htmlize
-;;                      ;; ido-hacks
-;;                      ;;ido-vertical-mode
-;;                      ;; ivy
-;;                      json-mode
-;;                      json-reformat
-;;                      json-snatcher
-;;                      jsonrpc
-;;                      git-commit
-;;                      ;; magit-popup
-;;                      ;;mmm-mode
-;;                      ;; multiple-cursors
-;;                      ob-ipython
-;;                      dash-functional
-;;                      ;; org
-;;                      ;;org-ehtml
-;;                      php-mode
-;;                      popup
-;;                      project-explorer
-;;                      es-windows
-;;                      es-lib
-;;                      pyvenv
-;;                      request
-;;                      markdown-mode
-;;                      pkg-info
-;;                      epl
-;;                      f
-;;                      dash
-;;                      s
-;;                      deferred
-;;                      shell-switcher
-;;                      spinner
-;;                      ;;sr-speedbar ; https://www.emacswiki.org/emacs/SrSpeedbar
-;;                      ;; switch-window
-;;                      ;; telephone-line
-;;                      web-server
-;;                      websocket
-;;                      with-editor
-;;                      async
-;;                      xterm-color
-;;                      yaml-mode
-;;                      yasnippet))
-
-;; (unless package-archive-contents
-;;   (package-refresh-contents))
-;; (dolist (package package-list)
-;;   (unless (package-installed-p package)
-;;     (use-package package)))
 
 ;;; company
 ;;  ---------------------------------------------------------------------------
@@ -650,14 +578,6 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
   :diminish flyspell-mode
   :hook
   (prog-mode . flyspell-prog-mode))
-
-;; Auto-complete
-;; (use-package auto-complete
-;;   :init
-;;   (require 'auto-complete-config)
-;;   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-;;   :config
-;;   (ac-config-default))
 
 ;; Multiple-cursors
 (use-package multiple-cursors
@@ -804,24 +724,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                    (when smerge-mode
                                      (smerge-hydra/body)))))
 
-;; Silversearcher support - faster-than-grep
-(use-package ag
-  :ensure-system-package (ag . silversearcher-ag))
-
-(use-package selectrum
-  :straight (selectrum :host github :repo "raxod502/selectrum")
-  :init
-  (use-package prescient
-    :straight (selectrum-prescient :host github :repo "raxod502/prescient.el"
-                                   :files ("selectrum-prescient.el"))
-    :config
-    ;; to save your command history on disk, so the sorting gets more
-    ;; intelligent over time
-    (prescient-persist-mode +1))
-  :config
-  ;; integrate the two
-  (selectrum-prescient-mode +1)
-  )
 
 ;;; Navigation and projects
 ;;  ----------------------------------------------------------------------------
@@ -882,53 +784,53 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          )
   )
 
-(use-package helm-fzf
-  :after helm
-  :straight (helm-fzf :type git :host github :repo "ofnhwx/helm-fzf")
-  :ensure-system-package
-  ((fd . "cargo install fd-find")
-   (sk . "cargo install skim"))
-  :custom
-  (helm-fzf-executable "fd | sk")
-  ;; '(helm-fzf-args '())
-  :config
-  (defun fzf-from-helm-session ()
-    "run fzf from a helm session."
-    (interactive)
-    (with-helm-alive-p
-      (helm-run-after-exit
-       'helm-fzf
-       helm-ff-default-directory)))
-  ;; (helm-add-action-to-source "Switch to fzf" #'my/helm-run-fzf helm-source-find-files)
-  ;; (map-put helm-find-files-actions '"fff `C-,'" 'fzf-from-helm-session)
-  ;; (setq helm-find-files-actions (append helm-find-files-actions "fff `C-,'" 'fzf-from-helm-session))
-  :bind
-  (:map helm-find-files-map
-        ("C-," . fzf-from-helm-session)
-        )
-  )
+;; (use-package helm-fzf
+;;   :disabled
+;;   :after helm
+;;   :straight (helm-fzf :type git :host github :repo "ofnhwx/helm-fzf")
+;;   :ensure-system-package
+;;   ((fd . "cargo install fd-find")
+;;    (sk . "cargo install skim"))
+;;   :custom
+;;   (helm-fzf-executable "fd | sk")
+;;   ;; '(helm-fzf-args '())
+;;   :config
+;;   (defun fzf-from-helm-session ()
+;;     "run fzf from a helm session."
+;;     (interactive)
+;;     (with-helm-alive-p
+;;       (helm-run-after-exit
+;;        'helm-fzf
+;;        helm-ff-default-directory)))
+;;   ;; (helm-add-action-to-source "Switch to fzf" #'my/helm-run-fzf helm-source-find-files)
+;;   ;; (map-put helm-find-files-actions '"fff `C-,'" 'fzf-from-helm-session)
+;;   ;; (setq helm-find-files-actions (append helm-find-files-actions "fff `C-,'" 'fzf-from-helm-session))
+;;   :bind
+;;   (:map helm-find-files-map
+;;         ("C-," . fzf-from-helm-session)
+;;         )
+;;   )
 
-(use-package fuz
-  :diminish helm-fuz-mode
-  :after helm
-  :straight (fuz :host github :repo "rustify-emacs/fuz.el" :files (:defaults "Cargo*" "src"))
-  :init
-  (setq completion-styles '())
-  :config
-  (unless (require 'fuz-core nil t)
-    (fuz-build-and-load-dymod))
-  (require 'fuz-core)
-  (require 'helm-fuz)
-  (helm-fuz-mode)
-  )
+;; (use-package fuz
+;;   :disabled
+;;   :diminish helm-fuz-mode
+;;   :after helm
+;;   :straight (fuz :host github :repo "rustify-emacs/fuz.el" :files (:defaults "Cargo*" "src"))
+;;   :init
+;;   (setq completion-styles '())
+;;   :config
+;;   (unless (require 'fuz-core nil t)
+;;     (fuz-build-and-load-dymod))
+;;   (require 'fuz-core)
+;;   (require 'helm-fuz)
+;;   (helm-fuz-mode)
+;;   )
 
 
 (use-package helm-projectile
   :config
   (helm-projectile-on))
 
-(use-package helm-ag
-  :ensure-system-package ag)
 
 (use-package helm-company
   :config
@@ -971,17 +873,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (use-package pyvenv))
 
-;; Elpy makes Emacs a full Python IDE.
-(use-package elpy
-  :disabled
-  :custom
-  (elpy-rpc-python-command "python3")
-  (elpy-modules '(elpy-module-company))
-  (python-shell-interpreter "ipython3")
-  (python-shell-interpreter-args "-i --simple-prompt")
-  :config
-  (elpy-enable))
-
 (use-package pip-requirements)
 
 (defun my/setup-ms-python-lsp ()
@@ -1000,14 +891,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (setq-local flycheck-checker 'python-flake8)
     )
   )
-
-(use-package lsp-python-ms
-  :disabled
-  :ensure t
-  :hook (python-mode . my/setup-ms-python-lsp)
-  :custom
-  (lsp-python-ms-python-executable-cmd "python3")
-  (lsp-disabled-clients '(pyls)))
 
 (use-package lsp-pyright
   :ensure t
@@ -1142,17 +1025,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   )
 
 
-;;; Telephone Line (powerline)
-;;  ----------------------------------------------------------------------------
-(use-package telephone-line
-  :disabled
-  :init
-  (setq telephone-line-primary-right-separator 'telephone-line-halfcos-left
-        telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-left
-        telephone-line-primary-left-separator 'telephone-line-halfcos-left
-        telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left)
-  (telephone-line-mode 1))
-
 ;;; Org-Mode
 ;;  ----------------------------------------------------------------------------
 ;; NOTE: Enabling/disabling this, before running Emacs or downloading
@@ -1178,12 +1050,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     "Switch entry to DONE when all subentries are done, to TODO otherwise."
     (let (org-log-done org-log-states)   ; turn off logging
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-
+  (define-key org-mode-map (kbd "A-v") verb-command-map)
   :hook
   (org-mode . visual-line-mode)
   (org-after-todo-statistics . org-summary-todo)
 
   )
+
 
 (use-package org-jira
   :disabled
@@ -1203,41 +1076,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   ;; "<option value="">Unresolved</option>"
   )
 
-(use-package org-roam
-  :disabled
-  :diminish org-roam-mode
-  :after org
-  :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
-
-  :hook
-  (org-mode . org-roam-mode)
-  (after-init . org-roam--build-cache-async) ;; optional!
-
-  :custom
-  (org-roam-directory "~/org")
-
-  :bind
-  ("C-c n l" . org-roam)
-  ("C-c n t" . org-roam-today)
-  ("C-c n f" . org-roam-find-file)
-  ("C-c n i" . org-roam-insert)
-  ("C-c n g" . org-roam-show-graph))
-
-;;; aggressive-indent-mode
-;;  ---------------------------------------------------------------------------
-(use-package aggressive-indent
-  :disabled
-  :config
-  (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
-  ;; (global-aggressive-indent-mode 1)
-  )
-
-;;; guru-mode
-;;  ---------------------------------------------------------------------------
-(use-package guru-mode
-  :disabled
-  :diminish guru-mode
-  :config (guru-global-mode 1))
 
 ;;; move-text
 ;;  ---------------------------------------------------------------------------
@@ -1296,11 +1134,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          )
   )
 
-;;; ace-window
-;;  ---------------------------------------------------------------------------
-;; (use-package ace-window
-;;   :bind (("H-o" . ace-window)))
-
 ;;; tiny
 ;;  ---------------------------------------------------------------------------
 (use-package tiny
@@ -1327,7 +1160,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (use-package company-terraform
     :defer (company-terraform-init)
     :hook (terraform-mode . company-terraform-init)
-    ))
+    )
+  )
 
 ;;; company-lsp
 ;;  ---------------------------------------------------------------------------
@@ -1359,19 +1193,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (lsp-completion--resolve item))
   )
 
-(use-package company-box
-  :hook (company-mode . company-box-mode)
-  :disabled
-  )
-
-(use-package lsp-ui
-  :disabled
-  :custom
-  (lsp-ui-doc-max-height 20)
-  (lsp-ui-doc-max-width 50)
-  (lsp-ui-sideline-ignore-duplicate t)
-  (lsp-ui-peek-always-show t)
-  )
 
 ;;; company-tabnine
 ;;  ---------------------------------------------------------------------------
@@ -1417,7 +1238,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :defer t
   )
 
-
 ;;; expand-region
 ;;  ---------------------------------------------------------------------------
 (use-package expand-region
@@ -1432,69 +1252,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config (smart-hungry-delete-add-default-hooks)
   )
 
-(use-package tide
-  :defer t
-  :after (typescript-mode company flycheck)
-  :config
-  (use-package js-mode
-    :custom (js-indent-level 8))
-  :custom
-  (tide-format-options '(:tabSize 8
-                                  :indentSize 8))
-
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         )
-  )
-
-
-(use-package objed
-  :disabled
-  :straight (objed :type git :host github :repo "clemera/objed")
-  ; :config
-  ; (use-package avy)
-  :bind ("H-e" . objed-activate))
-
-(use-package scrollkeeper
-  :disabled
-  :general ([remap scroll-up-command]   #'scrollkeeper-contents-up
-            [remap scroll-down-command] #'scrollkeeper-contents-down)
-  :custom
-  (scrollkeeper-scroll-distance 0.9)
-  (scrollkeeper-scroll-steps 2)
-  :custom-face
-  (scrollkeeper-guideline-highlight ((t (:background "#BFEBBF"))))
-  )
-
-(use-package torus
-  :disabled
-  :bind-keymap ("H-t" . torus-map)
-  :bind (:map torus-map
-              ("t" . torus-copy-to-circle))
-  :hook ((emacs-startup . torus-start)
-         (save-buffers-kill-emacs . torus-quit)
-         (kill-emacs . torus-quit))
-  :custom ((torus-prefix-key "H-t")
-           (torus-binding-level 3)
-           (torus-verbosity 1)
-           (torus-dirname (concat user-emacs-directory (file-name-as-directory "torus")))
-           (torus-load-on-startup t)
-           (torus-save-on-exit t)
-           (torus-autoread-file (concat torus-dirname "last.el"))
-           (torus-autowrite-file torus-autoread-file)
-           (torus-backup-number 10)
-           (torus-history-maximum-elements 30)
-           (torus-maximum-horizontal-split 4)
-           (torus-maximum-vertical-split 4)
-           (torus-display-tab-bar t)
-           (torus-separator-torus-circle " >> ")
-           (torus-separator-circle-location " > ")
-           (torus-prefix-separator "/")
-           (torus-join-separator " & "))
-  :config
-  ;; (torus-init)
-  (torus-install-default-bindings))
-
 (use-package helm-spotify-plus
   :bind (
          ("H-s s" . helm-spotify-plus)  ;; s for SEARCH
@@ -1503,39 +1260,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-s p" . helm-spotify-plus-toggle-play-pause)
          ))
 
-(use-package helm-dash
-  :config
-  (defun set-python-docs ()
-    (interactive)
-    (setq-local dash-docs-docsets '("Python 3" "NumPy")))
-  :hook (python-mode . set-python-docs)
-  :custom
-  (helm-dash-docsets-path "~/.docsets"))
-
 (use-package helm-github-stars
   :defer t
   :custom (helm-github-stars-username "rirze"))
 
-(use-package helm-gitignore)
+;(use-package helm-gitignore)
 
 (use-package helm-system-packages)
 
 (use-package helm-tramp)
-
-(use-package paradox
-  :disabled
-  :custom
-  (paradox-github-token t)
-  (paradox-execute-asynchronously t))
-
-(use-package helm-posframe
-  :disabled
-  :custom
-  (helm-posframe-poshandler 'posframe-poshandler-frame-center))
-
-(use-package web-mode
-  :defer t
-  :mode "\\.j2\\'")
 
 ;; Ansible
 (use-package ansible)
@@ -1549,50 +1282,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   ;; (js2-basic-offset 2)
   (js-indent-level 2)
   )
-
-
-
-;;; Kakoune
-;;  ---------------------------------------------------------------------------
-(use-package kakoune
-  :disabled
-  :defer t
-  ;; Having a non-chord way to escape is important, since key-chords don't work in macros
-  :bind ("C-z" . ryo-modal-mode)
-  :hook (after-init . my/kakoune-setup)
-  :config
-  (push '((nil . "ryo:.*:") . (nil . "")) which-key-replacement-alist)
-  (defun ryo-enter () "Enter normal mode" (interactive) (ryo-modal-mode 1))
-  (defun my/kakoune-setup ()
-    "Call kakoune-setup-keybinds and then add some personal config."
-    (kakoune-setup-keybinds)
-    (setq ryo-modal-cursor-type 'box)
-    (setq ryo-modal-cursor-color "PaleGreen")
-    ;; (add-hook 'prog-mode-hook #'ryo-enter)
-    (define-key ryo-modal-mode-map (kbd "SPC h") 'help-command)
-    ;; Access all C-x bindings easily
-    (define-key ryo-modal-mode-map (kbd "z") ctl-x-map)
-    (ryo-modal-keys
-     ("," save-buffer)
-     ;; ("P" counsel-yank-pop)
-     ("m" mc/mark-next-like-this)
-     ("M" mc/skip-to-next-like-this)
-     ("n" mc/mark-previous-like-this)
-     ("N" mc/skip-to-previous-like-this)
-     ("M-m" mc/edit-lines)
-     ("*" mc/mark-all-like-this)
-     ("v" er/expand-region)
-     ("C-v" set-rectangular-region-anchor)
-     ("M-s" mc/split-region)
-     (";" (("q" delete-window)
-           ("v" split-window-horizontally)
-           ("s" split-window-vertically)))
-     ("C-h" windmove-left)
-     ("C-j" windmove-down)
-     ("C-k" windmove-up)
-     ("C-l" windmove-right)
-     ("C-u" scroll-down-command :first '(deactivate-mark))
-     ("C-d" scroll-up-command :first '(deactivate-mark)))))
 
 ;; This overrides the default mark-in-region with a prettier-looking one,
 ;; and provides a couple extra commands
@@ -1622,7 +1311,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("j" . undo-tree-visualize-redo)
          ("k" . undo-tree-visualize-undo)
          ("l" . undo-tree-visualize-switch-branch-right)
-         ("C-g" . undo-tree-visualizer-quit)))
+         ("C-g" . undo-tree-visualizer-quit))
+  )
 
 
 (use-package ssh-config-mode
@@ -1641,37 +1331,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (tree-sitter-require 'rust)
   (tree-sitter-require 'python)
+  (tree-sitter-require 'typescript)
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 )
-
-;; (defun my/pre-tree-sitter-install ()
-;;   "Function to run before tree-sitter install."
-;;   (require 'tree-sitter-langs)
-;;   (tree-sitter-download-dyn-module)
-;;   (tree-sitter-langs-install)
-;;   )
-
-;; ;; (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/")
-;; (eval-when-compile
-;;   (add-to-list 'load-path "/home/chronos/.emacs.d/straight/repos/emacs-tree-sitter/lisp"))
-;; (require 'tree-sitter)
-;; (diminish 'tree-sitter-mode)
-
-;; (setq tree-sitter-highlight-query-dir "/home/chronos/cart")
-;; (require 'tree-sitter-highlight)
-;; (diminish 'tree-sitter-highlight-mode)
-
-;; (defun enable-ts-hl ()
-;;   "Function for enabling tree-sitter-highlight-mode in buffers."
-;;   (font-lock-mode -1) ;; Disable font-lock mode
-;;   (tree-sitter-highlight-mode))
-
-;;(add-to-list 'tree-sitter-major-mode-language-alist '((python-mode . python)))
-;;(add-hook 'python-mode-hook #'enable-ts-hl)
-;; (add-hook 'js-mode-hook 'enable-ts-hl)
-;; (add-hook 'rustic-mode-hook 'enable-ts-hl)
-
 
 (require 'cfn-lint)
 
@@ -1700,7 +1363,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     (interactive)
     (vterm (or buffer-name vterm-buffer-name)))
   )
-
 
 (use-package vterm-toggle
   :straight (vterm-toggle :type git :host github :repo "jixiuf/vterm-toggle")
@@ -1764,11 +1426,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
           ))
   )
 
-
-(use-package piper
-  :straight (emacs-piper :type git :host gitlab :repo "howardabrams/emacs-piper"))
-
-
 (use-package elcord
   :init
   (elcord-mode))
@@ -1778,7 +1435,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (require 'vlf-setup))
 
-
 (use-package intero
   :defer t
   :hook (haskell-mode . intero-mode)
@@ -1787,7 +1443,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package helm-aws
   :straight (helm-aws :type git :host github :repo "istib/helm-aws")
   )
-
 
 (use-package easy-kill
   :bind*
