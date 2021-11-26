@@ -1684,22 +1684,26 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;  * [YouTube demo](http://youtu.be/QV6XVyXjBO8)
 (use-package impatient-mode)
 
+(setq vterm-always-compile-module t)
 (use-package vterm
-  :straight (;vterm :type git :host github :repo "akermu/emacs-libvterm"
-             :post-build (let ((vterm-always-compile-module t))
-                           (require 'vterm)))
-  :bind (("C-c v" . vterm)
+  :straight t
+  :bind (("C-c v" . vterm-new)
          :map vterm-mode-map
          ("C-g" . vterm--self-insert)
-         ("C-u" . vterm--self-insert)
-         ("C-k" . vterm--self-insert)
-         ("C-v" . vterm--self-insert)
-         ("C-2" . vterm--self-insert))
+         ("C-r" . vterm-send-C-r)
+         ("C-s" . vterm-send-C-s)
+         ("<C-backspace>" .  (lambda () (interactive)
+                               (vterm-send-key (kbd "C-w"))))
+         )
+  :config
+  (defun vterm-new (&optional buffer-name)
+    (interactive)
+    (vterm (or buffer-name vterm-buffer-name)))
   )
 
+
 (use-package vterm-toggle
-  :disabled
-  :straight (vterm :type git :host github :repo "jixiuf/vterm-toggle")
+  :straight (vterm-toggle :type git :host github :repo "jixiuf/vterm-toggle")
   :custom
   (vterm-toggle-fullscreen-p nil)
   :bind (
@@ -1707,7 +1711,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          ("H-T" . vterm-toggle-cd)
          ("H-t d" . vterm-toggle-insert-cd)
          ("H-t n" . vterm-toggle-forward)
-         ("H-t p" . vterm-toggle-forward)
+         ("H-t p" . vterm-toggle-backward)
          )
   )
 
