@@ -17,6 +17,7 @@
         easy-mark-to-char
         electric-newline-and-maybe-indent
         end-of-buffer
+        forward-sentence
         goto-line
         hydra--negative-argument
         hydra-mc/mc/mark-sgml-tag-pair
@@ -57,6 +58,7 @@
         smart-hungry-delete-backward-char
         smart-hungry-delete-forward-char
         sp-remove-active-pair-overlay
+        sp-unwrap-sexp
         string-infleciton-java-style-cycle
         string-inflection-all-cycle
         string-inflection-python-style-cycle
@@ -72,6 +74,7 @@
         ace-window
         align-current
         crux-duplicate-current-line-or-region
+        dap-tooltip-mouse-motion
         handle-switch-frame
         helm-M-x
         helm-buffers-list
