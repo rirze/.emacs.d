@@ -682,7 +682,13 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
 
 
 (use-package forge
-  :defer t)
+  :after magit
+  :config (add-to-list 'forge-alist
+                     '("gitlab.324cate.com"
+                       "gitlab.324cate.com/api/v4"
+                       "gitlab.324cate.com"
+                       forge-gitlab-repository))
+  )
 
 ;; hydra for convienent smerge commands
 ;; hydra stolen from alphapapa's unpackaged repository
