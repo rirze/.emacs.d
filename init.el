@@ -7,10 +7,10 @@
 (package-initialize)
 ;;(package-refresh-contents)
 
-(eval-when-compile
-  (add-to-list 'load-path "~/.emacs.d/cart")
-  (add-to-list 'load-path "~/.emacs.d/elisp/")
-  )
+;;(eval-when-compile
+(add-to-list 'load-path "~/.emacs.d/cart")
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+  ;)
 
 (setq package-check-signature nil)  ; because GNU ELPA keeps choking on the sigs
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
