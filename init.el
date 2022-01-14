@@ -450,14 +450,14 @@ Source:  http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginni
            (call-interactively 'backward-delete-char-untabify)))))
 
 
-(require 'stagger-mode)
-(bind-key "A-s" 'stagger-mode)
+;; (require 'stagger-mode)
+;; (bind-key "A-s" 'stagger-mode)
 
-(require 'increment-chars)
-(bind-key "H-i l" 'increment-char-at-point)
-(bind-key "H-i h" 'decrement-char-at-point)
-(bind-key "H-i j" 'increment-number-or-char-at-point)
-(bind-key "H-i k" 'decrement-number-or-char-at-point)
+;; (require 'increment-chars)
+;; (bind-key "H-i l" 'increment-char-at-point)
+;; (bind-key "H-i h" 'decrement-char-at-point)
+;; (bind-key "H-i j" 'increment-number-or-char-at-point)
+;; (bind-key "H-i k" 'decrement-number-or-char-at-point)
 
 (defun my/backward-capitalize-word (number)
   "Capitalize the word that is before the point.  Optionally provide (NUMBER) for multiple consecutive targets."
