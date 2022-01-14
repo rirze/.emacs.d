@@ -1447,7 +1447,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 )
 
-(require 'cfn-lint)
+;;(require 'cfn-lint)
 
 (use-package atomic-chrome
   :config
