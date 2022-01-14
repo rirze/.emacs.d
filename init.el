@@ -900,11 +900,79 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     )
   )
 
+(defun ensure-project-root-2-venv-dir ()
+  (let ((variable-name 'project-root-2-venv-dir))
+    (unless (boundp variable-name)
+      (set variable-name
+           (make-hash-table :test 'equal)))))
+
+(defun poetry-get-venv (&optional dir)
+  (ensure-project-root-2-venv-dir)
+  (require 'projectile)
+  (when-let ((project-root (projectile-project-root dir))
+             (root2venv-dir project-root-2-venv-dir))
+    (unless (gethash project-root root2venv-dir)
+      (let ((cwd default-directory)
+            (dir (or dir default-directory)))
+        (require 'poetry)
+        (unless (equal dir cwd)
+          (cd dir))
+        (puthash project-root
+                 (condition-case nil
+                     (poetry-get-virtualenv)
+                   (error nil))
+                 root2venv-dir)
+        (unless (equal dir cwd)
+          (cd cwd))))
+    (gethash project-root root2venv-dir)))
+
+(defun poetry-venv-get-executable (name &optional dir)
+  (when-let ((venv-dir (poetry-get-venv dir))
+             (bin-dir (expand-file-name "bin" venv-dir))
+             (bin-path (expand-file-name name bin-dir)))
+    (when (file-exists-p bin-path)
+      bin-path)))
+
+(defun poetry-venv-get-python-executable (&optional dir)
+  (poetry-venv-get-executable "python" dir))
+
+;; TODO: Cache result
+(defun pdm-get-python-executable (&optional dir)
+  (let ((pdm-get-python-cmd "pdm info --python"))
+    (string-trim
+     (shell-command-to-string
+      (if dir
+          (concat "cd "
+                  dir
+                  " && "
+                  pdm-get-python-cmd)
+        pdm-get-python-cmd)))))
+
+(defun pdm-get-packages-path (&optional dir)
+  (let ((pdm-get-packages-cmd "pdm info --packages"))
+    (concat (string-trim
+             (shell-command-to-string
+              (if dir
+                  (concat "cd "
+                          dir
+                          " && "
+                          pdm-get-packages-cmd)
+                pdm-get-packages-cmd)))
+            "/lib")))
+
 (use-package lsp-pyright
   :ensure t
   :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp)))  ; or lsp-deferred
+                         (setq python-shell-interpreter
+                               (or (poetry-venv-get-python-executable)
+                                   (pdm-get-python-executable
+                                    (projectile-project-root))))
+                         (if-let ((extra-path (pdm-get-packages-path
+                                               (projectile-project-root))))
+                             (setq lsp-pyright-extra-paths
+                                   (vector extra-path)))
+                         (require 'lsp-pyright)
+                         (lsp)))  ; or lsp-deferred
   :init (when (executable-find "python3")
           (setq lsp-pyright-python-executable-cmd "python3"))
   )
@@ -929,6 +997,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (add-hook 'python-mode-hook 'config/enable-company-jedi))
 
 (use-package py-isort)
+
+(use-package poetry
+  :ensure t)
+
 ;;; Java
 ;;  ----------------------------------------------------------------------------
 (use-package lsp-java
