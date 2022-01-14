@@ -89,6 +89,8 @@
       (setq browse-url-browser-function 'browse-url-generic browse-url-generic-program "wslview")))
 
 
+(setq ns-right-control-modifier 'hyper)
+
 ;;; Preferences
 ;;  ----------------------------------------------------------------------------
 
