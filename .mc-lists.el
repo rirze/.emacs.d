@@ -74,6 +74,7 @@
         ace-window
         align-current
         crux-duplicate-current-line-or-region
+        ctrlf-forward-default
         dap-tooltip-mouse-motion
         handle-switch-frame
         helm-M-x
