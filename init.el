@@ -1583,7 +1583,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (ctrlf-mode))
 
+(use-package helm-pass)
 
+(use-package dockerfile-mode)
 ;;; init.el ends here
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)
